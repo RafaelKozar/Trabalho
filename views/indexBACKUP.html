@@ -1,0 +1,339 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script>
+            var socket = io('http://localhost:8888');
+            socket.on('visits', function(visitas) {
+                document.getElementById('visitas').innerHTML = visitas;
+            });
+
+            var texto = "legal"
+
+            function enviar() {
+                socket.emit('enviar', texto);
+            }
+
+            function enviar2(data) {
+                socket.emit('enviar', data);
+            }
+        </script>
+
+        <style>
+            body {
+                margin-top:2%;
+                text-align:center;
+                color:#fff;
+                background-color:#122836;
+            }
+            /*video { 
+                position:absolute;
+                visibility:hidden;
+            }*/ 
+            canvas { border:8px solid #fff;}
+            button {
+                border:none;
+                display:block;
+                padding:0.5em 1em;
+                margin:1% auto 0;
+                cursor:pointer;
+                color:#fff;
+                background-color:#9f361b;
+            }
+            button:active { background-color:#e44d26; }
+        </style>
+        <script>
+            (function() {
+
+                window.addEventListener('DOMContentLoaded', function() {
+                    var isStreaming = false,
+                            v = document.getElementById('v'),
+                            c = document.getElementById('c'),
+                            grey = document.getElementById('grey');
+                    con = c.getContext('2d');
+                    w = 600,
+                            h = 420,
+                            greyscale = false;
+
+                    // Cross browser
+                    navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+                    if (navigator.getUserMedia) {
+                        // Request access to video only
+                        navigator.getUserMedia(
+                                {
+                                    video: true,
+                                    audio: false
+                                },
+                        function(stream) {
+                            // Cross browser checks
+                            var url = window.URL || window.webkitURL;
+                            v.src = url ? url.createObjectURL(stream) : stream;
+                            // Set the video to play
+                            v.play();
+                        },
+                                function(error) {
+                                    alert('Something went wrong. (error code ' + error.code + ')');
+                                    return;
+                                }
+                        );
+                    }
+                    else {
+                        alert('Sorry, the browser you are using doesn\'t support getUserMedia');
+                        return;
+                    }
+
+                    // Wait until the video stream can play
+                    v.addEventListener('canplay', function(e) {
+                        if (!isStreaming) {
+                            // videoWidth isn't always set correctly in all browsers
+                            if (v.videoWidth > 0)
+                                h = v.videoHeight / (v.videoWidth / w);
+                            c.setAttribute('width', w);
+                            c.setAttribute('height', h);
+                            // Reverse the canvas image
+                            con.translate(w, 0);
+                            con.scale(-1, 1);
+                            isStreaming = true;
+                        }
+                    }, false);
+                    
+                    var ct = 0;
+                    // Wait for the video to start to play
+                    v.addEventListener('play', function() {
+                        // Every 33 milliseconds copy the video image to the canvas
+                        setInterval(function() {
+                            if (v.paused || v.ended)
+                                return;
+                            con.fillRect(0, 0, w, h);
+                            con.drawImage(v, 0, 0, w, h);
+                            ct++;
+                            var vr = c.toDataURL();
+                            //enviar2(vr);
+                            //console.log(vr);
+                            socket.emit('enviar', vr);
+                            /*socket.on('enviar', function(vr){
+                                c = vr;
+                            });*/
+                            if (greyscale)
+                                goingGrey();
+                        }, 33);
+                    }, false);
+
+                    var goingGrey = function() {
+                        var imageData = con.getImageData(0, 0, w, h);
+                        var data = imageData.data;
+                        for (var i = 0; i < data.length; i += 4) {
+                            var bright = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+                            data[i] = bright;
+                            data[i + 1] = bright;
+                            data[i + 2] = bright;
+                        }
+                        con.putImageData(imageData, 0, 0);
+                    }
+
+                    // When the grey button is clicked, toggle the greyness indicator
+                    grey.addEventListener('click', function() {
+                        greyscale = !greyscale;
+                    }, false);
+
+                })
+            })();
+        </script>
+    </head>
+    <body>
+        <h1>html 5 + nodejs + opencv</h1>
+        <video id='v'></video>	
+        <canvas id='c'></canvas>
+        <button id='grey'>Toggle Greyness</button>
+        <button id='sock' onclick="enviar()">Socket</button>
+        <p>Número de visitas: <span id="visitas">0</span></p>
+    </body>
+
+
+    <!-- <body>
+         <p>Contador de visitas online com Socket.io</p>
+         <button onclick="enviar()" value="enviar">button</button>
+         <button onclick="startVideo1()" value="legal">button</button>
+         <script src="http://simplewebrtc.com/latest.js"></script> 
+    <!-- <video id="local1" muted autoplay></video> -->
+    <!--  <video id="v" muted autoplay></video>
+      <canvas id='c'></canvas>
+      <button id='grey'>Toggle Greyness</button>
+
+
+      <p>Número de visitas: <span id="visitas">0</span></p>
+
+      <script>
+          var isStreaming = false,
+                  v = document.getElementById('v'),
+                  c = document.getElementById('c'),
+                  grey = document.getElementById('grey');
+          con = c.getContext('2d');
+          w = 600,
+                  h = 420,
+                  greyscale = false;
+
+
+          v.addEventListener('canplay', function(e) {
+              if (!isStreaming) {
+                  // videoWidth isn't always set correctly in all browsers
+                  if (v.videoWidth > 0)
+                      h = v.videoHeight / (v.videoWidth / w);
+                  c.setAttribute('width', w);
+                  c.setAttribute('height', h);
+                  // Reverse the canvas image
+                  con.translate(w, 0);
+                  con.scale(-1, 1);
+                  isStreaming = true;
+              }
+          }, false);
+
+
+
+          v.addEventListener('play', function() {
+              // Every 33 milliseconds copy the video image to the canvas
+              setInterval(function() {
+                  if (v.paused || v.ended)
+                      return;
+                  con.fillRect(0, 0, w, h);
+                  con.drawImage(v, 0, 0, w, h);
+                  if (greyscale)
+                      goingGrey();
+              }, 33);
+          }, false);
+
+
+          grey.addEventListener('click', function() {
+              greyscale = !greyscale;
+          }, false);
+
+          var goingGrey = function() {
+              var imageData = con.getImageData(0, 0, w, h);
+              var data = imageData.data;
+              for (var i = 0; i < data.length; i += 4) {
+                  var bright = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+                  data[i] = bright;
+                  data[i + 1] = bright;
+                  data[i + 2] = bright;
+              }
+              con.putImageData(imageData, 0, 0);
+          }
+
+          //var v = document.getElementById("local1");
+          /*var c = document.getElementById("myCanvas");
+           ctx = c.getContext("2d");
+           
+           var local1 = document.getElementById("local1");
+           function startVideo1() {
+           
+           
+           navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+           var constraints = {audio: false, video: true};
+           var video = document.querySelector('video');
+           
+           function successCallback(stream) {
+           window.stream = stream; // stream available to console
+           
+           if (window.URL) {
+           video.src = window.URL.createObjectURL(stream);
+           } else {
+           video.src = stream;
+           }
+           
+           var v = stream;
+           v.addEventListener("play", function() {
+           var i = window.setInterval(function() {
+           ctx.drawImage(v, 5, 5, 260, 125)
+           }, 20);
+           }, false);
+           v.addEventListener("pause", function() {
+           window.clearInterval(i);
+           }, false);
+           v.addEventListener("ended", function() {
+           clearInterval(i);
+           }, false);
+           }
+           
+           function errorCallback(error) {
+           console.log('navigator.getUserMedia error: ', error);
+           }
+           
+           navigator.getUserMedia(constraints, successCallback, errorCallback);
+           //console.log(navigator.getUserMedia(constraints, successCallback, errorCallback));
+           
+           /*var video = document.querySelector('video');
+           navigator.getUserMedia({video: true}, successCallback1);
+           function successCallback1(stream) {
+           local1.src = window.URL.createObjectURL(stream);
+           }*/
+          }
+      </script>
+      <canvas id="myCanvas" width="270" height="135" style="border:1px solid #d3d3d3;"></canvas>
+
+      <script>
+
+          /*var remotevid = document.getElementById('remotevid');
+           
+           peerConn = new RTCPeerConnection({"iceServers": []});
+           peerConn.onicecandidate = onIceCandidate;
+           peerConn.onaddstream = onRemoteStreamAdded;
+           peerConn.addstream(localStream);
+           peerConn.createOffer(setLocalAndSendMessage);
+           
+           function onRemoteStreamAdded(event) {
+           remoteVideo.src = window.URL.createObjectURL(event.stream);
+           }
+           
+           function setLocalAndSendMessage(sessionDescription) {
+           peerConn.setLocalDescription(sessionDescription);
+           socket.json.send(sessionDescription);
+           }
+           
+           /*var video = document.getElementById('sourcevid');
+           navigator.getUserMedia({audio: true, video: true}, success, error);
+           function success(stream) {
+           video.src = window.URL.createObjectURL(stream);
+           }
+           
+           /*navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+           
+           var constraints = {audio: false, video: true};
+           var video = document.querySelector('video');
+           
+           var socket = io('http://localhost:8888');
+           console.log("3");
+           socket.on('video', function(stream) {
+           //document.getElementById('video').innerHTML = video;
+           socket.emit('fvideo', stream);                
+           console.log("4");
+           });
+           
+           socket.on('frame', function(foto){
+           document.getElementById('paper').innerHTML = foto; 
+           console.log("5");
+           });*/
+
+
+          /*function successCallback(stream) {
+           window.stream = stream; // stream available to console
+           
+           if (window.URL) {
+           video.src = window.URL.createObjectURL(stream);
+           } else {
+           video.src = stream;
+           }
+           }
+           
+           function errorCallback(error) {
+           console.log('navigator.getUserMedia error: ', error);
+           }
+           
+           navigator.getUserMedia(constraints, successCallback, errorCallback);*/
+      </script>
+
+      <span id="paper">A</span>
+      <p>NÃºmero de visitas: </p>
+  </body>  -->
+</html>
