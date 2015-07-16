@@ -1,3 +1,5 @@
+var roboDAO = require('../Daos/roboDao');
+
 module.exports = function (app, passport) {
 
     // normal routes ===============================================================
@@ -9,12 +11,17 @@ module.exports = function (app, passport) {
 
     app.get('/adm', function (req, res) {
         res.render('adm');
-    })
+    });
 
-    app.get('/cadastrouserrobo', function (req, res) {
-        res.render('cadastrouserrobo');
-    })
-
+    app.get('/cadastrarrobo', function (req, res) {
+        res.render('cadastrarrobo');
+    });
+    
+    app.post('/cadastrarrobo', function (req, res) {        
+        var retorno = roboDAO.cadastrar(req);
+        console.log(retorno);
+        res.render('cadastrarrobo');
+    });
 
     app.get('/signup', function (req, res) {
         res.render('signup', { message: req.flash('signupMessage') });

@@ -15,6 +15,7 @@ var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
 require('./config/passport')(passport); // pass passport for configuration
 
+
 var fs = require('fs');
 var cv = require('cloudcv-backend');
 var request = require('request');
