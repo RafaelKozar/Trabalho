@@ -1,0 +1,62 @@
+block variables
+  - title="Image analysis demo - CloudCV"
+
+extends layout
+
+block content
+    div.container
+        h1 Image analysis example
+
+        p You may pick one of the existing images for a quick result from the following list or upload your own image. There is no limit on size of uploaded images for now. 
+        p 
+            | Please ready the 
+            a(href='/privacy') privacy statement 
+            | to feel safe about images you upload (in short: it's safe).
+
+        form(method='post',id='process-image-form',enctype="multipart/form-data",style='opacity:0')                   
+            input(type="file",name='image',id="file-selector",accept="image/*")
+            input(type='submit')
+
+        div.row
+            each demoImage in example.availableImages
+                div.col-sm-6.col-md-2
+                    div.thumbnail
+                        img(src="#{demoImage.thumbnailURL}")
+                        div.caption
+                            form(method="post")                                
+                                button.btn.btn-default(type="submit") #{demoImage.key} 
+                                input(type="hidden",name="image",value="#{demoImage.key}")
+
+            div.col-sm-6.col-md-2
+                div.thumbnail
+                    img(data-src='holder.js/128x128/gray/text:Upload image')
+                    div.caption                            
+                        button.btn.btn-primary(onclick="$('#file-selector').click();") Choose image 
+
+        div.output(id="output")
+        
+            - if (typeof(result) !== 'undefined') {
+
+            h2 Analyze results
+                a(href='#content')
+
+            div.panel.panel-default
+                .panel-heading Source image
+                .panel-body
+                    .row
+                        .col-md-2       
+                            img(src="#{result.sourceImage}")
+                        .col-md-10       
+                            ul
+                                li Image size #{result.result.frameSize.width}:#{result.result.frameSize.height}
+                                li Image aspect ratio is #{result.result.aspectRatio.width}:#{result.result.aspectRatio.height}
+                                li Unique colors #{result.result.uniqueColors}
+                                li Optimal number of colors #{result.result.reducedColors}
+                                li Optimal number of colors #{result.result.dominantColors.length}
+                            div.row
+                                each c in result.result.dominantColors
+                                    span.pull-left(style="width:32px; height:32px; background: #{c.html}")
+            - }
+        h4 aqi			
+        video(width='400', controls='')
+            script(src='http://simpl.info/getusermedia/js/main.js')

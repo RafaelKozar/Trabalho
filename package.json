@@ -6,17 +6,29 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "cloudcv-backend": "git://github.com/BloodAxe/CloudCVBackend.git",
+    "async": "^0.9.0",    
     "express": "3.3.5",
     "jade": "*",
     "mongojs": "^0.14.2",
     "node-cache": "*",
     "request": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+
+    "mongoose": "~3.8.1",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "connect-flash": "~0.1.1",
+    "bcrypt-nodejs": "latest",
+    "method-override": "~1.0.0",    
+    "debug": "~2.0.0",
+    "morgan": "~1.0.0",
+    "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.0",
+    "method-override": "~1.0.0",
+    "express-session": "~1.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/BloodAxe/CloudCV.git"
+    "url": "git://github.com/RafaelKozar/Trabalho.git"
   }
 }
