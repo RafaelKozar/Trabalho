@@ -12,7 +12,9 @@ module.exports = function (app, passport) {
     app.get('/adm', function (req, res) {
         res.render('adm');
     });
-
+    
+    
+    //Robo//
     app.get('/cadastrarrobo', function (req, res) {
         res.render('cadastrarrobo');
     });
@@ -21,6 +23,18 @@ module.exports = function (app, passport) {
         var retorno = roboDAO.cadastrar(req);
         console.log(retorno);
         res.render('cadastrarrobo');
+    });
+    
+    
+    app.get('/listarrobos', function (req, res) {
+        var robos = roboDAO.listarRobos(function (robos) {
+            console.log(robos);
+            res.render('listarrobos', { "robos" : robos })
+            console.log("teste");
+        });
+        
+        //console.log(robos);
+        //res.render('listarrobos', { "robos" : robos });
     });
 
     app.get('/signup', function (req, res) {

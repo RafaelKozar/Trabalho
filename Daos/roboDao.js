@@ -2,7 +2,7 @@
 
 
 var cadastrar = function (req) {
-    var newRobo = new Robo();
+    var newRobo = new Robo();    
     newRobo.local.nome = req.body.nome;
     newRobo.local.descricao = req.body.descricao
     
@@ -15,4 +15,28 @@ var cadastrar = function (req) {
     return 'cadastrado com sucesso';
 };
 
+var listarRobos = function (callback) {
+    //var listaRobo = new Robo();    
+    Robo.find({}, function (err, robos) {
+        if (err) throw err;
+        console.log(robos)
+        callback(robos);
+        //return robos;
+    });
+  // console.log(robos);
+    //return robos;
+};
+
+var findByNome = function (nomepesquisa) {
+    var nomeRobo = new Robo();
+    nomeRobo.find({ nome : nomepesquisa }, function (err, robos) {
+        if (err) throw err;
+        return robos;
+    });
+};
+
+
+
 module.exports.cadastrar = cadastrar;
+module.exports.listarRobos = listarRobos;
+module.exports.findByNome = findByNome;
