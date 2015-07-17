@@ -29,10 +29,33 @@ module.exports = function (app, passport) {
     app.get('/listarrobos', function (req, res) {
         var robos = roboDAO.listarRobos(function (robos) {
             console.log(robos);
-            res.render('listarrobos', { "robos" : robos })
-            console.log("teste");
+            // res.render('listarrobos', { robo : robos })
+           // req.flash('info', 'Flash is back!')
+            // res.render('listarrobos.ejs', { message : req.flash('info') });
+            //res.json({ {"message" : "legal"});
+            //var resultado = { robos : robos };
+            //res.send(resut)
+            //res.render('listarrobos.ejs', robos)
+            //res.render('listarrobos.ejs', resultado);
+           // res.setHeader("Content-Type", "application/json");
+           // res.write(JSN.stringify(robos));
+           // res.end();
+            //console.log("teste");
+            // var message = 'message';
+            
+            
+
+            ///res.render('listarrobos.ejs', 'message' );
+            //res.render('listarrobos.ejs');
         });
-        
+        var drinks = [
+            { name: 'Bloody Mary', drunkness: 3 },
+            { name: 'Martini', drunkness: 5 },
+            { name: 'Scotch', drunkness: 10 }
+        ];
+        var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
+        console.log(drinks);
+        res.render('listarrobos.ejs', { drinks : drinks });
         //console.log(robos);
         //res.render('listarrobos', { "robos" : robos });
     });

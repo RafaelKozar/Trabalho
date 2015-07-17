@@ -1,0 +1,178 @@
+﻿<html>
+<head>
+    Controlar Robo
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <script>
+        var socket = io('http://localhost:3000');
+        socket.on('visits', function (visitas) {
+            document.getElementById('visitas').innerHTML = visitas;
+        });
+
+
+        (function () {
+
+            window.addEventListener('DOMContentLoaded', function () {
+                var isStreaming = false,
+                        v = document.getElementById('v'),
+                        c = document.getElementById('c'),
+                        grey = document.getElementById('grey');
+                con = c.getContext('2d');
+                w = 600,
+                        h = 420,
+                        greyscale = false;
+
+                // Cross browser
+                navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+                if (navigator.getUserMedia) {
+                    // Request access to video only
+                    navigator.getUserMedia(
+                            {
+                                video: true,
+                                audio: false
+                            },
+                    function (stream) {
+                        // Cross browser checks
+                        var url = window.URL || window.webkitURL;
+                        v.src = url ? url.createObjectURL(stream) : stream;
+                        // Set the video to play
+                        v.play();
+                    },
+                            function (error) {
+                                alert('Something went wrong. (error code ' + error.code + ')');
+                                return;
+                            }
+                    );
+                }
+                else {
+                    alert('Sorry, the browser you are using doesn\'t support getUserMedia');
+                    return;
+                }
+
+                // Wait until the video stream can play
+                v.addEventListener('canplay', function (e) {
+                    if (!isStreaming) {
+                        // videoWidth isn't always set correctly in all browsers
+                        if (v.videoWidth > 0)
+                            h = v.videoHeight / (v.videoWidth / w);
+                        c.setAttribute('width', w);
+                        c.setAttribute('height', h);
+                        // Reverse the canvas image
+                        con.translate(w, 0);
+                        con.scale(-1, 1);
+                        isStreaming = true;
+                    }
+                }, false);
+
+                var ct = 0;
+                // Wait for the video to start to play
+                v.addEventListener('play', function () {
+                    // Every 33 milliseconds copy the video image to the canvas
+                    setInterval(function () {
+                        if (v.paused || v.ended)
+                            return;
+                        con.fillRect(0, 0, w, h);
+                        con.drawImage(v, 0, 0, w, h);
+                        ct++;
+                        console.log("c", c);
+                        var vr = c.toDataURL();
+                        console.log("con", con);
+
+                        console.log(vr);
+                        socket.emit('enviar', vr);
+
+                    }, 400);
+                }, false);
+
+
+            })
+        })();
+    </script>
+    <style>
+        
+        .left-side {
+            background-color: #fcfcff;
+            float: none;         
+             display: table-cell;   
+        }
+
+        .right-side {            
+            float: none;          
+            display: table-cell;            
+        }
+
+        body {
+            background-color: #e2e2e2;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!--  <h1>html 5 + nodejs + opencv</h1>
+      <video id='v'></video>
+      <canvas id='c'></canvas>
+      <button id='grey'>Toggle Greyness</button>
+      <button id='sock' onclick="enviar()">Socket</button>
+      <p>N�mero de visitas: <span id="visitas">0</span></p> -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="#">Plataforma Pia Robo</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Cadastro de Usu�rio e Robos</a></li>
+                    <li><a href="#">Hist�rico</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-3 col-xs-1 left-side">
+                <ul class="nav nav-sidebar">
+                    <li><a href="#">Overview </a></li>
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#">Analytics</a></li>
+                    <li><a href="#">Export</a></li>
+                </ul>
+
+            </div>
+            <div class="col-sm-9 col-md-9 main right-side">
+                <h1 class="page-header">Interfaces</h1>
+                <div class="col-md-6">
+                    <video id='v'></video>	
+                </div>
+                <div class="col-md-6">
+                    <canvas id='c' ></canvas>
+                </div>
+                
+
+                <h2 class="sub-header">Section title</h2>
+                <div class="table-responsive">
+                    <p>N�mero de visitas: <span id="visitas">0</span></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+  
+</html>

@@ -1,0 +1,102 @@
+﻿<html>
+<head>
+    Controlar Robo
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    
+    <style>
+        
+        .left-side {
+            background-color: #fcfcff;
+            float: none;         
+             display: table-cell;   
+        }
+
+        .right-side {            
+            float: none;          
+            display: table-cell;            
+        }
+
+        body {
+            background-color: #e2e2e2;
+        }
+
+    </style>
+</head>
+<body >
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+    
+                <a class="navbar-brand" href="#">Plataforma Pia Robo</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Cadastro de Usu�rio e Robos</a></li>
+                    <li><a href="#">Hist�rico</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-3 col-xs-1 left-side">
+                <ul class="nav nav-sidebar">
+                    <li><a href="#">Overview </a></li>
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#">Analytics</a></li>
+                    <li><a href="#">Export</a></li>
+                </ul>
+
+            </div>
+            <div class="col-sm-9 col-md-9 main right-side">
+                <h1 class="page-header">Lista de robos</h1>
+             <h2>Loop</h2>
+<ul>
+    <% drinks.forEach(function(drink) { %>
+        <li><%= drink.name %> - <%= drink.drunkness %></li>
+    <% }); %>
+</ul>
+
+              <script>
+             
+
+
+              /*  //  $('document').ready(function () {
+                      $('robos').text('rea');
+                      $.get('http://localhost:3000/listarrobos', {}, function (data) {
+                          console.log(data)
+                      });
+                  });
+              /*    $(document).load("pageinit", "#info-page", function () {
+
+
+                      //set up string for adding <li/>
+                      var li = "";
+                      //container for $li to be added
+                      $.each(resultado, function (i, name) {
+                          //add the <li> to "li" variable
+                          //note the use of += in the variable
+                          //meaning I'm adding to the existing data. not replacing it.
+                          //store index value in array as id of the <a> tag
+                          li += '<li><a href="#" id="' + i + '" class="info-go">' + name.nome + '</a></li>';
+                      });
+                  }); */
+              </script>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+  
+</html>

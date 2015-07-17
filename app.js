@@ -36,9 +36,11 @@ var server = require('http').createServer(appSet);
 //var routes = require('./routes');
 
 appSet.set('views', __dirname + '/views');
-appSet.engine('html', require('ejs').renderFile);
-appSet.set('view engine', 'html');
-appSet.set('view options', { pretty: true });
+//appSet.engine('html', require('ejs').renderFile);
+appSet.set('view engine', 'ejs'); // set up ejs for templating
+
+/*appSet.set('view engine', 'html');
+appSet.set('view options', { pretty: true });*/
 
 appSet.use(morgan('dev'));
 appSet.use(cookieParser());
@@ -49,7 +51,7 @@ appSet.use(express.favicon());
 //appSet.use(express.logger('dev'));
 
 //appSet.use(express.bodyParser());
-appSet.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));//sesion secret
+appSet.use(session({ secret: '2089' }));//sesion secret
 appSet.use(passport.initialize());
 appSet.use(passport.session()); // persistent login sessions
 appSet.use(flash()); // use connect-flash for flash messages stored in session
