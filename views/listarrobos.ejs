@@ -62,8 +62,10 @@
                 <h1 class="page-header">Lista de robos</h1>
              <h2>Loop</h2>
 <ul>
-    <% drinks.forEach(function(drink) { %>
-        <li><%= drink.name %> - <%= drink.drunkness %></li>
+   
+
+    <% dados.forEach(function(robo) { %>
+        <li><%= robo.nome %> - <%= robo.descricao %></li>
     <% }); %>
 </ul>
 

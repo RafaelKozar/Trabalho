@@ -29,6 +29,7 @@ module.exports = function (app, passport) {
     app.get('/listarrobos', function (req, res) {
         var robos = roboDAO.listarRobos(function (robos) {
             console.log(robos);
+            //console.log(robos)
             // res.render('listarrobos', { robo : robos })
            // req.flash('info', 'Flash is back!')
             // res.render('listarrobos.ejs', { message : req.flash('info') });
@@ -42,13 +43,13 @@ module.exports = function (app, passport) {
            // res.end();
             //console.log("teste");
             // var message = 'message';
-            
+            res.render('listarrobos.ejs', { dados : robos })            
             
 
             ///res.render('listarrobos.ejs', 'message' );
             //res.render('listarrobos.ejs');
         });
-        var drinks = [
+        /*var drinks = [
             { name: 'Bloody Mary', drunkness: 3 },
             { name: 'Martini', drunkness: 5 },
             { name: 'Scotch', drunkness: 10 }
@@ -58,6 +59,7 @@ module.exports = function (app, passport) {
         res.render('listarrobos.ejs', { drinks : drinks });
         //console.log(robos);
         //res.render('listarrobos', { "robos" : robos });
+       */
     });
 
     app.get('/signup', function (req, res) {

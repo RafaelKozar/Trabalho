@@ -3,11 +3,11 @@
 
 var cadastrar = function (req) {
     var newRobo = new Robo();    
-    newRobo.local.nome = req.body.nome;
-    newRobo.local.descricao = req.body.descricao
+    newRobo.nome = req.body.nome;
+    newRobo.descricao = req.body.descricao
     
-    //newRobo.local.ip = req.body.ip;
-    //newRobo.local.ipandroid = req.body.ipandroid;
+    //newRobo.ip = req.body.ip;
+    //newRobo.ipandroid = req.body.ipandroid;
     
     newRobo.save(function (err) {
         if (err) throw err;
@@ -18,8 +18,7 @@ var cadastrar = function (req) {
 var listarRobos = function (callback) {
     //var listaRobo = new Robo();    
     Robo.find({}, function (err, robos) {
-        if (err) throw err;
-        console.log(robos)
+        if (err) throw err;        
         callback(robos);
         //return robos;
     });
