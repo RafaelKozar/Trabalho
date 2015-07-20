@@ -1,4 +1,6 @@
 var roboDAO = require('../Daos/roboDao');
+var url = require('url');
+
 
 module.exports = function (app, passport) {
 
@@ -14,52 +16,49 @@ module.exports = function (app, passport) {
     });
     
     
+    /*app.param('id', function (request, response, next, id) {
+        // Do something with id
+        // Store id or other info in req object
+        // Call next when done
+        next();
+    });  */
+
     //Robo//
+    app.get('/cadastrarrobo/:id', function (req, res) {       
+        
+        var idRobo = req.params.id;
+        //if idRobo call methods to get robo
+        if (idRobo) {
+            var robo = roboDAO.findById(idRobo, function (robo) {
+                //var tag = "blbalbalba";
+
+                res.render('cadastrarrobo.ejs', { robo : robo })
+            });                        
+        }
+        else
+            res.render('listarrobo');
+        
+    });
+    
     app.get('/cadastrarrobo', function (req, res) {
-        res.render('cadastrarrobo');
+        res.render('cadastrarrobo.ejs');
     });
     
-    app.post('/cadastrarrobo', function (req, res) {        
-        var retorno = roboDAO.cadastrar(req);
+    app.post('/cadastrarrobo', function (req, res) {
+        var retorno = roboDAO.cadastrar(req);        
         console.log(retorno);
-        res.render('cadastrarrobo');
+        res.render('listarrobo');
     });
     
+    app.post('/cadastrarrobo/:id', function (req, res) {
+       
+        res.render('listarrobo');
+    });
     
     app.get('/listarrobos', function (req, res) {
-        var robos = roboDAO.listarRobos(function (robos) {
-            console.log(robos);
-            //console.log(robos)
-            // res.render('listarrobos', { robo : robos })
-           // req.flash('info', 'Flash is back!')
-            // res.render('listarrobos.ejs', { message : req.flash('info') });
-            //res.json({ {"message" : "legal"});
-            //var resultado = { robos : robos };
-            //res.send(resut)
-            //res.render('listarrobos.ejs', robos)
-            //res.render('listarrobos.ejs', resultado);
-           // res.setHeader("Content-Type", "application/json");
-           // res.write(JSN.stringify(robos));
-           // res.end();
-            //console.log("teste");
-            // var message = 'message';
+        var robos = roboDAO.listarRobos(function (robos) {                       
             res.render('listarrobos.ejs', { dados : robos })            
-            
-
-            ///res.render('listarrobos.ejs', 'message' );
-            //res.render('listarrobos.ejs');
-        });
-        /*var drinks = [
-            { name: 'Bloody Mary', drunkness: 3 },
-            { name: 'Martini', drunkness: 5 },
-            { name: 'Scotch', drunkness: 10 }
-        ];
-        var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
-        console.log(drinks);
-        res.render('listarrobos.ejs', { drinks : drinks });
-        //console.log(robos);
-        //res.render('listarrobos', { "robos" : robos });
-       */
+        });      
     });
 
     app.get('/signup', function (req, res) {

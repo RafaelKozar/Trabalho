@@ -1,6 +1,8 @@
 ﻿var Robo = require('../routes/models/robo');
 
 
+
+
 var cadastrar = function (req) {
     var newRobo = new Robo();    
     newRobo.nome = req.body.nome;
@@ -34,8 +36,21 @@ var findByNome = function (nomepesquisa) {
     });
 };
 
+var findById = function (idRobo, callback){
+    
+    Robo.findById(idRobo, function (err, robo) {
+        if (err) throw err;
+        callback(robo);
+    });
+}
+
+String.prototype.toObjectId = function () {
+    var ObjectId = (require('mongoose').Types.ObjectId);
+    return new ObjectId(this.toString());
+};
 
 
 module.exports.cadastrar = cadastrar;
 module.exports.listarRobos = listarRobos;
 module.exports.findByNome = findByNome;
+module.exports.findById = findById;

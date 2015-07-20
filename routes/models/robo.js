@@ -1,4 +1,5 @@
 ﻿var mongoose = require('mongoose');
+ObjectId = mongoose.Types.ObjectId;
 
 var roboScheme = mongoose.Schema({    
         nome : String,
