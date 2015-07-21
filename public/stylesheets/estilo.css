@@ -1,0 +1,20 @@
+﻿.left-side {
+    background-color: #fcfcff;
+    float: none;
+    display: table-cell;
+    /*width: 20%;*/
+}
+
+.right-side {
+    float: none;
+    display: table-cell;
+    /*/width: 80%;*/
+}
+
+table {
+    width: 100%;
+}
+
+body {
+    background-color: #e2e2e2;
+}

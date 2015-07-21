@@ -1,0 +1,138 @@
+﻿<html>
+<head>
+    Controlar Robo
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+    <style>
+        .left-side {
+            background-color: #fcfcff;
+            float: none;
+            display: table-cell;
+        }
+
+        .right-side {
+            float: none;
+            display: table-cell;
+        }
+
+        body {
+            background-color: #e2e2e2;
+        }
+
+        .meutr {
+            width: 100%;
+            display: inline-table;
+        }
+
+        .meutable {
+            height: 300px;
+        }
+
+        .meutbody {
+            overflow-y: scroll;
+            height: 200px;
+            width: 100%;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <% include header.ejs %>      
+
+            
+                    <div class="col-sm-5 col-md-5 col-lg-5  col-xs-5  right-side">
+                        <form class="form-signin" action="/cadastraruser" method="post">
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel-group" id="accordion">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                                        <span class="glyphicon glyphicon-file page-header"></span>Cadastro do Robo
+                                                    </a>
+                                                </h4>
+                                            </div>
+
+                                            <div id="collapseOne" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <input type="text" id="nome" name="nome" value="<%= user.nome %>" class="form-control" placeholder="Nome do Usuário" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="password" id="password" name="password" value="<%= user.nome %>" class="form-control" placeholder="Sennha" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="tel" id="telefone" name="telefone" value="<%= user.telefone%>" class="form-control" placeholder="Telefone" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="file" name="foto" />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <table class="table table-striped meutable">
+                                                                    <thead >
+                                                                        <tr><td>Paciente</td></tr>
+                                                                    </thead>
+                                                                    <tbody class="meutbody">
+                                                                        <% dados.forEach(function(paciente) { %>
+                                                                        <tr class="meutr">
+                                                                            <td><input type="checkbox" value="<%= paciente.id%>"/><%= paciente.nome%></td>                                                                            
+                                                                        </tr>
+                                                           
+                                                                        <% });
+                                                                        %>
+                                                                        </tbody>
+                                                                    
+                                                                </table>
+                                                            </div>
+
+
+
+                                                            <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+    </div>
+        </div>
+                <!--<label for="inputNome" class="sr-only">Nome</label>
+                                                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do robo" required autofocus>
+
+
+                                                        <label for="inputDescricao" class="sr-only">Password</label>
+                                                        <input type="text" name="descricao" class="form-control" id="descricao" class="form-control" placeholder="Descricao" required>
+
+                                                        <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>-->
+</body>
+
+
+
+</html>
