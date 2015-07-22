@@ -10,8 +10,9 @@ var cadastrar = function (req) {
     newUser.nome = req.body.nome;
     newUser.email = req.body.email;
     newUser.password = req.body.password;
-    newUser.telefone = req.body.telefone;
-    newUser.adm = req.body.adm;
+    newUser.telefone = req.body.telefone
+    newUser.especializacao = req.body.especializacao    
+    newUser.adm = req.body.administrador;
     
     
     newUser.save(function (err) {

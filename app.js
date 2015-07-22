@@ -60,7 +60,7 @@ require('./routes/routes.js')(appSet, passport); // load our routes and pass in 
 
 //appSet.use(express.methodOverride());
 //appSet.use(appSet.router);
-//appSet.use(express.static(path.join(__dirname, 'public')));
+appSet.use(express.static(path.join(__dirname, 'public')));
 
 /*appSet.get('/', function (req, res)
 {   
@@ -88,6 +88,23 @@ appSet.get('/imagem', function (req, res) {
 
 server.listen(3000);
 io = io.listen(server);
+
+/* Peer Server */
+var ip = require('ip');
+var port = 9000;
+
+var PeerServer = require('peer').PeerServer;
+var server = new PeerServer({ port: port, allow_discovery: true });
+
+server.on('connection', function (id) {
+    console.log('new connection with id ' + id);
+});
+
+server.on('disconnect', function (id) {
+    console.log('disconnect with id ' + id);
+});
+
+console.log('peer server running on ' + ip.address() + ':' + port);
 
 var global;
 var visitas = 0;

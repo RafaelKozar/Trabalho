@@ -28,12 +28,12 @@
         }
 
         .meutr {
-            width: 100%;
+            width: 50%;
             display: inline-table;
         }
 
         .meutable {
-            height: 300px;
+            height: 100px;
         }
 
         .meutbody {
@@ -69,15 +69,19 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <input type="text" id="nome" name="nome" value="<%= user.nome %>" class="form-control" placeholder="Nome do Usuário" required />
+                                                                <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome do Usuário" required />
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <input type="password" id="password" name="password" value="<%= user.nome %>" class="form-control" placeholder="Sennha" required />
+                                                                <input type="email" id="email" name="email" class="form-control" placeholder="Email de Login" required />
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <input type="tel" id="telefone" name="telefone" value="<%= user.telefone%>" class="form-control" placeholder="Telefone" required />
+                                                                <input type="password" id="password" name="password" class="form-control" placeholder="Sennha" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="tel" id="telefone" name="telefone" class="form-control" placeholder="Telefone" required />
                                                             </div>
 
                                                             <div class="form-group">
@@ -85,24 +89,21 @@
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <table class="table table-striped meutable">
-                                                                    <thead >
-                                                                        <tr><td>Paciente</td></tr>
-                                                                    </thead>
-                                                                    <tbody class="meutbody">
-                                                                        <% dados.forEach(function(paciente) { %>
-                                                                        <tr class="meutr">
-                                                                            <td><input type="checkbox" value="<%= paciente.id%>"/><%= paciente.nome%></td>                                                                            
-                                                                        </tr>
-                                                           
-                                                                        <% });
-                                                                        %>
-                                                                        </tbody>
-                                                                    
-                                                                </table>
+                                                                <select class="form-control" name="especializacao" id="especializacao">
+                                                                    <option value="Psicólogo">Psicólogo</option>
+                                                                    <option value="Fonodiólogo">Fonodiólogo</option>
+                                                                    <option value="Médico">Médico</option>
+                                                                    <option value="Assistente Social">Assistente Social</option>
+
+                                                                </select>
                                                             </div>
 
-
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="administrador" value="true">
+                                                                    administrador
+                                                                </label>
+                                                            </div>
 
                                                             <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
 
@@ -116,21 +117,7 @@
                             </div>
                         </form>
                     </div>
-    </div>
-        </div>
-                <!--<label for="inputNome" class="sr-only">Nome</label>
-                                                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do robo" required autofocus>
 
-
-                                                        <label for="inputDescricao" class="sr-only">Password</label>
-                                                        <input type="text" name="descricao" class="form-control" id="descricao" class="form-control" placeholder="Descricao" required>
-
-                                                        <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>-->
 </body>
 
 

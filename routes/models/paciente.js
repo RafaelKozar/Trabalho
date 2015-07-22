@@ -2,12 +2,13 @@
 var mongoose = require('mongoose');
 
 // define the schema for our user model
-var pacienteSchema = mongoose.Schema({
+var pacienteSchema = mongoose.Schema( {
     nome : String,       
     foto : String,
     telefone : String,
     quadro : String,
     robo : String,
+    idAtendente : String,
     idRobo : String      
 });
 
