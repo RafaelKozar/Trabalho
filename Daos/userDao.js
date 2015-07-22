@@ -6,19 +6,32 @@ var moongose = require('mongoose');
 
 var cadastrar = function (req) {
     var newUser = new User();
+    
+    if (findByEmail(req.body.email)) {
+        return "Este email já sendo utilizado";
+    }
+    else {
+        newUser.nome = req.body.nome;
+        newUser.email = req.body.email;        
+        newUser.telefone = req.body.telefone
+        newUser.especializacao = req.body.especializacao
+        newUser.adm = req.body.administrador;
+        newUser.password = newUser.generateHash(req.body.password);
+        
+        
+        newUser.save(function (err) {
+            if (err) throw err;
+            return 'cadastrado efetuado com sucesso';
+        });        
+    }
+};
 
-    newUser.nome = req.body.nome;
-    newUser.email = req.body.email;
-    newUser.password = req.body.password;
-    newUser.telefone = req.body.telefone
-    newUser.especializacao = req.body.especializacao    
-    newUser.adm = req.body.administrador;
-    
-    
-    newUser.save(function (err) {
+var findByEmail =  function (email) {
+    User.find({ 'email' : email }, function (err, user) {
         if (err) throw err;
+        else if (user) return true;
+        else return false;
     });
-    return 'cadastrado com sucesso';
 };
 
 var listarUsers = function (callback) {
@@ -39,27 +52,32 @@ var findByNome = function (nomepesquisa) {
 var findById = function (idUser, callback) {
     
     User.findById(idUser, function (err, user) {
-        if (err) throw err;
+        if (err) callback('err');
         callback(user);
     });
 }
 
 var update = function (req, idUser, callback) {
-    User.findById(idUser, function (err, user) {
-        if (err) throw err;
-        user.nome = req.body.nome;
-        user.email = req.body.email;
-        user.password = req.body.password;
-        user.telefone = req.body.telefone;
-        user.adm = req.body.adm;
-        user.user = req.body.user;        
-        
-        user.save(function (err) {
+    if (findByEmail(req.body.email)) {
+        return "Este email já sendo utilizado";
+    }
+    else {
+        User.findById(idUser, function (err, user) {
             if (err) throw err;
+            user.nome = req.body.nome;
+            user.email = req.body.email;
+            user.password = req.body.password;
+            user.telefone = req.body.telefone;
+            user.adm = req.body.adm;
+            user.user = req.body.user;
+            
+            user.save(function (err) {
+                if (err) throw err;
+            });
+            
+            callback(user);
         });
-        
-        callback(user);
-    });
+    }
 }
 
 var remove = function (idUser, callback) {

@@ -1,0 +1,7 @@
+﻿---
+Para cada cadastro, atualização, deleção tens que enviar uma mensagem como  feedback escrita operação realizada com sucesso
+
+---
+Verificar erro que dá no MOONGOSE para um id inexistente como por ex: '890'
+
+

@@ -8,106 +8,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
-   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-
-    <style>
-        .left-side {
-            background-color: #fcfcff;
-            float: none;
-            display: table-cell;
-            /*width: 20%;*/
-        }
-
-        .right-side {
-            float: none;
-            display: table-cell;
-            /*/width: 80%;*/
-        }
-
-        table {
-            width: 100%;
-        }
-
-        body {
-            background-color: #e2e2e2;
-        }
-    </style>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./stylesheets/estilo.css" />
 </head>
 <body>
-
     <% include header.ejs %>      
 
     
         <div class="row col-md-12 col-sm-12 col-lg-12 col-xs-12">
-            
-      
+
             <div class="col-sm-5 col-md-5 col-lg-5  col-xs-5  right-side">
                 <div class="panel panel-default">
-                <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                                <span class="glyphicon glyphicon-file page-header">
-                                                </span>Lista de robos Cadastrados
-                                            </a>
-                                        </h4>
-                                    </div>
-               <div class="bs-example">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="col-md-3">Nome</th>     
-                            <th class="col-md-2">Atendente</th>      
-                            <th class="col-md-1">Robo</th>     
-                            <th class="col-md-1">Telefone </th>                  
-                            <th class="col-md-1">Editar</th>    
-                            <th class="col-md-1">Acessar</th>               
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <% 
-                        
-                        dados.forEach(function(paciente) { %>
-                   <tr>
-                         <td> <%= paciente.nome %> </td>
-                       <td>
-                           <% users.foreach(function(user){  %>
-                           <select class="form-control" name="atendente" id="atendente">
-                               
-                               <option value=""><%= user.nome%></option>
-                               </select>
-                           <% }); %>
-                       </td>
-                        <td> <%= paciente.robo %> </td>                  
-                       <td> <%= paciente.telefone %> </td>                  
-
-                    <td>
-                        <button type="button" class="btn btn-default"  onclick="location.href = './atualizarpaciente/<%= paciente._id%>'"  aria-label="Left Align">
-                       <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                     </button>
-                    </td>   
-
-                       <td>
-                        <button type="button" class="btn btn-default"  onclick="location.href = './camera%>'"  aria-label="Left Align">
-                       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                     </button>
-                    </td>   
-                   
-                       </tr>
-               <% }); 
-                        %>
-                    </tdbody>
-                </table>
-                  
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                <span class="glyphicon glyphicon-file page-header"></span>Lista de Usuários Cadastrados
+                            </a>
+                        </h4>
                     </div>
-                    
-               
+                    <div class="bs-example">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-3">Nome</th>
+                                    <th class="col-md-2">Telefone</th>
+                                    <th class="col-md-1">Epecialização</th>
+                                    <th class="col-md-1">Administrador </th>
+                                    <th class="col-md-1">Editar</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% 
+                      if(!dados != 'undefined') {
+                        dados.forEach(function(atendente) { %>
+                   <tr>
+                       <td><%= atendente.nome %> </td>
+                       <td><%= atendente.telefone%> </td>
+                       <td><%= atendente.especialização %> </td>
+                       <td><% if (atendente.administrador) { %>
+                           <input type="checkbox" checked />
+                           <% }else{ %>
+                           <input type="checkbox" />
+                           <% }  %>
+                       </td>
+
+                       <td>
+                           <button type="button" class="btn btn-default" onclick="location.href = './atualizarpaciente/<%= paciente._id%>'" aria-label="Left Align">
+                               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                           </button>
+                       </td>
+                   </tr>
+                                <% }); }%>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
             </div>
         </div>
-    </div>
 </body>
 
 

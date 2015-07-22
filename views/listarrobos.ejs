@@ -7,34 +7,14 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./stylesheets/estilo.css" />
-    <style>
-    /*.left-side {
-            background-color: #fcfcff;
-            float: none;
-            display: table-cell;
-            /*width: 20%;
-      }
+ <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>-->
+ <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> 
+ <!--<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+ <!--<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">  -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="./stylesheets/estilo.css" >
 
-        .right-side {
-            float: none;
-            display: table-cell;
-            /*width: 80%;*
-        }
-
-        table {
-            width: 100%;
-        }
-
-        body {
-            background-color: #e2e2e2;
-        }  */
-    </style>
 </head>
 <body>
     <% include header.ejs %>      
@@ -48,42 +28,46 @@
                             </a>
                         </h4>
                     </div>
-                    <div class="bs-example">
+
+                       
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th class="col-md-3">Nome</th>
-                                    <th class="col-md-1">Histórico</th>
-                                    <th class="col-md-1">Editar</th>
-                                    <th class="col-md-1">Apagar</th>
-                                </tr>
+                                    <td class="col-md-3">Nome</td>
+                                    <td class="col-md-1">Histórico</td>
+                                    <td class="col-md-1">Editar</td> 
+                                    <td class="col-md-1">Apagar</td> 
+                                </tr>                                
                             </thead>
+                            <% if(!dados != 'undefined') {
+                                   dados.forEach(function(robo) { %>
                             <tbody>
-                                <% dados.forEach(function(robo) { %>
-                   <tr>
-                       <td><%= robo.nome %> </td>
-
-                       <td>
-                           <button type="button" class="btn btn-default" onclick="location.href = './atualizarrobo/<%= robo._id%>'" aria-label="Left Align">
-                               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                           </button>
-                       </td>
-                       <td>
-                           <button type="button" class="btn btn-default" onclick="location.href = './atualizarrobo/<%= robo._id%>'" aria-label="Left Align">
-                               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                           </button>
-                       </td>
-                       <td>
-                           <button type="button" class="btn btn-default" onclick="location.href = './deletar/<%= robo._id%>'" aria-label="Left Align">
-                               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                           </button>
-                       </td>
-                   </tr>
-                                <% }); %>
-                    </tdbody>
+                                
+                                <tr>
+                                    <td><%= robo.nome %> </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default" onclick="location.href = './atualizarrobo/<%= robo._id%>'" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default" onclick="location.href = './atualizarrobo/<%= robo._id%>'" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default" onclick="location.href = './deletar/<%= robo._id%>'" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                             </tbody>
+                                <% });  } %>
                         </table>
-                    </div>
+                    
                 </div>
+
             </div>
 </body>
 

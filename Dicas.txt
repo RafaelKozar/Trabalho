@@ -1,0 +1,7 @@
+﻿
+EJS - ler undefined
+
+para o ejs poder ler um var undefined, ele deve ser declarado como undevined ex:
+
+var robo = undefined;
+res.render('cadastrarrobo.ejs', { robo : robo });	

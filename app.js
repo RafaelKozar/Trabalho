@@ -62,6 +62,8 @@ require('./routes/routes.js')(appSet, passport); // load our routes and pass in 
 //appSet.use(appSet.router);
 appSet.use(express.static(path.join(__dirname, 'public')));
 
+
+
 /*appSet.get('/', function (req, res)
 {   
     handleApiRequest("dominantColors", "http://104.131.163.197:3000/images/test.png");

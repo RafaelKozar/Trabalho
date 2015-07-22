@@ -4,9 +4,12 @@ var userDAO = require('../Daos/userDao');
 
 
 
-var pacientesVazio = [{ nome : "" }];
-var robosVazio = [{ nome : "nao" }];
-var usersVazio = [{ nome : "---" }];
+var pacientesVazio = undefined
+var robosVazio = undefined
+var usersVazio = undefined
+var messageVazio = undefined;
+
+
 
 module.exports = function (app, passport) {
     
@@ -25,58 +28,55 @@ module.exports = function (app, passport) {
     
     //// Usuário /////
     
-    
-    app.get('/cadastraruser', isLoggedIn, function (req, res) {
+    ///CadastrarUser////  - GET
+    app.get('/cadastraruser', function (req, res) {
         res.render('cadastraruser.ejs');
     });
     
-    app.post('/cadastraruser', isLoggedIn, function (req, res) {
-        var idUser = req.body.id;
-        //if idUser call methods to get user
+    
+    ///CadastrarUser//// - POST    ///não deixar cadastrar emails já existentes
+    app.post('/cadastraruser', function (req, res) {
+        var idUser = req.params.id;        
         if (idUser) {
             var retorno = userDAO.update(req, idUser, function (user) {
                 res.redirect('listarusers');
             });
         }
-        else {
-            console.log(req.body.especializacao);
-            var retorno = userDAO.cadastrar(req);
+        else {            
+            var retorno = userDAO.cadastrar(req);                        
             res.redirect('/listarusers');
         }
     });
     
+        
+    ///ListarUsers//// - GET
     app.get('/listarusers', isLoggedIn, function (req, res) {
-        var users = userDAO.listarUsers(function (users) {
+        var users = userDAO.listarUsers(function (users) {            
             if (users)
-                res.render('listarusers.ejs', { dados : users })
+                res.render('listarusers.ejs', { dados : users, message : messages });
             else
-                res.render('listarusers.ejs', { dados : usersVazio })
+                res.render('listarusers.ejs', { dados : usersVazio, message : messages });
         });
     });
     
-    app.get('/atualizaruser/:id', function (req, res) {
-        
-        var idUser = req.params.id;
-        //if idUser call methods to get user
+    
+    ///AtualizarUsers//// - GET
+    app.get('/atualizaruser/:id', function (req, res) {        
+        var idUser = req.params.id;        
         if (idUser) {
-            var user = userDAO.findById(idUser, function (user) {
-                var robo = roboDAO.listarRobos(function (robo) {
-                    if (user && robo) res.render('atualizaruser.ejs', { user : user, robo : robo });
-                    else res.render('atualizaruser.ejs', { user : usersVazio, robo : robosVazio });
-                });
-                              
+            var user = userDAO.findById(idUser, function (user) {                
+                     res.render('atualizaruser.ejs', { user : user });                   
             });
         }
     });
     
+    
+    ///DeletarUsers//// - GET
     app.get('/deletaruser/:id', isLoggedIn, function (req, res) {
-        var idUser = req.params.id;
-        //if idRobo call methods to get robo
+        var idUser = req.params.id;        
         if (idUser) {
             var user = userDAO.remove(idUser, function (msg) {
-                if (msg) res.redirect('/listarusers');
-                else res.redirect('/listarusers');
-                
+                res.redirect('/listarusers');                
             });
         }
     })
@@ -84,7 +84,7 @@ module.exports = function (app, passport) {
     
     
     
-    /////Paciente/////
+    /////////Paciente/////////q
     
     app.get('/cadastrarpaciente', isLoggedIn, function (req, res) {
         var robos = roboDAO.listarRobos(function (robos) {
@@ -116,7 +116,7 @@ module.exports = function (app, passport) {
     
     app.get('/listarpacientes', isLoggedIn, function (req, res) {
         var pacientes = pacienteDAO.listarPacientes(function (pacientes) {
-            var users = userDAO.listarUsers(function (paciente) {
+            var users = userDAO.listarUsers(function (users) {
                 if (pacientes && users)
                     res.render('listarpacientes.ejs', { dados : pacientes, users : users });
                 else if (pacientes)
@@ -158,10 +158,11 @@ module.exports = function (app, passport) {
     /*     /*    */
     /////Robo//////    
     
+    
+    ////AtualizarRobo/////  -GET    ///SERÁ DEPRECIADO
     app.get('/atualizarrobo/:id', function (req, res) {
         
-        var idRobo = req.params.id;
-        //if idRobo call methods to get robo
+        var idRobo = req.params.id;        
         if (idRobo) {
             var robo = roboDAO.findById(idRobo, function (robo) {
                 if (robo) res.render('atualizarrobo.ejs', { robo : robo, message : "" });
@@ -173,9 +174,10 @@ module.exports = function (app, passport) {
         }
     });
     
+    
+    ////DeletarRobo/////  -GET
     app.get('/deletarrobo/:id', function (req, res) {
-        var idRobo = req.params.id;
-        //if idRobo call methods to get robo
+        var idRobo = req.params.id;        
         if (idRobo) {
             var robo = roboDAO.remove(idRobo, function (msg) {
                 if (msg) res.redirect('/listarrobos');
@@ -187,43 +189,53 @@ module.exports = function (app, passport) {
         }
     })
     
-    app.get('/cadastrarrobo', function (req, res) {
-        var robo = [{ _id : "nao" }];
-        res.render('cadastrarrobo.ejs', { message : "", robo : robo });
+    
+    ////CadastarRobo/////  -GET
+    app.get('/cadastrarrobo/:id', function (req, res) {
+        var idRobo = req.params.id;        
+        if (idRobo) {
+            var robo = roboDAO.findById(idRobo, function (robo) {
+                if (robo == 'err') res.render('cadastrarrobo.ejs', { message : req.flash('message', 'robo não encontrado'), robo : robosVazio });
+                else if (robo) res.render('atualizarrobo.ejs', { robo : robo, message : "" });
+                else res.render('atualizarrobo.ejs', { robo : robosVazio, message : "" });                
+            });
+        } else res.render('cadastrarrobo.ejs', { message : "", robo : robosVazio });
     });
     
+    
+    ////CadastarRobo/////  -GET
+    app.get('/cadastrarrobo', function (req, res) {
+        res.render('cadastrarrobo.ejs', { message : "", robo : robosVazio });
+    });
+    
+    
+    ////CadastarRobo/////  -POST
     app.post('/cadastrarrobo', function (req, res) {
-        var idRobo = req.body.id;
-        //if idRobo call methods to get robo
+        var idRobo = req.body.id;        
         if (idRobo) {
-            var robo = [{ _id : "nao" }];
-            var retorno = roboDAO.update(req, idRobo, function (robo) {
-                res.render('cadastrarrobo.ejs', { message : req.flash('message', retorno), robo : robo });
+            roboDAO.update(req, idRobo, function (robo) {                
+                res.redirect('/listarrobos');
             });
         }
-        else {
-            var robo = [{ _id : "nao" }];
+        else {            
             var retorno = roboDAO.cadastrar(req);
             console.log(retorno);
-            res.render('cadastrarrobo.ejs', { message : req.flash('message', retorno), robo : robo });
+            res.redirect('/listarrobos');
         }
     });
     
-    /*app.post('/cadastrarrobo/:id', function (req, res) {
-        var idRobo = req.params.id;
-        //if idRobo call methods to get robo
-        if (idRobo) {
-            var retorno = roboDAO.update(idRobo);
-            res.send({message : retorno});
-        }
-    });*/
     
+    ////ListarRobo/////  -GET
     app.get('/listarrobos', function (req, res) {
         var robos = roboDAO.listarRobos(function (robos) {
             res.render('listarrobos.ejs', { dados : robos })
         });
     });
     
+    
+    
+    
+
     app.get('/signup', function (req, res) {
         res.render('signup', { message: req.flash('signupMessage') });
     });

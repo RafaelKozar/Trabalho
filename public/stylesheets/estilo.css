@@ -18,3 +18,8 @@ table {
 body {
     background-color: #e2e2e2;
 }
+
+.navbar-fixed-top{
+    background-color: #d5d5d5;
+    color: #fcfcff;
+}
