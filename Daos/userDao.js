@@ -80,6 +80,13 @@ var update = function (req, idUser, callback) {
     }
 }
 
+var cadastrarPaciente = function (user){
+    User.findById(user._id, function (err, result) {
+        if (err) throw err;
+        return result;
+    });
+}
+
 var remove = function (idUser, callback) {
     User.findById(idUser, function (err, user) {
         if (err) throw err;
@@ -97,3 +104,4 @@ module.exports.findByNome = findByNome;
 module.exports.findById = findById;
 module.exports.update = update;
 module.exports.remove = remove;
+module.exports.cadastrarPaciente = cadastrarPaciente;

@@ -1,5 +1,6 @@
 ﻿var Paciente = require('../routes/models/paciente');
 var RoboDAO = require('./roboDao.js');
+var UserDAO = require('./userDao.js');
 var moongose = require('mongoose');
 
 
@@ -14,21 +15,35 @@ var cadastrar = function (req) {
     newPaciente.quadro = req.body.quadro;
     newPaciente.idRobo = req.body.idRobo;
     
+    if (!req.user.adm) {
+        newPaciente.idAtendente = user._id;
+    }
+
     ////Pega o nome do robo////
     RoboDAO.findById(newPaciente.idRobo, function (robo) {
         newPaciente.robo = robo;
         newPaciente.save(function (err) {
             if (err) throw err;
+            UserDAO.cadastrarPaciente(req.user);
         });
         return 'cadastrado com sucesso';
     });       
 };
 
-var listarPacientes = function (callback) {
-    Paciente.find({}, function (err, pacientes) {
-        if (err) throw err;
-        callback(pacientes);
-    });
+var listarPacientes = function (user, callback) {
+    if (!user.adm) {
+        Paciente.find({ idAtendente : user._id }, function (err, pacientes) {
+            if (err) throw err;
+            callback(pacientes)
+        });
+    }
+
+    else {
+        Paciente.find({}, function (err, pacientes) {
+            if (err) throw err;
+            callback(pacientes);
+        });
+    }
 };
 
 var findByNome = function (nomepesquisa) {
@@ -46,6 +61,7 @@ var findById = function (idPaciente, callback) {
         callback(paciente);
     });
 }
+
 
 var update = function (req, idPaciente, callback) {
     Paciente.findById(idPaciente, function (err, paciente) {

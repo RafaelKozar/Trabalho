@@ -10,39 +10,7 @@
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-
-    <style>
-        .left-side {
-            background-color: #fcfcff;
-            float: none;
-            display: table-cell;
-        }
-
-        .right-side {
-            float: none;
-            display: table-cell;
-        }
-
-        body {
-            background-color: #e2e2e2;
-        }
-
-        .meutr {
-            width: 50%;
-            display: inline-table;
-        }
-
-        .meutable {
-            height: 100px;
-        }
-
-        .meutbody {
-            overflow-y: scroll;
-            height: 200px;
-            width: 100%;
-            position: absolute;
-        }
-    </style>
+    <link rel="stylesheet" href="./stylesheets/estilo.css" />
 </head>
 <body>
     <% include header.ejs %>      
@@ -63,13 +31,54 @@
                                                     </a>
                                                 </h4>
                                             </div>
-
+                                            
                                             <div id="collapseOne" class="panel-collapse collapse in">
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
+                                                            <%  if(!user == 'undefined'){
+                                                              %>
                                                             <div class="form-group">
-                                                                <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome do Usuário" required />
+                                                                <input type="text" id="nome" value="<%= user.nome%>" name="nome" class="form-control" placeholder="Nome do Usuário" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="email" id="email" value="<%= user.email%>" name="email" class="form-control" placeholder="Email de Login" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="password" id="password" value="<%= user.password%>" name="password" class="form-control" placeholder="Sennha" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="tel" id="telefone" name="telefone" value="<%= user.telefone%>" class="form-control" placeholder="Telefone" required />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input type="file" name="foto" />
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="especializacao" id="especializacao">
+                                                                    <option value="Psicólogo">Psicólogo</option>
+                                                                    <option value="Fonodiólogo">Fonodiólogo</option>
+                                                                    <option value="Médico">Médico</option>
+                                                                    <option value="Assistente Social">Assistente Social</option>
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="administrador" value="<%= user.administrador%>" value="true">
+                                                                    administrador
+                                                                </label>
+                                                            </div>
+
+
+                                                            <% }else{ %>
+                                                            <div class="form-group">
+                                                                <input type="text" id="nome"  name="nome" class="form-control" placeholder="Nome do Usuário" required />
                                                             </div>
 
                                                             <div class="form-group">
@@ -104,22 +113,19 @@
                                                                     administrador
                                                                 </label>
                                                             </div>
-
+                                                            <% } %>
                                                             <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
 
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
-
-</body>
-
-
-
+              </body>
 </html>

@@ -12,7 +12,7 @@ var userSchema = mongoose.Schema({
     telefone     : String,
     especializacao : String,
     adm          : Boolean,
-    pacientes : [{ type: Schema.Types.ObjectId, ref: 'Paciente' }]
+    pacientes    : [String]
 });
 
 // generating a hash

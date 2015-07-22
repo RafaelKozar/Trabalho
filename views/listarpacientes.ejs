@@ -70,16 +70,16 @@
                     <tbody>
                     <% 
                         
-                        dados.forEach(function(paciente) { %>
+                        pacientes.forEach(function(paciente) { %>
                    <tr>
                          <td> <%= paciente.nome %> </td>
                        <td>
-                           <% users.foreach(function(user){  %>
+                           
                            <select class="form-control" name="atendente" id="atendente">
                                
-                               <option value=""><%= user.nome%></option>
+                               <option value="">Teste</option>
                                </select>
-                           <% }); %>
+                           
                        </td>
                         <td> <%= paciente.robo %> </td>                  
                        <td> <%= paciente.telefone %> </td>                  

@@ -4,4 +4,20 @@ Para cada cadastro, atualização, deleção tens que enviar uma mensagem como  
 ---
 Verificar erro que dá no MOONGOSE para um id inexistente como por ex: '890'
 
+---
+Salvar imagem dos pacientes e users e também mostrarla -> talvez tena que convertelas para string  para pdoer salvar
 
+---
+Adm, atendente poderem editar seus perfils
+
+
+-------
+O usuário pode ver todos os seus pacientes, ou seja, deve ter ids ref para o esquema do paciente, porém apenas no caso 
+do user não ser adm, ou seja, a parte de login e identificacao do user deve ser feita primeira;
+
+----
+na listagem de paciente, o botão acessar seu robo, deve estar click false para os pacientes que não estiverem com um 
+robo cadastrado
+
+-----
+O atendente pode apensa casstrar um paciente, já o robo para este paciente, deverar ser realizada pelo adm
