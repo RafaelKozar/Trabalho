@@ -21,3 +21,6 @@ robo cadastrado
 
 -----
 O atendente pode apensa casstrar um paciente, já o robo para este paciente, deverar ser realizada pelo adm
+
+-----------
+Corrigir erro do app.get('/cadastrarpaciente'... NÃO CONSIGO PEGAR A lista de robo na view

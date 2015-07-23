@@ -81,9 +81,12 @@ var update = function (req, idUser, callback) {
 }
 
 var cadastrarPaciente = function (user){
-    User.findById(user._id, function (err, result) {
+    User.findById(user._id, function (err, resultUser) {
         if (err) throw err;
-        return result;
+        resultUser.pacientes = user.pacientes;
+        resultUser.save(function (err) {
+            if (err) throw err;
+        });
     });
 }
 

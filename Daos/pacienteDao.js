@@ -6,28 +6,37 @@ var moongose = require('mongoose');
 
 
 
-var cadastrar = function (req) {
+var cadastrar = function (req, user) {
     var newPaciente = new Paciente();
-
+    
     newPaciente.nome = req.body.nome;
     //newPaciente.foto = req.body.foto;   transformar imagem em string
     newPaciente.telefone = req.body.telefone;
     newPaciente.quadro = req.body.quadro;
     newPaciente.idRobo = req.body.idRobo;
     
-    if (!req.user.adm) {
-        newPaciente.idAtendente = user._id;
+    if (!req.user.adm || req.user.adm == 'undefined') {
+        newPaciente.idAtendente = req.user._id;
     }
-
-    ////Pega o nome do robo////
-    RoboDAO.findById(newPaciente.idRobo, function (robo) {
-        newPaciente.robo = robo;
-        newPaciente.save(function (err) {
-            if (err) throw err;
-            UserDAO.cadastrarPaciente(req.user);
+    
+    
+    if (newPaciente.idRobo) {
+        RoboDAO.findById(newPaciente.idRobo, function (robo) {
+            newPaciente.save(function (err, pacienteCadastrado) {
+                if (err) throw err;
+                req.user.pacientes = pacienteCadastrado._id;
+                UserDAO.cadastrarPaciente(req.user);
+                return 'cadastrado com sucesso';
+            });
         });
-        return 'cadastrado com sucesso';
-    });       
+    } else {
+        newPaciente.save(function (err, pacienteCadastrado) {
+            if (err) throw err;
+            req.user.pacientes = pacienteCadastrado._id;
+            UserDAO.cadastrarPaciente(req.user);
+            return 'cadastrado com sucesso';
+        });
+    }
 };
 
 var listarPacientes = function (user, callback) {
@@ -78,7 +87,7 @@ var update = function (req, idPaciente, callback) {
                 if (err) throw err;
             });
             callback(paciente);
-        });       
+        });
         
     });
 }

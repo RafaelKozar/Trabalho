@@ -37,7 +37,8 @@ var findById = function (idRobo, callback){
     
     Robo.findById(idRobo, function (err, robo) {
         if (err) throw err;
-        callback(robo);
+        if (robo)
+            callback(robo);        
     });
 }
 
