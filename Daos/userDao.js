@@ -15,7 +15,10 @@ var cadastrar = function (req) {
         newUser.email = req.body.email;        
         newUser.telefone = req.body.telefone
         newUser.especializacao = req.body.especializacao
-        newUser.adm = req.body.administrador;
+        if (req.body.administrador == true)
+            newUser.adm = true;
+        else
+            newUser.adm = false;
         newUser.password = newUser.generateHash(req.body.password);
         
         
@@ -39,6 +42,14 @@ var listarUsers = function (callback) {
         if (err) throw err;
         callback(users);
     });
+};
+
+
+var listarUsersNoAdm = function (callback) {
+    queryUsers = User.find({}, function (err, users) {
+        if (err) throw err;        
+    });
+    callback(queryUsers.where('adm').equals('false'));
 };
 
 var findByNome = function (nomepesquisa) {
@@ -103,6 +114,7 @@ var remove = function (idUser, callback) {
 
 module.exports.cadastrar = cadastrar;
 module.exports.listarUsers = listarUsers;
+module.exports.listarUsersNoAdm = listarUsersNoAdm;
 module.exports.findByNome = findByNome;
 module.exports.findById = findById;
 module.exports.update = update;

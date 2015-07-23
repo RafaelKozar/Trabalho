@@ -7,41 +7,16 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
-   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-
-    <style>
-        .left-side {
-            background-color: #fcfcff;
-            float: none;
-            display: table-cell;
-            /*width: 20%;*/
-        }
-
-        .right-side {
-            float: none;
-            display: table-cell;
-            /*/width: 80%;*/
-        }
-
-        table {
-            width: 100%;
-        }
-
-        body {
-            background-color: #e2e2e2;
-        }
-    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>   
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./stylesheets/estilo.css" />
 </head>
-<body>
+<tbody>
 
     <% include header.ejs %>      
 
     
-        <div class="row col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        
             
       
             <div class="col-sm-5 col-md-5 col-lg-5  col-xs-5  right-side">
@@ -50,7 +25,7 @@
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                                                 <span class="glyphicon glyphicon-file page-header">
-                                                </span>Lista de robos Cadastrados
+                                                </span>Lista de Pacientes cadastrados
                                             </a>
                                         </h4>
                                     </div>
@@ -58,10 +33,10 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th class="col-md-3">Nome</th>     
+                            <th class="col-md-2">Nome</th>     
                             <th class="col-md-2">Atendente</th>      
-                            <th class="col-md-1">Robo</th>     
-                            <th class="col-md-1">Telefone </th>                  
+                            <th class="col-md-2">Robo</th>     
+                            <th class="col-md-2">Telefone </th>                  
                             <th class="col-md-1">Editar</th>    
                             <th class="col-md-1">Acessar</th>               
                            
@@ -69,7 +44,7 @@
                     </thead>
                     <tbody>
                     <% 
-                        
+                      if(pacientes != 'undefined'){
                         pacientes.forEach(function(paciente) { %>
                    <tr>
                          <td> <%= paciente.nome %> </td>
@@ -77,8 +52,22 @@
                            
                            <select class="form-control" name="atendente" id="atendente">
                                
-                               <option value="">Teste</option>
-                               </select>
+                               <% 
+                               var i = 0;
+
+                               if(users != 'undefined'){                                     
+                                    users.forEach(function(atendente){ 
+                               if(paciente.idAtendente == 'undefined' && i == 0) {
+                                            i = 1; %>
+                               <option>Indefinido</option>
+                               <%  }else if(paciente.idAtendente != 'undefined' && atendente._id == paciente.idAtendente){
+                               %>                                 
+                               <option value="atendente._id" selected><%= atendente.nome%></option>
+                               <% }else{ %>
+                               <option value="atendente._id"><%= atendente.nome%></option>
+                               <%     }
+                                   });  } %>
+                           </select>
                            
                        </td>
                         <td> <%= paciente.robo %> </td>                  
@@ -98,8 +87,8 @@
                    
                        </tr>
                <% }); 
-                        %>
-                    </tdbody>
+                      }  %>
+                    </tbody>
                 </table>
                   
                     </div>
@@ -107,6 +96,7 @@
                
             </div>
         </div>
+    </div>
     </div>
 </body>
 

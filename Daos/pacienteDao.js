@@ -6,7 +6,7 @@ var moongose = require('mongoose');
 
 
 
-var cadastrar = function (req, user) {
+var cadastrar = function (req) {
     var newPaciente = new Paciente();
     
     newPaciente.nome = req.body.nome;
@@ -25,7 +25,8 @@ var cadastrar = function (req, user) {
             newPaciente.save(function (err, pacienteCadastrado) {
                 if (err) throw err;
                 req.user.pacientes = pacienteCadastrado._id;
-                UserDAO.cadastrarPaciente(req.user);
+                ///cadastramos o id do paciente no atendente, quando o mesmo não é adm///
+                if(pacienteCadastrado.idAtendente) UserDAO.cadastrarPaciente(req.user);
                 return 'cadastrado com sucesso';
             });
         });
@@ -33,11 +34,12 @@ var cadastrar = function (req, user) {
         newPaciente.save(function (err, pacienteCadastrado) {
             if (err) throw err;
             req.user.pacientes = pacienteCadastrado._id;
-            UserDAO.cadastrarPaciente(req.user);
+            if (pacienteCadastrado.idAtendente) UserDAO.cadastrarPaciente(req.user);
             return 'cadastrado com sucesso';
         });
     }
 };
+
 
 var listarPacientes = function (user, callback) {
     if (!user.adm) {
@@ -55,6 +57,7 @@ var listarPacientes = function (user, callback) {
     }
 };
 
+
 var findByNome = function (nomepesquisa) {
     var nomePaciente = new Paciente();
     nomePaciente.find({ nome : nomepesquisa }, function (err, pacientes) {
@@ -62,6 +65,7 @@ var findByNome = function (nomepesquisa) {
         return pacientes;
     });
 };
+
 
 var findById = function (idPaciente, callback) {
     
@@ -76,6 +80,7 @@ var update = function (req, idPaciente, callback) {
     Paciente.findById(idPaciente, function (err, paciente) {
         if (err) throw err;
         paciente.nome = req.body.nome;
+        paciente.id = req.body.id;
         paciente.foto = req.body.foto;
         paciente.telefone = req.body.telefone;
         paciente.quadro = req.body.quadro;
@@ -87,10 +92,24 @@ var update = function (req, idPaciente, callback) {
                 if (err) throw err;
             });
             callback(paciente);
-        });
-        
+        });        
     });
 }
+
+var updateRoboRelacionado = function (idPaciente, idRobo, callback){
+    Paciente.findById(idPaciente, function (err, paciente) {
+        if (err) throw err;
+        paciente.idRobo = idRobo;
+        RoboDAO.findById(idRobo, function (robo) {
+            paciente.robo = robo.nome
+            paciente.save(function (err) {
+                if (err) throw err;
+                callback(paciente)
+            });
+        });
+    });
+}
+
 
 var remove = function (idPaciente, callback) {
     Paciente.findById(idPaciente, function (err, paciente) {
@@ -108,4 +127,5 @@ module.exports.listarPacientes = listarPacientes;
 module.exports.findByNome = findByNome;
 module.exports.findById = findById;
 module.exports.update = update;
+module.exports.updateRoboRelacionado = updateRoboRelacionado;
 module.exports.remove = remove;

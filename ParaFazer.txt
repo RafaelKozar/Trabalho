@@ -11,7 +11,7 @@ Salvar imagem dos pacientes e users e também mostrarla -> talvez tena que conve
 Adm, atendente poderem editar seus perfils
 
 
--------
+------- FEITO ------
 O usuário pode ver todos os seus pacientes, ou seja, deve ter ids ref para o esquema do paciente, porém apenas no caso 
 do user não ser adm, ou seja, a parte de login e identificacao do user deve ser feita primeira;
 
@@ -24,3 +24,7 @@ O atendente pode apensa casstrar um paciente, já o robo para este paciente, dev
 
 -----------
 Corrigir erro do app.get('/cadastrarpaciente'... NÃO CONSIGO PEGAR A lista de robo na view
+
+
+-------
+Deve existir view para adm e para user comum, para o user não poder ver oque adm ve
