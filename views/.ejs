@@ -1,0 +1,51 @@
+﻿<html>
+<head>
+    Controlar Robo
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    
+    
+</head>
+<body>
+    
+    <div class="col-sm-5 col-md-5 col-lg-5  col-xs-5  right-side">
+        <script>            
+                $(document).ready(function(){                
+                    var theMessage = $.trim($("#theMessage").val());                   
+                        $.ajax({
+                            type: "POST",
+                            url: "http://localhost:3000/conectacam",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                message: theMessage
+                            }),
+                            dataType: "text",
+                            success: function (data) {
+                                var returnedJsonObj = JSON.parse(data);
+                                $("#echoResult").html("You said: " + returnedJsonObj.echoMessage);
+                            },
+                            error: function (err) {
+                                $("#echoResult").html("Error: " + err);
+                            }
+                        });
+                    
+                });
+            });
+        </script>
+        <strong>Echo Message:</strong>
+        <input type="text" id="theMessage" name="theMessage" value="">
+        <input id="callAjax" type="button" value="Call Ajax">
+        <div id="echoResult"></div>
+    </div>
+</body>
+
+
+
+</html>

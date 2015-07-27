@@ -1,57 +1,53 @@
 ﻿<html>
 <head>
-    Controlar Robo
+    <title>Plataforma Pia Robo</title> 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>   
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
     <link rel="stylesheet" href="./stylesheets/estilo.css" />
 </head>
-<tbody>
-
+<body>
     <% include header.ejs %>      
-
-    
-        
-            
-      
-            <div class="col-sm-5 col-md-5 col-lg-5  col-xs-5  right-side">
+    <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1 "> </div>
+            <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
                 <div class="panel panel-default">
-                <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                                <span class="glyphicon glyphicon-file page-header">
-                                                </span>Lista de Pacientes cadastrados
-                                            </a>
-                                        </h4>
-                                    </div>
-               <div class="bs-example">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="col-md-2">Nome</th>     
-                            <th class="col-md-2">Atendente</th>      
-                            <th class="col-md-2">Robo</th>     
-                            <th class="col-md-2">Telefone </th>                  
-                            <th class="col-md-1">Editar</th>    
-                            <th class="col-md-1">Acessar</th>               
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <% 
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                <span class="glyphicon glyphicon-file page-header"></span>Lista de Pacientes cadastrados
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="bs-example">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-2">Nome</th>
+                                    <th class="col-md-2">Atendente</th>
+                                    <th class="col-md-2">Robo</th>
+                                    <th class="col-md-2">Telefone </th>
+                                    <th class="col-md-1">Editar</th>
+                                    <th class="col-md-1">Acessar</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% 
                       if(pacientes != 'undefined'){
                         pacientes.forEach(function(paciente) { %>
                    <tr>
-                         <td> <%= paciente.nome %> </td>
+                       <td><%= paciente.nome %> </td>
                        <td>
-                           
+
                            <select class="form-control" name="atendente" id="atendente">
-                               
                                <% 
                                var i = 0;
 
@@ -68,37 +64,36 @@
                                <%     }
                                    });  } %>
                            </select>
-                           
-                       </td>
-                        <td> <%= paciente.robo %> </td>                  
-                       <td> <%= paciente.telefone %> </td>                  
 
-                    <td>
-                        <button type="button" class="btn btn-default"  onclick="location.href = './atualizarpaciente/<%= paciente._id%>'"  aria-label="Left Align">
-                       <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                     </button>
-                    </td>   
+                       </td>
+                       <td><%= paciente.robo %> </td>
+                       <td><%= paciente.telefone %> </td>
 
                        <td>
-                        <button type="button" class="btn btn-default"  onclick="location.href = './camera%>'"  aria-label="Left Align">
-                       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                     </button>
-                    </td>   
-                   
-                       </tr>
-               <% }); 
+                           <button type="button" class="btn btn-default" onclick="location.href = './atualizarpaciente/<%= paciente._id%>'" aria-label="Left Align">
+                               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                           </button>
+                       </td>
+
+                       <td>
+                           <button type="button" class="btn btn-default" onclick="location.href = './camera%>'" aria-label="Left Align">
+                               <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                           </button>
+                       </td>
+
+                   </tr>
+                                <% }); 
                       }  %>
-                    </tbody>
-                </table>
-                  
+                            </tbody>
+                        </table>
+
                     </div>
-                    
-               
+
+
+                </div>
             </div>
-        </div>
-    </div>
-    </div>
-</body>
+
+    </body>
 
 
 

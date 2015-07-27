@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+var main = function () {
   // PeerJS server location
   var SERVER_IP = '169.254.80.80';
   var SERVER_PORT = 9000;
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // set caller ID and connect to the PeerJS server
-  var connect = function () {
+  var connect = function (id) {
     callerId = callerIdEntry.value;
 
     if (!callerId) {
@@ -178,6 +178,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // wire up button events
   connectBtn.addEventListener('click', connect);
   dialBtn.addEventListener('click', dial);
-});
+};
 
-
+module.exports.main = main;

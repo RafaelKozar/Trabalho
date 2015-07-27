@@ -11,8 +11,41 @@
     /*/width: 80%;*/
 }
 
+.conteudo {
+    margin-top:5px;
+    margin-left:3px;
+    display:inline-block;
+    float:none;
+    text-align:center;
+    align-items:center;
+    align-self:center;
+    align-content:center;
+}
+
 table {
     
+}
+
+button {
+    border:none;
+    display:block;
+    padding:0.5em 1em;
+    margin:1% auto 0;
+    cursor:pointer;
+    font-weight: bold;    
+    color:#989c35;
+    background-color:#d3d3d3;
+}
+
+.meuButton {
+    border:none;
+    display:block;
+    padding:0.5em 1em;
+    margin:1% auto 0;
+    cursor:pointer;
+    font-weight: bold;    
+    color:#989c35;
+    background-color:#d3d3d3;
 }
 
 body {

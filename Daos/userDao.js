@@ -108,7 +108,7 @@ var remove = function (idUser, callback) {
             if (err) throw err;
         });
         callback("deletado com sucesso");
-    });
+        });
 }
 
 

@@ -28,3 +28,9 @@ Corrigir erro do app.get('/cadastrarpaciente'... NÃO CONSIGO PEGAR A lista de r
 
 -------
 Deve existir view para adm e para user comum, para o user não poder ver oque adm ve
+
+
+------
+para a página de visualização das câmeras eu voou precisar de dois tipos de request um para pegar o id do user e do robo
+e outro para enviar o paracer
+---- Possível solução fazer dois methods post com endereço diferente para processar estas informações

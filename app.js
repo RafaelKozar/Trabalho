@@ -57,6 +57,7 @@ appSet.use(passport.session()); // persistent login sessions
 appSet.use(flash()); // use connect-flash for flash messages stored in session
 
 require('./routes/routes.js')(appSet, passport); // load our routes and pass in our app and fully configured passport
+require('./routes/routesAtendente.js')(appSet, passport); 
 
 //appSet.use(express.methodOverride());
 //appSet.use(appSet.router);

@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
         function (stream) {
           localStream = stream;
 
-          localVideo.src = window.URL.createObjectURL(stream);
-
+                    localVideo.src = window.URL.createObjectURL(stream);
+                    dial('rafa');
           if (successCb) {
             successCb(stream);
           }
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // make an outgoing call
-  var dial = function () {
+  var dial = function (nameId) {
     if (!peer) {
       logError('please connect first');
       return;
@@ -135,7 +135,8 @@ document.addEventListener('DOMContentLoaded', function () {
       return
     }
 
-    var recipientId = recipientIdEntry.value;
+        //var recipientId = recipientIdEntry.value;
+        var recipientId = nameId;
 
     if (!recipientId) {
       logError('could not start call as no recipient ID is set');

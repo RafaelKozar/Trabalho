@@ -1,1 +1,101 @@
-﻿
+﻿var User = require('./models/user.js');
+var roboDAO = require('../Daos/roboDao');
+var pacienteDAO = require('../Daos/pacienteDao');
+var peer = require('../config/main.js');
+
+module.exports = function (app, passport) {
+    
+    ///acessa a camera do paciente/// get
+    app.get('/acessarpaciente/:id', isLoggedIn, function (req, res) {
+        res.render('acessarpaciente.ejs');
+    });
+    
+    
+    ///setar o id para poder conectar camera peerToPeer/// get
+    app.get('/conectacam', isLoggedIn, function (req, res) {
+        var val = req.query.url.split('/');        
+        var idPaciente = val[val.length()];
+        pacienteDAO.findById(idPaciente, function (paciente) {            
+            var returnJsonObj;
+            returnJsonObj = {
+                idRobo: paciente.idRobo,
+                idUser: req.user.id
+            };
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            });
+            res.end(returnJsonObj);        
+        });
+    });
+    
+    app.post('/conectacam', isLoggedIn, function (req, res) {
+        var param = req.body.parametro;        
+        var url = param.split('/');        
+        var idPaciente = url[url.length - 1];
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            var returnJsonObj;
+            returnJsonObj = {
+                idRobo: paciente.idRobo,
+                idUser: req.user.id
+            };
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            });
+            res.end(JSON.stringify(returnJsonObj));
+        });
+    });
+    
+    app.get('/indexuser', function (req, res) {
+        res.render('indexuser.ejs');
+    });
+
+    app.get('/camera3', function (req, res) {
+        res.render('camera3.ejs');
+    });
+
+    app.get('/searching', function (req, res) {
+        res.render('searching.ejs');
+    });
+
+    app.get('/listarmeuspacientes', function (req, res) {
+        res.render('listarmeuspacientes.ejs');
+    })
+
+    app.get('/usercadastrarpaciente', function (req, res) {
+        res.render('usercadastrarpaciente.ejs');
+    });
+
+    app.get('/acessarpaciente2', function (req, res) {
+        res.render('acessarpaciente2.ejs');
+    });
+
+    app.get('/getrobos', function (req, res) {
+        roboDAO.listarRobos(function (robos) {
+            res.send(JSON.stringify(robos));
+        })
+    });
+}
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+    
+    res.redirect('/login');
+}
+
+
+/* var url = req.body.message.split("/");
+        var idPaciente = url.slice(-1);
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            
+            var returnJsonObj;
+            returnJsonObj = {
+                idRobo: paciente.idRobo,
+                idUser: req.user.id
+            };
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            });
+            res.end(JSON.stringify(returnJsonObj));
+        
+        });*/       

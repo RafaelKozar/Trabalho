@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // PeerJS server location
+    var parameter = { parametro : document.location.href };
+    $.post('/conectacam', parameter, function (data) {
+        idRobo = data.idRobo;
+        idUser = data.idUser;
+        //  getLocalStream();        
+        //dial(idRobo);
+        connect(idUser, dial, idRobo);
+        console.log(idRobo);
+    });
+    
+    
+    
+    // PeerJS server location
   var SERVER_IP = '169.254.80.80';
   var SERVER_PORT = 9000;
 
@@ -52,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // "LOCAL" video element
   // successCb: has the signature successCb(stream); receives
   // the local video stream as an argument
-  var getLocalStream = function (successCb) {
+  var getLocalStream = function (successCb, dial, idRobo) {
     if (localStream && successCb) {
       successCb(localStream);
     }
@@ -66,7 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
         function (stream) {
           localStream = stream;
 
-          localVideo.src = window.URL.createObjectURL(stream);
+                    localVideo.src = window.URL.createObjectURL(stream);
+                    dial(idRobo);
 
           if (successCb) {
             successCb(stream);
@@ -87,9 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // set caller ID and connect to the PeerJS server
-  var connect = function () {
-    callerId = callerIdEntry.value;
-
+  var connect = function (idUser, dial) {
+    //callerId = callerIdEntry.value;
+        callerId = idUser;
     if (!callerId) {
       logError('please set caller ID first');
       return;
@@ -111,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // get local stream ready for incoming calls once the wrapped
       // WebSocket is open
       peer.socket._socket.onopen = function () {
-        getLocalStream();
+        getLocalStream(dial, idRobo);
       };
 
       // handle events representing incoming calls

@@ -38,19 +38,20 @@
                                                         <div class="col-md-12">
                                                             <%  if(!user == 'undefined'){
                                                               %>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6 col-md-6">
                                                                 <input type="text" id="nome" value="<%= user.nome%>" name="nome" class="form-control" placeholder="Nome do Usuário" required />
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6 col-md-6">
+                                                                <input type="password" id="password" value="<%= user.password%>" name="password" class="form-control" placeholder="Sennha" required />
+                                                                
+                                                            </div>
+
+                                                            <div class="form-group col-lg-6 col-md-6">
                                                                 <input type="email" id="email" value="<%= user.email%>" name="email" class="form-control" placeholder="Email de Login" required />
                                                             </div>
 
-                                                            <div class="form-group">
-                                                                <input type="password" id="password" value="<%= user.password%>" name="password" class="form-control" placeholder="Sennha" required />
-                                                            </div>
-
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6 col-md-6">
                                                                 <input type="tel" id="telefone" name="telefone" value="<%= user.telefone%>" class="form-control" placeholder="Telefone" required />
                                                             </div>
 
@@ -58,13 +59,12 @@
                                                                 <input type="file" name="foto" />
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group"> <!-- fazer essa parte com jquery -->
                                                                 <select class="form-control" name="especializacao" id="especializacao">
-                                                                    <option value="Psicólogo">Psicólogo</option>
-                                                                    <option value="Fonodiólogo">Fonodiólogo</option>
-                                                                    <option value="Médico">Médico</option>
-                                                                    <option value="Assistente Social">Assistente Social</option>
-
+                                                                    <option value="psicologo">Psicólogo</option>
+                                                                    <option value="fonodiologo">Fonodiólogo</option>
+                                                                    <option value="medico">Médico</option>
+                                                                    <option value="assistente social">Assistente Social</option>
                                                                 </select>
                                                             </div>
 
@@ -77,19 +77,20 @@
 
 
                                                             <% }else{ %>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6 col-md-6">
                                                                 <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome do Usuário" required />
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6 col-md-6">
+                                                                <input type="password" id="password" name="password" class="form-control" placeholder="Sennha" required />
+                                                                
+                                                            </div>
+
+                                                            <div class="form-group col-lg-6 col-md-6">
                                                                 <input type="email" id="email" name="email" class="form-control" placeholder="Email de Login" required />
                                                             </div>
 
-                                                            <div class="form-group">
-                                                                <input type="password" id="password" name="password" class="form-control" placeholder="Sennha" required />
-                                                            </div>
-
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6 col-md-6">
                                                                 <input type="tel" id="telefone" name="telefone" class="form-control" placeholder="Telefone" required />
                                                             </div>
 
@@ -98,13 +99,12 @@
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <select class="form-control" name="especializacao" id="especializacao">
-                                                                    <option value="Psicólogo">Psicólogo</option>
-                                                                    <option value="Fonodiólogo">Fonodiólogo</option>
-                                                                    <option value="Médico">Médico</option>
-                                                                    <option value="Assistente Social">Assistente Social</option>
-
-                                                                </select>
+                                                                <select class="form-control" name="especializacao" id="especializacao">                                                                    
+                                                                    <option value="psicologo">Psicólogo</option>
+                                                                    <option value="fonodiologo">Fonodiólogo</option>
+                                                                    <option value="medico">Médico</option>
+                                                                    <option value="assistente social">Assistente Social</option>
+                                                                </select>                                                                
                                                             </div>
 
                                                             <div class="checkbox">
