@@ -22,9 +22,14 @@
     align-content:center;
 }
 
-table {
-    
-}
+ 
+ .video {
+      max-width: 450px;      
+ }
+
+ .videoRobo{
+     width:auto;
+ }
 
 button {
     border:none;

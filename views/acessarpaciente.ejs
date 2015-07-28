@@ -1,48 +1,84 @@
 ﻿<html>
 <head>
-    Controlar Robo
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">    
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="../stylesheets/estilo.css" />
+    <script src="../javascripts/meumain3.js"></script>
     <script src="../javascripts/peer.js"></script>
-    <script src="../javascripts/meumain2.js"></script>
 </head>
 <body>
-    
-    <div class="col-sm-5 col-md-5 col-lg-5  col-xs-5  right-side">
-        <script>
-            /*var idRobo, idUser;
-            $(document).ready(function () {
-                var parameter = {parametro : document.location.href};
-                
-                $.post('/conectacam', parameter, function (data) {
-                    idRobo = data.idRobo;
-                    idUser = data.idUser;
-                    connect(idUser);
-                    dial(idRobo);
-                    console.log(idRobo);
-                });
-            }); */
+    <% include header2.ejs %>
+    <div class="col-sm-0 col-md-1 col-lg-1 col-xs-0 "></div>
+    <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
+       
 
-        </script>
-      <p><strong>REMOTE:</strong></p>
-      <video id="remote-video" autoplay></video>
 
-      <hr>
-        <div id="messages">
-    </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                        <span class="glyphicon glyphicon-file page-header"></span>Paciente
+                                    </a>
+                                </h4>
+                            </div>
+                            
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">                                            
+                                            <div class="col-lg-6 col-md-6">
+                                                <video id="local-video" class="video" autoplay></video>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                 <video id="remote-video" class="video" autoplay></video>
+                                            </div>
+                                         </div>
+                                        </div>
+                                    <div class="col-lg-12 col-md-12">
+                                            <div><button class="button" id="connect">Ligar</button></div>
+                                        </div>
+                                             <div class="form-group col-lg-3 col-md-3"></div>
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                                <select class="form-control" name="especializacao" onselect="" id="especializacao">
+                                                                    <option value="excelente">Excelente</option>
+                                                                    <option value="bom">Bom</option>
+                                                                    <option value="medio">Médico</option>
+                                                                    <option value="ruim">Ruim</option>
+                                                                    <option value="pessimo">Péssimo</option>
+                                                                </select>
+                                                            </div>
+                                             <div class="form-group col-lg-3 col-md-3"></div>
+                                            <div class="form-group col-lg-12 col-md-12">
+                                                <textarea class="form-control" id="parecer" name="parecer" rows="5" placeholder="Registrar Parecer" ></textarea>
+                                            </div>
+                                            <div id="messages"></div>
 
-      <p><strong>LOCAL:</strong></p>
-      <video id="local-video" autoplay></video>
+                                            <button class="button" type="submit">Salvar</button>
+                                            
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
     </div>
 </body>
-
-
 
 </html>

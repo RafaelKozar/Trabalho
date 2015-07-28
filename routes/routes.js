@@ -35,13 +35,13 @@ module.exports = function (app, passport) {
     });
     
     ///AtualizarUsers//// - GET    SERÁ  DEPRECIADO
-    app.get('/cadastraruser/:id', isAdm, function (req, res) {        
+    app.get('/cadastraruser/:id', isAdm, function (req, res) {
         var idUser = req.params.id;
         if (idUser) {
             var user = userDAO.findById(idUser, function (user) {
                 res.render('cadastraruser.ejs', { user : user });
             });
-        }        
+        }
     });
     
     
@@ -120,47 +120,57 @@ module.exports = function (app, passport) {
     });
     
     
+    ////CadastrarPaciente/// - GET
+    app.get('/cadastrarpaciente/:id', function (req, res) {
+        
+        pacienteDAO.findById(req.params.id, function (paciente) {
+            roboDAO.listarRobos(function (robos) {
+                if (paciente && robos)
+                    res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos });
+                else if(robos)
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos });
+                else
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio });
+            });
+        });
+        
+    });
+    
+    
     ///CadastrarPacientes//// - POST
-    app.post('/cadastrarpaciente', isLoggedIn, function (req, res) {        
-        //Devo enviar junto req.user
-        if (idPaciente) {
-            var retorno = pacienteDAO.update(req, idPaciente, function (paciente) {
-                res.redirect('/listarpacientes');
+    ///*tentar atualizar, caso não seja possível ele cadastra///
+    app.post('/cadastrarpaciente', isLoggedIn, function (req, res) {
+        var idPaciente = req.body.id;
+        var paciente;
+        pacienteDAO.update(req, idPaciente, function (pacienteRetorno) {
+            pacienteDAO.listarPacientes(req.user, function (pacientesRetorno) {
+                if (pacienteRetorno && pacientesRetorno)
+                    res.render('listarpacientes.ejs', { message : "Paciente editado com sucesso", pacientes : pacientesRetorno });                
+                else {
+                    var retorno = pacienteDAO.cadastrar(req);
+                    if (pacientesRetorno)
+                        res.render('listarpacientes.ejs', { message : "Paciente cadastrado com sucesso", pacientes : pacientesRetorno });
+                    else
+                        res.render('listarpacientes.ejs', { message : "Paciente cadastrado com sucesso", pacientes : pacientesVazio });
+                }
             });
-        }
-        else {
-            var retorno = pacienteDAO.cadastrar(req);
-            res.redirect('/listarpacientes');
-        }
+        });
     });
     
-    
-    ////CdastrarPaciente///
-    app.get('/cadastrarpaciente/:id', isAdm, function (req, res) {        
-        var idPaciente = req.params.id;
-        if (idPaciente) {
-            var paciente = pacienteDAO.findiById(idPaciente, function (paciente) {
-                var robo = roboDAO.listarRobos(function (robo) {
-                    if (paciente && robo) res.render('atualizarpaciente.ejs', { paciente : paciente, robos : robo });
-                    else res.render('atualizarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio });
-                });
-                              
-            });
-        }
-    });
+    app.post
     
     ///ListarPacientes//// - GET
     /*Para cada paciente eu tenho um user e um robo atrelado*/
     app.get('/listarpacientes', isLoggedIn, function (req, res) {
         var pacientes = pacienteDAO.listarPacientes(req.user, function (pacientes) {
-                var users = userDAO.listarUsers(function (users) { //deve listar users não adm
-                    if (pacientes && users)
-                        res.render('listarpacientes.ejs', { pacientes : pacientes, users : users });
-                    else if (pacientes)
-                        res.render('listarpacientes.ejs', { pacientes: pacientes, users : usersVazio });
-                    else
-                        res.render('listarpacientes.ejs', { pacientes: pacientesVazio, users : usersVazio });
-                });           
+            var users = userDAO.listarUsers(function (users) { //deve listar users não adm
+                if (pacientes && users)
+                    res.render('listarpacientes.ejs', { pacientes : pacientes, users : users });
+                else if (pacientes)
+                    res.render('listarpacientes.ejs', { pacientes: pacientes, users : usersVazio });
+                else
+                    res.render('listarpacientes.ejs', { pacientes: pacientesVazio, users : usersVazio });
+            });
         });
     });
     
@@ -174,7 +184,7 @@ module.exports = function (app, passport) {
                 var robo = roboDAO.listarRobos(function (robo) {
                     if (paciente && robo) res.render('atualizarpaciente.ejs', { paciente : paciente, robo : robo });
                     else res.render('atualizarpaciente.ejs', { paciente : pacientesVazio, robo : robosVazio });
-                });                              
+                });
             });
         }
     });
@@ -185,7 +195,7 @@ module.exports = function (app, passport) {
         if (idPaciente) {
             var paciente = pacienteDAO.remove(idPaciente, function (msg) {
                 if (msg) res.redirect('/listarpacientes');
-                else res.redirect('/listarpacientes');                
+                else res.redirect('/listarpacientes');
             });
         }
     })
@@ -195,8 +205,7 @@ module.exports = function (app, passport) {
     
     
     ////AtualizarRobo/////  -GET    ///SERÁ DEPRECIADO
-    app.get('/atualizarrobo/:id', isAdm, function (req, res) {
-        
+    app.get('/atualizarrobo/:id', isAdm, function (req, res) {        
         var idRobo = req.params.id;
         if (idRobo) {
             var robo = roboDAO.findById(idRobo, function (robo) {
@@ -215,11 +224,7 @@ module.exports = function (app, passport) {
         var idRobo = req.params.id;
         if (idRobo) {
             var robo = roboDAO.remove(idRobo, function (msg) {
-                if (msg) res.redirect('/listarrobos');
-                else {
-                    var robo = [{ nome : "nao" }];
-                    res.redirect('/listarrobos');
-                }
+               res.render('/listarrobos', {message : "deletado com sucesso"});               
             });
         }
     })
@@ -230,8 +235,8 @@ module.exports = function (app, passport) {
         var idRobo = req.params.id;
         if (idRobo) {
             var robo = roboDAO.findById(idRobo, function (robo) {
-                if (robo == 'err') res.render('cadastrarrobo.ejs', { message : req.flash('message', 'robo não encontrado'), robo : robosVazio });
-                else if (robo) res.render('atualizarrobo.ejs', { robo : robo, message : "" });
+                
+                if (robo) res.render('atualizarrobo.ejs', { robo : robo, message : "" });
                 else res.render('atualizarrobo.ejs', { robo : robosVazio, message : "" });
             });
         } else res.render('cadastrarrobo.ejs', { message : "", robo : robosVazio });
@@ -274,12 +279,12 @@ module.exports = function (app, passport) {
         res.redirect('/login');
     });
     
-
+    
     app.get('/login', function (req, res) {
         res.render('login', { message: req.flash('loginMessage') });
     });
     
-
+    
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
         successRedirect: '/listarpacientes', // redirect to the secure profile section

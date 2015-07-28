@@ -1,57 +1,50 @@
 ﻿<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>WebRTC client</title>
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="./stylesheets/estilo.css" />
 
-    <style>
-    #credentials, #dialler, #messages {
-      clear: both;
-    }
-    #remote-video {
-      max-width: 300px;
-    }
-    #local-video {
-      max-width: 150px;
-    }
-    </style>
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div id="credentials">
-      <p>
-        Connect as: <input type="text" id="caller-id" size="15">
-        <button id="connect">Connect</button>
-      </p>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-2 col-xs-0 col-sm-0"></div>
+        <div class="col-lg-6 col-md-8  col-xs-12  col-sm-12">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" id="connect" type="button">Conectar</button>
+                </span>
+                <input type="text" class="form-control"  id="caller-id"  placeholder="Id do Robo">
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-2 col-xs-0  col-sm-0"></div>
     </div>
 
-    <div id="dialler" data-active="false">
-      <p>
-        Make call to:
-        <input type="select" id="recipient-id">
-        </input>
-        <button id="dial">Call</button>
-      </p>
 
-      <hr>
+    <div class="row">
+        <div class="col-lg-6 col-md-6  col-xs-12  col-sm-12">
+            
+            <video id="remote-video" class="videoRobo" autoplay>Remote</video>
+        </div>
+       
+        <div class="col-lg-6 col-md-6  col-xs-12  col-sm-12">
+            
+            <video id="local-video" class="videoRobo" autoplay>Local</video>
+        </div>       
 
-      <p><strong>REMOTE:</strong></p>
-      <video id="remote-video" autoplay></video>
-
-      <hr>
-
-      <p><strong>LOCAL:</strong></p>
-      <video id="local-video" autoplay></video>
+        <div  id="messages">
+        </div>
     </div>
-
-    <hr>
-
-    <div id="messages">
-    </div>
-
     <script src="./javascripts/peer.js"></script>
     <script src="./javascripts/main.js"></script>
-  </body>
+</body>
 </html>

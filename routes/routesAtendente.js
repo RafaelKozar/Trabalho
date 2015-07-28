@@ -1,4 +1,5 @@
 ﻿var User = require('./models/user.js');
+var userDAO = require('../Daos/userDao');
 var roboDAO = require('../Daos/roboDao');
 var pacienteDAO = require('../Daos/pacienteDao');
 var peer = require('../config/main.js');
@@ -13,9 +14,9 @@ module.exports = function (app, passport) {
     
     ///setar o id para poder conectar camera peerToPeer/// get
     app.get('/conectacam', isLoggedIn, function (req, res) {
-        var val = req.query.url.split('/');        
+        var val = req.query.url.split('/');
         var idPaciente = val[val.length()];
-        pacienteDAO.findById(idPaciente, function (paciente) {            
+        pacienteDAO.findById(idPaciente, function (paciente) {
             var returnJsonObj;
             returnJsonObj = {
                 idRobo: paciente.idRobo,
@@ -24,13 +25,13 @@ module.exports = function (app, passport) {
             res.writeHead(200, {
                 'Content-Type': 'application/json'
             });
-            res.end(returnJsonObj);        
+            res.end(returnJsonObj);
         });
     });
     
     app.post('/conectacam', isLoggedIn, function (req, res) {
-        var param = req.body.parametro;        
-        var url = param.split('/');        
+        var param = req.body.parametro;
+        var url = param.split('/');
         var idPaciente = url[url.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             var returnJsonObj;
@@ -48,33 +49,60 @@ module.exports = function (app, passport) {
     app.get('/indexuser', function (req, res) {
         res.render('indexuser.ejs');
     });
-
+    
     app.get('/camera3', function (req, res) {
         res.render('camera3.ejs');
     });
-
+    
     app.get('/searching', function (req, res) {
         res.render('searching.ejs');
     });
-
+    
     app.get('/listarmeuspacientes', function (req, res) {
         res.render('listarmeuspacientes.ejs');
     })
-
+    
     app.get('/usercadastrarpaciente', function (req, res) {
         res.render('usercadastrarpaciente.ejs');
     });
-
-    app.get('/acessarpaciente2', function (req, res) {
-        res.render('acessarpaciente2.ejs');
+    
+    app.get('/acessarpaciente', function (req, res) {
+        res.render('acessarpaciente.ejs');
     });
-
-    app.get('/getrobos', function (req, res) {
+    
+    app.get('/acessarpaciente/:id', function (req, res) {
+        res.render('acessarpaciente.ejs');
+    });
+    
+    app.post('/getrobos', function (req, res) {
         roboDAO.listarRobos(function (robos) {
             res.send(JSON.stringify(robos));
         })
     });
-}
+    
+    app.post('/getpaciente', function (req, res) {
+        var param = req.body.url;
+        var idPaciente = param[param.length - 1];
+        pacienteDAO.findById(idPaciente, function (user) {
+            res.send(JSON.stringify(user));
+        });
+    });
+    
+    app.post('/getpacientes', isLoggedIn, function (req, res) {
+        pacienteDAO.listarPacientes(req.user, function (pacientes) {
+            res.send(JSON.stringify(pacientes));
+        });
+    });
+
+
+    app.post('/getuser', function (req, res) {
+        var param = req.body.url;
+        var idPaciente = param[param.length - 1];
+        pacienteDAO.findById(idPaciente, function (user) {
+            res.send(JSON.stringify(user));
+        });
+    });
+};
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())

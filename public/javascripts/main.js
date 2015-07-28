@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // wire up button events
   connectBtn.addEventListener('click', connect);
-  dialBtn.addEventListener('click', dial);
+  //dialBtn.addEventListener('click', dial);
 });
 
 

@@ -53,7 +53,27 @@
                         pacientes.forEach(function(paciente) { %>
                    <tr>
                        <td><%= paciente.nome %> </td>
-                       <td>teste</td>
+                       <td>
+
+                           <select class="form-control" name="atendente" id="atendente">
+                               <% 
+                               var i = 0;
+
+                               if(users != 'undefined'){                                     
+                                    users.forEach(function(atendente){ 
+                               if(paciente.idAtendente == 'undefined' && i == 0) {
+                                            i = 1; %>
+                               <option>Indefinido</option>
+                               <%  }else if(paciente.idAtendente != 'undefined' && atendente._id == paciente.idAtendente){
+                               %>                                 
+                               <option value="atendente._id" selected><%= atendente.nome%></option>
+                               <% }else{ %>
+                               <option value="atendente._id"><%= atendente.nome%></option>
+                               <%     }
+                                   });  } %>
+                           </select>
+
+                       </td>
                        <td><%= paciente.robo %> </td>
                        <td><%= paciente.telefone %> </td>
 
@@ -64,11 +84,7 @@
                        </td>
 
                        <td>
-                           <% if(typeof paciente.robo != 'undefined' && paciente.robo != null) { %>
-                           <button type="button" class="btn btn-default" onclick="location.href = './acessarpaciente/<%= paciente._id %>'" aria-label="Left Align">
-                           <% } else { %>
-                           <button type="button" class="btn btn-default button" onclick="false" aria-label="Left Align">
-                           <% } %>
+                           <button type="button" class="btn btn-default" onclick="location.href = './camera%>'" aria-label="Left Align">
                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                            </button>
                        </td>

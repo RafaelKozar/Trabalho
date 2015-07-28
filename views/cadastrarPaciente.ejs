@@ -42,7 +42,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
 
-                                                    <% if (!paciente == 'undefined') { %>
+                                                    <% if (paciente != 'undefined') { %>
 
                                                     <div class="form-group col-lg-6 col-md-6">
                                                         <input type="text" id="nome" name="nome" value="<%= paciente.nome%>" class="form-control" placeholder="Nome do Paciente" required />

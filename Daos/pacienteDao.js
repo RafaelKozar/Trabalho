@@ -70,7 +70,7 @@ var findByNome = function (nomepesquisa) {
 var findById = function (idPaciente, callback) {
     
     Paciente.findById(idPaciente, function (err, paciente) {
-        if (err) throw err;
+        if (!paciente) callback(null);
         callback(paciente);
     });
 }
@@ -78,7 +78,8 @@ var findById = function (idPaciente, callback) {
 
 var update = function (req, idPaciente, callback) {
     Paciente.findById(idPaciente, function (err, paciente) {
-        if (err) throw err;
+        if (!paciente) callback(null);
+        //if (err) throw err;
         paciente.nome = req.body.nome;
         paciente.id = req.body.id;
         paciente.foto = req.body.foto;
@@ -86,13 +87,20 @@ var update = function (req, idPaciente, callback) {
         paciente.quadro = req.body.quadro;
         paciente.idRobo = req.body.idRobo;
         ////Pega o nome do robo////
-        RoboDAO.findById(paciente.idRobo, function (robo) {
-            paciente.robo = robo.nome;
+        if (paciente.idRobo) {
+            RoboDAO.findById(paciente.idRobo, function (robo) {
+                paciente.robo = robo.nome;
+                paciente.save(function (err) {
+                    if (err) throw err;
+                });
+                callback(paciente);
+            });
+        } else {
             paciente.save(function (err) {
                 if (err) throw err;
             });
             callback(paciente);
-        });        
+        }
     });
 }
 
@@ -122,10 +130,26 @@ var remove = function (idPaciente, callback) {
 }
 
 
+var deleteRoboRelacionado = function (idRobo, callback){
+    Paciente.find({ 'idRobo' : idRobo }, function (err, pacientes) {
+        //if (err) throw err;
+        for (var i = 0; pacientes.length(); i++) {
+            pacientes[i].idRobo = 'undefined';
+            pacientes[i].robo   = 'undefined';
+            pacientes[i].save(function (err) {
+                if (err) throw err;
+            });
+        }
+        callback("robo deletado");
+    })
+}
+
+
 module.exports.cadastrar = cadastrar;
 module.exports.listarPacientes = listarPacientes;
 module.exports.findByNome = findByNome;
 module.exports.findById = findById;
 module.exports.update = update;
 module.exports.updateRoboRelacionado = updateRoboRelacionado;
+module.exports.deleteRoboRelacionado = deleteRoboRelacionado;
 module.exports.remove = remove;

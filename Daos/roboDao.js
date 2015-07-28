@@ -1,5 +1,7 @@
 ﻿var Robo = require('../routes/models/robo');
+var pacienteDAO = require('./pacienteDao.js')
 var moongose = require('mongoose');
+
 
 
 
@@ -59,11 +61,13 @@ var update = function (req, idRobo, callback){
 
 var remove = function (idRobo, callback) {
     Robo.findById(idRobo, function (err, robo) {
-        if (err) throw err;        
-        robo.remove(function (err) {
-            if (err) throw err;
-        });        
-        callback("deletado com sucesso");
+        if (err) throw err;
+        pacienteDAO.deleteRoboRelacionado(idRobo, function () {
+            robo.remove(function (err) {
+                if (err) throw err;
+            });
+            callback("deletado com sucesso");
+        });
     });
 }
 

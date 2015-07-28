@@ -6,8 +6,8 @@
 			c = document.getElementById('c'),
 			grey = document.getElementById('grey');
 			con = c.getContext('2d');
-			w = 600, 
-			h = 420,
+			w = 400, 
+			h = 325,
 			greyscale = false;
 
 		// Cross browser
