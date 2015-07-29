@@ -15,7 +15,7 @@ module.exports = function (app, passport) {
     ///setar o id para poder conectar camera peerToPeer/// get
     app.get('/conectacam', isLoggedIn, function (req, res) {
         var val = req.query.url.split('/');
-        var idPaciente = val[val.length()];
+        var idPaciente = val[val.length];
         pacienteDAO.findById(idPaciente, function (paciente) {
             var returnJsonObj;
             returnJsonObj = {

@@ -9,6 +9,7 @@ var pacienteSchema = mongoose.Schema( {
     quadro : String,
     robo : String,
     idAtendente : String,
+    atendente : String,
     idRobo : String      
 });
 

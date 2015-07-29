@@ -22,14 +22,35 @@ var cadastrar = function (req) {
 
 var listarRobos = function (callback) {    
     Robo.find({}, function (err, robos) {
+        if (!robos) {
+            callback(null);
+            return;
+        }
         if (err) throw err;        
-        callback(robos);  
+        callback(robos);        
+    });  
+};
+
+var listarRobosSemPaciente = function (callback){
+    Robo.find({}, function (err, robos) {
+        if (!robos) {
+            callback(null);
+            return;
+        }
+        if (err) throw err;
+         
+
+        //callback(robos);
     });  
 };
 
 var findByNome = function (nomepesquisa) {
     var nomeRobo = new Robo();
     nomeRobo.find({ nome : nomepesquisa }, function (err, robos) {
+        if (!robos) {
+            callback(null);
+            return;
+        }
         if (err) throw err;
         return robos;
     });
@@ -38,6 +59,10 @@ var findByNome = function (nomepesquisa) {
 var findById = function (idRobo, callback){
     
     Robo.findById(idRobo, function (err, robo) {
+        if (!robo) {
+            callback(null);
+            return;
+        }
         if (err) throw err;
         if (robo)
             callback(robo);        
@@ -46,6 +71,10 @@ var findById = function (idRobo, callback){
 
 var update = function (req, idRobo, callback){
     Robo.findById(idRobo, function (err, robo) {
+        if (!robo) {
+            callback(null);
+            return;
+        }
         if (err) throw err;        
         robo.nome = req.body.nome;
         robo.descricao = req.body.descricao
@@ -61,6 +90,10 @@ var update = function (req, idRobo, callback){
 
 var remove = function (idRobo, callback) {
     Robo.findById(idRobo, function (err, robo) {
+        if (!robo) {
+            callback(null);
+            return;
+        }
         if (err) throw err;
         pacienteDAO.deleteRoboRelacionado(idRobo, function () {
             robo.remove(function (err) {

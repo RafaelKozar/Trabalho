@@ -22,6 +22,15 @@
     align-content:center;
 }
 
+
+checkbox{
+    display:inline-block;
+    float:none;
+    text-align:center;
+    align-items:center;
+    align-self:center;
+    align-content:center;
+}
  
  .video {
       max-width: 450px;      
