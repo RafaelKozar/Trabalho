@@ -15,8 +15,8 @@ var cadastrar = function (req) {
         newUser.nome = req.body.nome;
         newUser.email = req.body.email;
         newUser.telefone = req.body.telefone;
-        newUser.especializacao = req.body.especializacao;       
-
+        newUser.especializacao = req.body.especializacao;
+        
         if (req.body.administrador == true)
             newUser.adm = true;
         else
@@ -31,12 +31,23 @@ var cadastrar = function (req) {
     }
 };
 
-var findByEmail = function (email) {
+var findByEmail = function (email, callback) {
     User.find({ 'email' : email }, function (err, user) {
+        if (!user) {
+            callback(0);
+            return
+        }
         if (err) throw err;
-        else if (user) return true;
-        else return false;
-    });
+        else if (user instanceof Array) {
+            callback(user.length);
+            return;
+        }
+        else if (user) {
+            callback(1);
+            return;
+        }
+        
+    });    
 };
 
 var listarUsers = function (callback) {
@@ -60,20 +71,20 @@ var listarUsersNoAdm = function (callback) {
         }
         if (err) throw err;
         var arrayRetorno = [new User()];
-        var  cont = 0;
+        var cont = 0;
         for (var i = 0; i < users.length; i++) {
             if (!users[i].adm) {
                 arrayRetorno[cont] = users[i];
                 cont++;
             }
         }
-        callback(arrayRetorno);        
-    });     
+        callback(arrayRetorno);
+    });
 };
 
 var findByNome = function (nomepesquisa) {
     var nomeUser = new User();
-    nomeUser.find({ nome : nomepesquisa }, function (err, users) {
+    nomeUser.find({ 'nome' : nomepesquisa }, function (err, users) {
         if (err) throw err;
         else if (users) return users.length;
         else return 0;
@@ -92,44 +103,49 @@ var findById = function (idUser, callback) {
     });
 }
 
+
 var update = function (req, idUser, callback) {
-    var quantidadeDeEmails = findByEmail(req.body.email);
-    if (quantidadeDeEmails > 0) {
-        if (quantidadeDeEmails == 1) {
+    findByEmail(req.body.email, function (quantidadeDeEmails) {
+        if (quantidadeDeEmails <= 1) {
             User.findById(idUser, function (err, user) {
-                if (user.email != req.body.email) {
+                if (!user) {
                     callback(null);
                     return;
                 }
+                if (user.email != req.body.email && quantidadeDeEmails == 1) {
+                    ///No caso para um email encontrado que é de outro user
+                    callback(null);
+                    return;
+                }
+                
+                user.nome = req.body.nome;
+                user.email = req.body.email;
+                user.password = req.body.password;
+                user.telefone = req.body.telefone;
+                if (req.body.adm)
+                    user.adm = true;
+                else
+                    user.adm = false;
+                
+                if (req.body.senha)
+                    user.password = user.generateHash(req.body.password);
+                
+                user.save(function (err) {
+                    if (err) throw err;
+                });
+                
+                callback(user);
             });
-        }        
-    }
-    else {
-        User.findById(idUser, function (err, user) {
-            if (!user) {
-                callback(null);
-                return;
-            }
-            user.nome = req.body.nome;
-            user.email = req.body.email;
-            user.password = req.body.password;
-            user.telefone = req.body.telefone;
-            if (req.body.adm)
-                user.adm = true;
-            else
-                user.adm = false;
-            
-            if (req.body.senha)
-                user.password = user.generateHash(req.body.password);            
-            
-            user.save(function (err) {
-                if (err) throw err;
-            });
-            
-            callback(user);
-        });
-    }
+        }
+        else {
+            callback(null);
+            return 0;
+        }
+        
+    });    
 }
+
+
 
 var cadastrarPaciente = function (user) {
     User.findById(user._id, function (err, resultUser) {
@@ -167,6 +183,7 @@ module.exports.listarUsers = listarUsers;
 module.exports.listarUsersNoAdm = listarUsersNoAdm;
 module.exports.findByNome = findByNome;
 module.exports.findById = findById;
+module.exports.findByEmail = findByEmail;
 module.exports.update = update;
 module.exports.remove = remove;
 module.exports.cadastrarPaciente = cadastrarPaciente;

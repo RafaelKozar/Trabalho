@@ -59,7 +59,27 @@ module.exports = function (app, passport) {
             }
             res.redirect('/listarusers'); 
         });
-    });    
+    });
+    
+    
+    ///VerificarEmail///
+    app.post('/verficaremailuser', function (req, res) {
+        var url = req.body.url;
+        url = url.split('/');
+        var email = req.body.email;      
+        var tamanho = url.length;
+        console.log('1');
+        userDAO.findByEmail(email, function (num) {
+            console.log('2');
+            if (num == 0) 
+                res.end(JSON.stringify({ message : "true" }));
+            else if (num == 1 && tamanho == 5)
+                res.end(JSON.stringify({ message : "true" }));
+            else
+                res.end(JSON.stringify({ message : "false" }));
+        });
+    });
+
     
     ///ListarUsers//// - GET
     app.get('/listarusers', isAdm, function (req, res) {
@@ -124,7 +144,7 @@ module.exports = function (app, passport) {
             });
     });
     
-    
+
     ////CadastrarPaciente/// - GET (Atualizar Paciente)
     app.get('/cadastrarpaciente/:id', function (req, res) {
         
@@ -261,8 +281,7 @@ module.exports = function (app, passport) {
     
     ////CadastarRobo/////  -POST
     app.post('/cadastrarrobo', isAdm, function (req, res) {
-        var idRobo = req.body.id;
-        
+        var idRobo = req.body.id;        
         roboDAO.update(req, idRobo, function (robo) {
             if (robo) req.session.message = "Robo editado com sucesso";
             else {
@@ -278,7 +297,14 @@ module.exports = function (app, passport) {
     ////ListarRobo/////  -GET
     app.get('/listarrobos', isAdm, function (req, res) {
         var robos = roboDAO.listarRobos(function (robos) {
-            res.render('listarrobos.ejs', { dados : robos });
+            if (req.session.message) {
+                var msg = req.session.message;
+                delete req.session.message;
+            }
+            if (msg)
+                res.render('listarrobos.ejs', { dados : robos, message : msg });
+            else
+                res.render('listarrobos.ejs', { dados : robos });
         });
     });
     

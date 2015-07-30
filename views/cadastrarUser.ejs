@@ -18,12 +18,21 @@
 <body>
 
     <script>
+        var email
         $(document).ready(function () {
-            $("#password").prop('disabled', true);
+            var url = document.location.href;
+            email = document.getElementById('email');
+            url = url.split('/');
+            var tam = url.length;
+            if(tam == 5)
+                $("#password").prop('disabled', true);
+            else
+                $("#password").prop('disabled', false);
+
+            
         });
 
-        function myfunction() {             
-
+        function functionEditarSenha() {             
             var altsenha = document.querySelector('#senha');
             if ($(altsenha).is(':checked')) {
                 $("#password").prop('disabled', false);
@@ -31,11 +40,51 @@
             else {
                 $("#password").prop('disabled', true);
             }
-        } 
+        }
+        
+        function verificaEmail() {
+            var email = document.getElementById('email').value
+            var url = document.location.href;
+            var param = { url: url, email : email };
+            $.post('/verficaremailuser', param, function (data) {
+                resposta = JSON.parse(data);
+                if (resposta.message == "false") {
+                    $('#email').val('');
+                    alert("Este email já foi cadastrado");
+                }
+            });
+        }
+
+     /*   $('#email').focusout(function () {
+            //var email = $('email').val;
+            var email = document.getElementById('email').value
+            var url = document.location.href;
+            var param = { url: url, email: email };
+            $.post('/verficaremailuser', param, function (data) {
+                resposta = JSON.parse(data);
+                if (respota.message == "true") {
+                    $('#email').val('');
+                    alert("Este email já foi cadastrado");
+                }
+            });
+        });
+        /*email.onblur = function () {
+            var email = document.querySelector('#email');
+            var url = document.location.href;
+            var param = { url: url, email : email };
+            $.post('/verficaremailuser', param, function (data) {
+                resposta = JSON.parse(data);
+                if (respota.message == "true") {
+                    $('#email').val('');
+                    alert("Este email já foi cadastrado");
+                }
+            });
+          } */
+
     </script>
     <% include header.ejs %>      
-
-            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1 "></div>
+    
+    <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1 "></div>
     <div class="col-sm-12 col-md-10 col-lg-10  col-xs-12  conteudo">
         <form class="form-signin" action="/cadastraruser" method="post">
 
@@ -51,7 +100,7 @@
                                     </a>
                                 </h4>
                             </div>
-
+                            
                             <div id="collapseOne" class="panel-collapse collapse in">
                                 <div class="panel-body">
                                     <div class="row">
@@ -60,13 +109,15 @@
                                                               %>
                                                             <div class="form-group col-lg-6 col-md-6">
                                                                 <label>E-mail</label>
-                                                                <input type="email" id="email" value="<%= user.email%>" name="email" class="form-control" placeholder="Email de Login" required />
+                                                                <input type="email" id="email" value="<%= user.email%>" onblur="verificaEmail()"  name="email"  class="form-control email" placeholder="Email de Login" required />
+                                                                
                                                             </div>
+
 
                                             <div class="form-group col-lg-6 col-md-6">
                                                 <label>
                                                     Alterar Senha 
-                                                    <input type="checkbox" name="senha" onchange="myfunction()" id="senha" />
+                                                    <input type="checkbox" name="senha" onchange="functionEditarSenha()" id="senha" />
                                                 </label>
                                                 <input type="password" id="password" value="<%= user.password%>" name="password" class="form-control" placeholder="Sennha" required />
                                             </div>
@@ -108,12 +159,12 @@
                                             <% }else{ %>
                                                             <div class="form-group col-lg-6 col-md-6">
                                                                 <label>E-mail</label>
-                                                                <input type="email" id="email" name="email" class="form-control" placeholder="Email de Login" required />
+                                                                <input type="email" id="email" name="email" onblur="verificaEmail()"  class="form-control" placeholder="Email de Login" required />
                                                             </div>
 
                                             <div class="form-group col-lg-6 col-md-6">
                                                 <label>Passsword</label>
-                                                <input type="password" id="password" name="password" class="form-control" placeholder="Sennha" required />
+                                                <input type="password" id="password" name="password"  class="form-control" placeholder="Sennha" required />
                                             </div>
 
                                             <div class="form-group col-lg-6 col-md-6">

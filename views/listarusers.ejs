@@ -66,12 +66,12 @@
                            <button type="button" class="btn btn-default" aria-label="Left Align">
                                <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                            </button>
-                           <% }  %>
+                           <% }  %> <input type="hidden" class="administrador"  value="<%= atendente.adm %>" />
                        </td>
 
                        <td>
                            <% if (atendente.adm) { %>
-                           <button type="button" class="btn btn-default"  aria-label="Left Align">
+                           <button type="button" class="btn btn-default" disabled="disabled"  aria-label="Left Align">
                             <% }else {%>
                            <button type="button" class="btn btn-default" onclick="location.href = './cadastraruser/<%= atendente._id%>'" aria-label="Left Align">
                                 <% } %>
@@ -79,17 +79,21 @@
                            </button>
                        </td>
                        <td>
-                           <button type="button" class="btn btn-default btdeletar"  name="bt" value="<%= atendente._id%>" aria-label="Left Align">
+                           <% if (atendente.adm) { %>
+                           <button type="button" class="btn btn-default" disabled="disabled"  aria-label="Left Align">
+                            <% }else{ %>
+                               <button type="button" class="btn btn-default btdeletar"  name="bt" value="<%= atendente._id%>" aria-label="Left Align">
+                            <% } %>
                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                            </button>
                        </td>
                        <script>
                            $(".btdeletar").click(function () {
-                               var $row = $(this).closest("tr");    // Find the row
-                               var $id = $row.find(".btdeletar").val(); // Find the text
+                               var $row = $(this).closest("tr");    
+                               var $id = $row.find(".btdeletar").val(); 
                                var $nome = $row.find(".nome").text();
-                               // Let's test it out                               
-                               var r = confirm("Tem certeza que deseja deletar o cadastrado do(a) "+$nome);
+                                         
+                               var r = confirm("Tem certeza que deseja deletar o Usuário(a): "+$nome);
                                if (r == true) {
                                    window.location.href = './deletaruser/'+$id;
                                } else {}

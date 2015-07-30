@@ -42,4 +42,5 @@ para este user, se estiver mostra, senão não mostra
 
 
 ----
-Caso 
+Na tela de cadastrar usuário
+Fazer um método  ajax  para conferir se este email já foi cadastrado, se sim dar um alert para o user e apagar oque estiver escrito lá

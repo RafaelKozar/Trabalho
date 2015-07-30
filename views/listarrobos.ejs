@@ -12,7 +12,7 @@
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-    <link rel="stylesheet" href="../stylesheets/estilo.css" />
+    <link rel="stylesheet" href="../stylesheets/estilo.css" />    
 
 </head>
 <body>
@@ -49,7 +49,7 @@
                             <tbody>
 
                                 <tr>
-                                    <td><%= robo.nome %> </td>
+                                    <td class="nome"><%= robo.nome %> </td>
                                     <td>
                                         <button type="button" class="btn btn-default" onclick="location.href = './atualizarrobo/<%= robo._id%>'" aria-label="Left Align">
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -61,10 +61,22 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-default" onclick="location.href = './deletarrobo/<%= robo._id%>'" aria-label="Left Align">
+                                        <button type="button" class="btn btn-default btdeletar" value="<%= robo._id%>"  aria-label="Left Align">
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         </button>
                                     </td>
+                                    <script>
+                                        $(".btdeletar").click(function () {
+                                            var $row = $(this).closest("tr");
+                                            var $id = $row.find(".btdeletar").val();
+                                            var $nome = $row.find(".nome").text();
+
+                                            var r = confirm("Tem certeza que deseja deletar o Robo: " + $nome);
+                                            if (r == true) {
+                                                window.location.href = './deletarrobo/' + $id;
+                                            } else { }
+                                        });
+                                    </script>
                                 </tr>
 
                             </tbody>

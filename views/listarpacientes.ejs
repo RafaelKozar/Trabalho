@@ -54,7 +54,7 @@
                       if(typeof pacientes != 'undefined'){
                         pacientes.forEach(function(paciente) { %>
                    <tr>
-                       <td><%= paciente.nome %> </td>
+                       <td class="nome"><%= paciente.nome %> </td>
                        <td>teste</td>
                        <td><%= paciente.robo %> </td>
                        <td><%= paciente.telefone %> </td>
@@ -66,7 +66,7 @@
                        </td>
 
                        <td>
-                           <button type="button" class="btn btn-default" onclick="location.href = './deletarpaciente/<%= paciente._id%>'" aria-label="Left Align">
+                           <button type="button" class="btn btn-default btdeletar" onclick="location.href = './deletarpaciente/<%= paciente._id%>'" aria-label="Left Align">
                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                            </button>
                        </td>
