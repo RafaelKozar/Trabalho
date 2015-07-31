@@ -130,7 +130,7 @@ module.exports = function (app, passport) {
     
     ///CadastrarPacientes//// - GET    
     app.get('/cadastrarpaciente', function (req, res) {
-        roboDAO.listarRobos(function (robos) {
+        roboDAO.listarRobosDisponiveis(function (robos) {
             userDAO.listarUsersNoAdm(function (users) {                
                 if (robos && users)
                     res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users });

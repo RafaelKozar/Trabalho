@@ -16,6 +16,58 @@
     <script src="../javascripts/meumain3.js"></script>
     <script src="../javascripts/peer.js"></script>
 </head>
+    <script>
+        var tempInicial;
+        $(document).ready(function () {
+            tempInicial = new Date().getTime();
+        });
+
+        window.onbeforeunload = exitSalvar;
+
+        function exitSalvar() {
+            var tempFinal = new Date().getTime();
+            msToTime(tempFinal);
+            var tempDiferenca = tempFinal - tempInicial;
+            var url = document.location.href;
+            var nota = document.getElementById('nota').value;
+            var time = new Date().getTime();
+            var data = new Date(time);
+            var param = { nota: nota, url: url, tempDiferenca: tempDiferenca, tempInicial: tempInicial, tempFinal: tempFinal, data : data };
+            $.post('/cadastrarhistoricodeacesso', param, function (data) {
+                message = JSON.parse(data);
+            });
+        }
+
+        function msToTime(duration) {
+            var milliseconds = parseInt((duration % 1000) / 100)
+                , seconds = parseInt((duration / 1000) % 60)
+                , minutes = parseInt((duration / (1000 * 60)) % 60)
+                , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            alert(hours + ":" + minutes + ":" + seconds + "." + milliseconds);
+        }
+
+        function salvarAtendimento() {
+            var tipoAtendimento = document.getElementById('tipoatendimento').value;
+            var atendimento = document.getElementById('atendimento').value;
+            var time = new Date().getTime();
+            var data = new Date(time);
+            var url = document.location.href;
+            var param = { tipoAtendimento: tipoAtendimento, atendimento: atendimento, data : data, url : url };
+            $.post('/cadastraratendimento', param, function (data) {
+                messge = JSON.parse(data);
+                alert(messge);
+            });
+        }
+
+        function atualizaNota() {
+            alert("Nota atualizada do acesso");
+        }
+    </script>
 <body>
     <% include header2.ejs %>
     <div class="col-sm-0 col-md-1 col-lg-1 col-xs-0 "></div>
@@ -52,7 +104,7 @@
                                         </div>
                                              <div class="form-group col-lg-3 col-md-3"></div>
                                             <div class="form-group col-lg-6 col-md-6">
-                                                                <select class="form-control" name="especializacao" onselect="" id="especializacao">
+                                                                <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
                                                                     <option value="excelente">Excelente</option>
                                                                     <option value="bom">Bom</option>
                                                                     <option value="medio">Médico</option>
@@ -61,15 +113,30 @@
                                                                 </select>
                                                             </div>
                                              <div class="form-group col-lg-3 col-md-3"></div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                    <h3 class="panel-title">Cadastrar Atendimento</h3>
+                                        <div class="form-group col-lg-3 col-md-3"></div>
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                                <select class="form-control" name="tipoatendimento" id="tipoatendimento">
+                                                                    <option value="parecer">Parecer</option>
+                                                                    <option value="relatório">Relatório</option>
+                                                                    <option value="descrição">Descrição</option>                                                                    
+                                                                </select>
+                                                            </div>
+                                             <div class="form-group col-lg-3 col-md-3"></div>
+
                                             <div class="form-group col-lg-12 col-md-12">
-                                                <textarea class="form-control" id="parecer" name="parecer" rows="5" placeholder="Registrar Parecer" ></textarea>
+                                                <textarea class="form-control" id="atendimento" name="atendimento" rows="5" placeholder="Registrar atendimento" ></textarea>
                                             </div>
                                             <div id="messages"></div>
 
-                                            <button class="button" type="submit">Salvar</button>
+                                            <button class="button form-group" onclick="salvarAtendimento()" type="button">Salvar</button>
                                             
-                                        
                                         </div>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             

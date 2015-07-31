@@ -7,7 +7,7 @@ var peer = require('../config/main.js');
 module.exports = function (app, passport) {
     
     ///acessa a camera do paciente/// get
-    app.get('/acessarpaciente/:id', isLoggedIn, function (req, res) {
+    app.get('/acessarpaciente/:id',  function (req, res) {
         res.render('acessarpaciente.ejs');
     });
     
@@ -93,8 +93,8 @@ module.exports = function (app, passport) {
             res.send(JSON.stringify(pacientes));
         });
     });
-
-
+    
+    
     app.post('/getuser', function (req, res) {
         var param = req.body.url;
         var idPaciente = param[param.length - 1];
@@ -102,6 +102,7 @@ module.exports = function (app, passport) {
             res.send(JSON.stringify(user));
         });
     });
+    
 };
 
 function isLoggedIn(req, res, next) {

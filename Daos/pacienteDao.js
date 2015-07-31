@@ -25,8 +25,8 @@ var cadastrar = function (req) {
             UserDAO.findById(newPaciente.idAtendente, function (user) {
                 if (user)
                     newPaciente.paciente = user.nome;
-                newPaciente.robo = robo.nome;
-                newPaciente.save(function (err, pacienteCadastrado) {
+                    newPaciente.robo = robo.nome;
+                    newPaciente.save(function (err, pacienteCadastrado) {
                     if (err) throw err;
                     req.user.pacientes = pacienteCadastrado._id;
                     ///cadastramos o id do paciente no atendente, quando o mesmo não é adm///
@@ -100,11 +100,18 @@ var findById = function (idPaciente, callback) {
 
 
 var findRoboRelacionado = function (idRobo){
-    Paciente.find({ idRobo : idRobo }, function (err, paciente) {
-        if(paciente)
-        if (!pacientes) {
-            callback(null);
-            return;
+    Paciente.find({ 'idRobo' : idRobo }, function (err, paciente) {
+        if (paciente instanceof Array) {
+            //callback(true);
+            return true;
+        }
+        if (paciente.nome) {
+            //callback(true);
+            return true;
+        }
+        if (paciente.nome == 'undefined') {
+            //callback(false);
+            return false;
         }
         if (err) throw err;
         

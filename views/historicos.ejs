@@ -23,7 +23,7 @@
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        <span class="glyphicon glyphicon-file page-header"></span>Lista de Pacientes cadastrados
+                        <span class="glyphicon glyphicon-file page-header"></span>Históricos
                     </a>
                 </h4>
             </div>
@@ -39,49 +39,33 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th class="col-md-2">Nome</th>
-                            <th class="col-md-2">Atendente</th>
                             <th class="col-md-2">Robo</th>
-                            <th class="col-md-2">Telefone </th>
-                            <th class="col-md-1">Editar</th>
-                            <th class="col-md-1">Deletar</th>
-                            <th class="col-md-1">Atender</th>
+                            <th class="col-md-2">Usuário</th>
+                            <th class="col-md-2">Paciente</th>
+                            <th class="col-md-2">Data</th>
+                            <th class="col-md-2">Nota</th>
+                            <th class="col-md-2">Ver ficha</th>
+                            
 
                         </tr>
                     </thead>
                     <tbody>
                         <% 
-                      if(typeof pacientes != 'undefined'){
-                        pacientes.forEach(function(paciente) { %>
+                      if(typeof historicos != 'undefined'){
+                        historicos.forEach(function(historico) { %>
                    <tr>
-                       <td class="nome"><%= paciente.nome %> </td>
-                       <td>teste</td>
-                       <td><%= paciente.robo %> </td>
-                       <td><%= paciente.telefone %> </td>
-
+                       <td><%= historico.robo %> </td>
+                       <td><%= historico.user %> </td>
+                       <td><%= historico.paciente %> </td>
+                       <td><%= historico.data %> </td>                       
+                       <td><%= historico.nota %> </td>                       
                        <td>
-                           <button type="button" class="btn btn-default" onclick="location.href = './cadastrarpaciente/<%= paciente._id%>'" aria-label="Left Align">
-                               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                           </button>
-                       </td>
-
-                       <td>
-                           <button type="button" class="btn btn-default btdeletar" onclick="location.href = './deletarpaciente/<%= paciente._id%>'" aria-label="Left Align">
-                               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                           </button>
-                       </td>
-
-                       <td>
-                           <% if(typeof paciente.robo != 'undefined' && paciente.robo != null) { %>
-                           <button type="button" class="btn btn-default" onclick="location.href = './acessarpaciente/<%= paciente._id %>'" aria-label="Left Align">
-                           <% } else { %>
-                           <button type="button" class="btn btn-default button" onclick="false" aria-label="Left Align">
-                           <% } %>
+                           <button type="button" class="btn btn-default btdeletar" onclick="location.href = './historico/<%= historico._id%>'" aria-label="Left Align">
                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                            </button>
                        </td>
 
-                   </tr>
+                     </tr>
                         <% }); 
                       }  %>
                     </tbody>
