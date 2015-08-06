@@ -2476,17 +2476,15 @@ util.inherits(Socket, EventEmitter);
 
 
 /** Check in with ID or get one from server. */
-Socket.prototype.start = function(id) {
-        this.id = id;
-        console.log(id); console.log("id");
+Socket.prototype.start = function(id) {  
+  this.id = id;
+
   var token = util.randomToken();
   this._httpUrl += '/' + id + '/' + token;
   this._wsUrl += '&id='+id+'&token='+token;
 
-        this._startXhrStream();
-        console.log("termino func1");
-        this._startWebSocket();
-        console.log("termino func2");
+  this._startXhrStream();
+  this._startWebSocket();
 }
 
 
@@ -2528,9 +2526,7 @@ Socket.prototype._startWebSocket = function(id) {
 
 /** Start XHR streaming. */
 Socket.prototype._startXhrStream = function(n) {
-        try {
-            console.log("_startXhrStream");
-            console.log(n);
+  try {
     var self = this;
     this._http = new XMLHttpRequest();
     this._http._index = 1;
@@ -2545,11 +2541,9 @@ Socket.prototype._startXhrStream = function(n) {
         self._handleStream(this);
       }
     };
-            this._http.send(null);
-            console.log("this._http.send");
+    this._http.send(null);
     this._setHTTPTimeout();
-        } catch (e) {
-      console.log("XMLHttpRequest not available; defaulting to WebSockets")
+  } catch(e) {
     util.log('XMLHttpRequest not available; defaulting to WebSockets');
   }
 }

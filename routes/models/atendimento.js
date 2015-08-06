@@ -8,7 +8,9 @@ var atendimentoSchema = mongoose.Schema( {
     idUser : String,
     user : String,
     data : Date,
-    atendimentoTexto : String,
+    dataFormatada : String,
+    horarioDoAtendimento : String,
+    atendimentoTexto : String,    
     tipoAtendimento : String
 });
 

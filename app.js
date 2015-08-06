@@ -17,7 +17,7 @@ require('./config/passport')(passport); // pass passport for configuration
 
 
 var fs = require('fs');
-var cv = require('cloudcv-backend');
+//var cv = require('cloudcv-backend');
 var request = require('request');
 var NodeCache = require("node-cache");
 var myCache = new NodeCache();

@@ -21,15 +21,16 @@
 
     <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1 "></div>
     <div class="col-sm-12 col-md-10 col-lg-10  col-xs-12  conteudo">
-        
+        <form class="form-signin">
+                
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" >
-                                        <span class="glyphicon glyphicon-file page-header"></span>Histórico
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                        <span class="glyphicon glyphicon-file page-header"></span>Atendimento
                                     </a>
                                 </h4>
                             </div>
@@ -38,46 +39,39 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <% if (typeof historico != 'undefined') { %>
+                                            <% if (typeof atendimento != 'undefined') { %>
 
-                                                    <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group col-lg-6 col-md-6">
                                                         <label>Paciente</label>
-                                                        <input type="text" id="paciente" name="paciente" value="<%= historico.paciente%>" class="form-control" readonly/>
+                                                        <input type="text" id="paciente" name="paciente" value="<%= atendimento.paciente%>" class="campo form-control"  readonly/>
                                                     </div>
 
-                                            <div class="col-lg-6 col-md-6">
+                                            <div class="form-group col-lg-6 col-md-6 ">
                                                 <label>Usuário</label>
-                                                <input type="text" id="user" name="user" value="<%= historico.user %>"  class="form-control" readonly/>
+                                                <input type="text" id="user" name="user" value="<%= atendimento.user %>" class="form-control" readonly/>
                                             </div>
 
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Robo</label>
-                                                <input type="text" id="robo" name="robo" value="<%= historico.robo%>"  class="form-control" readonly/>
+                                            <div class="form-group col-lg-6 col-md-6 ">
+                                                <label>Horário do Atendimento</label>
+                                                <input type="text" id="horarioDoAtendimento" name="horarioDoAtendimento" value="<%= atendimento.horarioDoAtendimento %>" class="form-control" readonly />
                                             </div>
 
-                                            <div class="col-lg-6 col-md-6">
+                                            <div class="form-group col-lg-6 col-md-6 ">
                                                 <label>Data</label>
-                                                <input type="text" id="data" name="data" value="<%= historico.dataFormatada %>" class="form-control" readonly />
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Duração</label>
-                                                <input type="text" id="tempDiferenca" name="tempDiferenca" value="<%= historico.tempDiferenca %>" class="form-control" readonly />
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>N° do acesso</label>
-                                                <input type="text" id="numeroDoAcesso" name="numeroDoAcesso" value="<%= historico.numeroDoAcesso%>" class="form-control" readonly />
+                                                <input type="text" id="data" name="data" value="<%= atendimento.dataFormatada %>" class="form-control" readonly />
                                             </div>
 
                                             <div class="col-lg-3 col-md-3"></div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Nota</label>
-                                                <input type="text" id="nota" name="nota" value="<%= historico.nota%>" class="form-control" readonly />
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Tipo do Atendimento</label>
+                                                <input type="text" id="tipoAtendimento" name="tipoAtendimento" value="<%= atendimento.tipoAtendimento%>"  class="form-control" readonly />
                                             </div>
                                             <div class="col-lg-3 col-md-3"></div>
-                                            
 
+                                            <div class="form-group col-lg-12 col-md-12">
+                                                <label>Atendimento</label>
+                                                <textarea id="atendimentoTexto" name="atendimentoTexto" class="form-control" readonly ><%= atendimento.atendimentoTexto %></textarea>
+                                            </div>
                                             <% } %>
                                         </div>
                                     </div>
@@ -87,7 +81,7 @@
                     </div>
                 </div>
             </div>
-        
+        </form>
     </div>
 
 

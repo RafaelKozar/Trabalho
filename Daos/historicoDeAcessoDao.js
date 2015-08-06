@@ -16,6 +16,17 @@ var cadastrar = function (acesso, callback) {
         newHistorico.idUser = acesso.idUser;
         newHistorico.user = acesso.user;
         newHistorico.idPaciente = acesso.idPaciente;
+        newHistorico.tempDiferenca = acesso.tempDiferenca;
+        /*var dia = newHistorico.data.getDate()
+        var mes = newHistorico.data.getMonth() + 1;
+        var ano = newHistorico.data.getFullYear();
+        newHistorico.dataFormatada = dia + "/" + mes + "/" + ano;
+        //////        
+        newHistorico.dataFormatada  não fica dentro do doc
+        /////
+        */
+        //newHistorico.horarioDoAtendimento = newHistorico.data.getHours() + " : " + newHistorico.data.getMinutes();
+
         pacienteDAO.findById(newHistorico.idPaciente, function (paciente) {
             newHistorico.paciente = paciente.nome;
             newHistorico.idRobo = paciente.idRobo;
@@ -43,22 +54,38 @@ var buscarCont = function (callback) {
     });
 };
 
-var listarHistoricoDeAcessos = function (callback) {
-    HistoricoAcesso.find({}, function (err, historicoDeAcessos) {
-        if (!historicoDeAcessos) {
-            callback(null);
-            return;
-        }
-        else if (err) throw err;
-        else {
-            callback(historicoDeAcessos);
-            return;
-        }
-    });
+var listarHistoricoDeAcessos = function (user, callback) {
+    if (user.adm) {
+        HistoricoAcesso.find({}, function (err, historicoDeAcessos) {
+            if (!historicoDeAcessos) {
+                callback(null);
+                return;
+            }
+            else if (err) throw err;
+            else {
+                callback(historicoDeAcessos);
+                return;
+            }
+        });
+    }
+    else {
+        HistoricoAcesso.find({"idUser" : user._id}, function (err, historicoDeAcessos) {
+            if (!historicoDeAcessos) {
+                callback(null);
+                return;
+            }
+            else if (err) throw err;
+            else {
+                callback(historicoDeAcessos);
+                return;
+            }
+        });
+    }
 }
 
 
-var findById = function (idc, callback) {    
+var findById = function (idHistorico, callback) {
+
     HistoricoAcesso.findById(idHistorico, function (err, historico) {
         // if (err) callback('err');
         if (!historico) {

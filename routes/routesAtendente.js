@@ -4,6 +4,8 @@ var roboDAO = require('../Daos/roboDao');
 var pacienteDAO = require('../Daos/pacienteDao');
 var peer = require('../config/main.js');
 
+var pacientesVazio = undefined;
+
 module.exports = function (app, passport) {
     
     ///acessa a camera do paciente/// get
@@ -59,7 +61,13 @@ module.exports = function (app, passport) {
     });
     
     app.get('/listarmeuspacientes', function (req, res) {
-        res.render('listarmeuspacientes.ejs');
+        pacienteDAO.listarPacientes(req.user, function (pacientes) {
+            if (pacientes)
+                res.render('listarmeuspacientes.ejs', { pacientes : pacientes });
+            else
+                res.render('listarmeuspacientes.ejs', { pacientes : pacientesVazio });
+        });
+        
     })
     
     app.get('/usercadastrarpaciente', function (req, res) {
@@ -68,6 +76,10 @@ module.exports = function (app, passport) {
     
     app.get('/acessarpaciente', function (req, res) {
         res.render('acessarpaciente.ejs');
+    });
+    
+    app.get('/camera4', function (req, res) {
+        res.render('camera4.ejs');
     });
     
     app.get('/acessarpaciente/:id', function (req, res) {
@@ -94,6 +106,11 @@ module.exports = function (app, passport) {
         });
     });
     
+    
+    app.get('/testandr', function (req, res) { 
+        res.render('testandr.ejs');
+    });
+
     
     app.post('/getuser', function (req, res) {
         var param = req.body.url;

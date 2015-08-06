@@ -104,7 +104,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var connect = function () {
         ///callerId = callerIdEntry.value;
         //callerId = conectarComo;
+        
+        
+        
         callerId = idUser;
+        //console.log(idUser);
+        //callerId = "id";
         if (!callerId) {
             logError('please set caller ID first');
             return;

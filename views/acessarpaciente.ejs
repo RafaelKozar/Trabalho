@@ -32,6 +32,11 @@
             var nota = document.getElementById('nota').value;
             var time = new Date().getTime();
             var data = new Date(time);
+
+            tempDiferenca = msToTime(tempDiferenca);
+            tempFinal = msToTime(tempFinal);
+            tempInicial = msToTime(tempInicial);            
+
             var param = { nota: nota, url: url, tempDiferenca: tempDiferenca, tempInicial: tempInicial, tempFinal: tempFinal, data : data };
             $.post('/cadastrarhistoricodeacesso', param, function (data) {
                 message = JSON.parse(data);
@@ -48,8 +53,9 @@
             minutes = (minutes < 10) ? "0" + minutes : minutes;
             seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-            alert(hours + ":" + minutes + ":" + seconds + "." + milliseconds);
+            return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
         }
+
 
         function salvarAtendimento() {
             var tipoAtendimento = document.getElementById('tipoatendimento').value;
