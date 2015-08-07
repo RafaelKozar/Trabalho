@@ -3,10 +3,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <meta name="description" content="">
     <meta name="author" content="">
-    
+
 
     <title>Plataforma Pia Robo</title>
 
@@ -14,46 +14,38 @@
     <!--<link href="./public/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-
-   
+    <link rel="stylesheet" href="../stylesheets/login.css" />
 </head>
 
 <body>
     <style>
-    body {background-color:#e2e2e2;}
+        body {
+            background-color: #e2e2e2;
+        }
     </style>
-    <div class="container" >
-
+    <div class="container">
         <% if (message.length > 0) { %>
         <div class="alert alert-danger"><%= message %></div>
-    <% } %>
+        <% } %>
 
         <form class="form-signin" action="/login" method="post" class="form-signin">
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">                    
-                        <h2 class="form-signin-heading">Plataforma Pia Robo</h2>
-                    
-                        <label for="inputEmail" class="sr-only">Email address</label>
-                        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email address" required autofocus>                        
-                   </div>
-                    <div class="col-md-4"></div>
-            </div>
-            <div class="row ">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">                    
-                    
-                        <label for="inputPassword margin" class="sr-only">Password</label>
-                        <input type="password" name="password" class="form-control" id="inputPassword" class="form-control" placeholder="Password" required>
-                    
-                        
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-        </form>    
 
-    </div> 
+
+
+            <div class="jumbotron">
+                <div class="container">
+                    <div class="box">
+                        <img src="../images/logo.png"  /><h2>Login</h2>
+                        <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Email address" required autofocus>
+                        <input type="password" name="password" class="form-control" id="inputPassword" class="form-control" placeholder="Password" required>
+                        <button class="btn btn-default full-width" type="submit"><span class="glyphicon glyphicon-ok"></span></button>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+        </div>
     
+
 </body>
 </html>

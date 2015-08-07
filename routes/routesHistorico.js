@@ -51,26 +51,26 @@ module.exports = function (app, passport) {
 
     
     /////listarhistorico/////----GET
-    app.get('/historicos', function (req, res) {        
-        historicoDeAcessoDAO.listarHistoricoDeAcessos(function (historicos) {
+    app.get('/historicos', isLoggedIn, function (req, res) {        
+        historicoDeAcessoDAO.listarHistoricoDeAcessos(req.user, function (historicos) {
             if (historicos) {
                 for (var i = 0; i < historicos.length; i++) {
                     var dia = historicos[i].data.getDate();
                     var mes = historicos[i].data.getMonth() + 1;
                     var ano = historicos[i].data.getFullYear();
                     
-                    historico.dataFormatada = dia + "/" + mes + "/" + ano;
+                    historicos.dataFormatada = dia + "/" + mes + "/" + ano;
                 }
-                res.render('historicos.ejs', { historicos : historicos });
+                res.render('historicos.ejs', { historicos : historicos, user : req.user  });
             }
-            else res.render('historicos.ejs', { historicos : historicoDeAcessoVazio});
+            else res.render('historicos.ejs', { historicos : historicoDeAcessoVazio, user : req.user });
         });
     });
 
     
     /////listarhistorico/////----GET
-    app.get('/atendimentos', function (req, res) {
-        atendiemntoDAO.listarAtendimentos(function (atendimentos) {
+    app.get('/atendimentos', isLoggedIn,  function (req, res) {
+        atendiemntoDAO.listarAtendimentos(req.user, function (atendimentos) {
             if (atendimentos) {
                 for (var i = 0; i < atendimentos.length; i++) {
                     var dia = atendimentos[i].data.getDate();
@@ -83,15 +83,15 @@ module.exports = function (app, passport) {
                     atendimentos[i].dataFormatada = dia + "/" + mes + "/" + ano;
                     atendimentos[i].horarioDoAtendimento = hora + " : " + minuto;
                 }
-                res.render('atendimentos.ejs', { atendimentos : atendimentos });
+                res.render('atendimentos.ejs', { atendimentos : atendimentos, user : req.user });
             }
-            else res.render('atendimentos.ejs', { atendimentos : atendimentosAcessoVazio });
+            else res.render('atendimentos.ejs', { atendimentos : atendimentosAcessoVazio, user : req.user });
         });
     });
     
     
     /////atendimentos/////----GET
-    app.get('/atendimento/:id', function (req, res) {
+    app.get('/atendimento/:id', isLoggedIn, function (req, res) {
         var idAtendimento = req.params.id;        
         atendiemntoDAO.findById(idAtendimento, function (atendimento){
             if (atendimento) {
@@ -102,15 +102,15 @@ module.exports = function (app, passport) {
                 var minuto = atendimento.data.getMinutes();
                 atendimento.dataFormatada = dia + "/" + mes + "/" + ano;
                 atendimento.horarioDoAtendimento = hora + " : " + minuto;
-                res.render('atendimento.ejs', { atendimento : atendimento });
+                res.render('atendimento.ejs', { atendimento : atendimento, user : req.user });
             }
-            else res.render('atendimento.ejs', { atendimento : atendimentoVazio });
+            else res.render('atendimento.ejs', { atendimento : atendimentoVazio, user : req.user });
         })
     });
 
 
     /////historico/////----GET
-    app.get('/historico/:id', function (req, res) {
+    app.get('/historico/:id', isLoggedIn, function (req, res) {
         var idHistorico = req.params.id;
         historicoDeAcessoDAO.findById(idHistorico, function (historico) {
             if (historico) {
@@ -118,9 +118,9 @@ module.exports = function (app, passport) {
                 var mes = historico.data.getMonth() + 1;
                 var ano = historico.data.getFullYear();
                 historico.dataFormatada = dia + "/" + mes + "/" + ano;
-                res.render('historico.ejs', { historico : historico });
+                res.render('historico.ejs', { historico : historico, user : req.user });
             }
-            else res.render('historico.ejs', { historico : historicoDeAcessoVazio});
+            else res.render('historico.ejs', { historico : historicoDeAcessoVazio, user : req.user});
         })
     });
 
@@ -129,5 +129,14 @@ module.exports = function (app, passport) {
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();    
+    res.redirect('/login');
+}
+
+function isAdm(req, res, next) {
+    if (req.isAuthenticated())
+        if (req.user.adm)
+            return next();
+        else
+            res.redirect('/login');
     res.redirect('/login');
 }

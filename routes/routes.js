@@ -29,6 +29,44 @@ module.exports = function (app, passport) {
     
     //// Usuário /////
     
+    
+    ////EditarPerfil////   GET
+    app.get('/editarperfil', isAdm, function (req, res) {
+        res.render('editarperfil.ejs', {user : req.user});
+    });
+    
+    
+    ////EditarPerfilUser////   GET
+    app.get('/editarperfiluser', isLoggedIn, function (req, res) {
+        res.render('editarperfil.ejs', { user : req.user });
+    });
+
+
+    ////EditarPerfil//// POST
+    app.post('/editarperfil', isAdm, function (req, res) {
+        req.user;
+        userDAO.editaPefil(req, req.user._id, function (user) {
+            if (user) {
+                req.session.message = "perfil editado com sucesso";
+                res.redirect('/listarpacientes');
+                //res.render('editarperfil.ejs', { message : "perfil editado com sucesso", user : user })
+            }
+        });
+    });
+    
+    
+    ////EditarPerfilUser//// POST
+    app.post('/editarperfiluser', isLoggedIn, function (req, res) {
+        req.user;
+        userDAO.editaPefil(req, req.user._id, function (user) {
+            if (user) {
+                req.session.message = "perfil editado com sucesso";
+                res.redirect('/listarmeuspacientes');
+                //res.render('editarperfil.ejs', { message : "perfil editado com sucesso", user : user })
+            }
+        });
+    });
+        
 
     ///CadastrarUser////  - GET
     app.get('/cadastraruser', isAdm, function (req, res) {
@@ -68,16 +106,30 @@ module.exports = function (app, passport) {
         url = url.split('/');
         var email = req.body.email;      
         var tamanho = url.length;
-        console.log('1');
-        userDAO.findByEmail(email, function (num) {
-            console.log('2');
-            if (num == 0) 
+        if (tamanho == 5) {
+            var idUser = url[4];
+            userDAO.verificaEmail(idUser, email, function (message) {
                 res.end(JSON.stringify({ message : "true" }));
-            else if (num == 1 && tamanho == 5)
-                res.end(JSON.stringify({ message : "true" }));
-            else
-                res.end(JSON.stringify({ message : "false" }));
-        });
+            });
+        } else {            
+            userDAO.findByEmail(email, function (num) {
+                if (num == 0)
+                    res.end(JSON.stringify({ message : "true" }));                
+                else
+                    res.end(JSON.stringify({ message : "false" }));
+            });
+        }
+    });
+    
+    
+    ///VerificarEmail///
+    app.post('/verficaremailuser2', function (req, res) {
+        var idUser = req.body.idUser;
+        var email = req.body.email;
+        userDAO.verificaEmail(idUser, email, function (message) {
+            req.session.message = 
+            res.end(JSON.stringify({ message : message }));
+        }); 
     });
 
     
@@ -129,7 +181,7 @@ module.exports = function (app, passport) {
     
     
     ///CadastrarPacientes//// - GET    
-    app.get('/cadastrarpaciente', function (req, res) {
+    app.get('/cadastrarpaciente', isLoggedIn, function (req, res) {
         roboDAO.listarRobosDisponiveis(function (robos) {
             userDAO.listarUsersNoAdm(function (users) {                
                 if (robos && users)
@@ -146,19 +198,19 @@ module.exports = function (app, passport) {
     
 
     ////CadastrarPaciente/// - GET (Atualizar Paciente)
-    app.get('/cadastrarpaciente/:id', function (req, res) {
-        
+    app.get('/cadastrarpaciente/:id', isLoggedIn, function (req, res) {                
         pacienteDAO.findById(req.params.id, function (paciente) {
             roboDAO.listarRobos(function (robos) {
-                if (paciente && robos)
-                    res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos });
-                else if (robos)
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos });
-                else
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio });
+                userDAO.listarUsersNoAdm(function (users) {
+                    if (paciente && robos )
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users });
+                    else if (robos)
+                        res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users });
+                    else
+                        res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users });
+                });
             });
-        });
-        
+        });        
     });
     
     
@@ -193,13 +245,13 @@ module.exports = function (app, passport) {
                 else if (pacientes && users)
                     res.render('listarpacientes.ejs', { pacientes: pacientes, users : users });
                 else if (pacientes && mensagem)
-                    res.render('listarpacientes.ejs', { pacientes: pacientes, users : usersVazio, message : mensagem });
+                    res.render('listarpacientes.ejs', { pacientes: pacientes, users : users, message : mensagem });
                 else if (pacientes)
-                    res.render('listarpacientes.ejs', { pacientes: pacientes, users : usersVazio });
+                    res.render('listarpacientes.ejs', { pacientes: pacientes, users : users });
                 else if (mensagem)
-                    res.render('listarpacientes.ejs', { pacientes: pacientesVazio, users : usersVazio, message : mensagem });
+                    res.render('listarpacientes.ejs', { pacientes: pacientesVazio, users : users, message : mensagem });
                 else
-                    res.render('listarpacientes.ejs', { pacientes: pacientesVazio, users : usersVazio });
+                    res.render('listarpacientes.ejs', { pacientes: pacientesVazio, users : users});
             });
         });
     });
@@ -266,8 +318,10 @@ module.exports = function (app, passport) {
         var idRobo = req.params.id;
         if (idRobo) {
             var robo = roboDAO.findById(idRobo, function (robo) {
-                if (robo) res.render('atualizarrobo.ejs', { robo : robo, message : "" });
-                else res.render('atualizarrobo.ejs', { robo : robosVazio, message : "" });
+                if (robo)
+                    res.render('cadastrarrobo.ejs', { robo : robo, message : "" });
+                else
+                    res.render('cadastrarrobo.ejs', { robo : robosVazio, message : "" });
             });
         } else res.render('cadastrarrobo.ejs', { message : "", robo : robosVazio });
     });
@@ -336,6 +390,8 @@ module.exports = function (app, passport) {
             res.redirect('/listarmeuspacientes');
     });
 
+    
+    /*
     app.get('/signup', function (req, res) {
         res.render('signup.ejs', { message: req.flash('loginMessage') });
     });
@@ -345,7 +401,7 @@ module.exports = function (app, passport) {
         successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
-    }));
+    })); */
 };
 
 // route middleware to ensure user is logged in

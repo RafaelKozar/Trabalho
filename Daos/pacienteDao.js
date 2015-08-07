@@ -132,14 +132,32 @@ var update = function (req, idPaciente, callback) {
         paciente.telefone = req.body.telefone;
         paciente.quadro = req.body.quadro;
         paciente.idRobo = req.body.idRobo;
+        
+        if (!req.user.adm)
+            paciente.idAtendente = req.user._id;
+        else
+            paciente.idAtendente = req.body.idAtendente;
+
         ////Pega o nome do robo////
         if (paciente.idRobo) {
             RoboDAO.findById(paciente.idRobo, function (robo) {
                 paciente.robo = robo.nome;
-                paciente.save(function (err) {
-                    if (err) throw err;
-                });
-                callback(paciente);
+                if (paciente.idAtendente != req.body.idAtendente) {
+                    UserDAO.findById(req.body.idAtendente, function (atendente) {
+                        paciente.idAtente = atendente._id;
+                        paciente.atendente = atendente.nome;
+                        paciente.save(function (err) {
+                            if (err) throw err;
+                        });
+                        callback(paciente);
+                    });
+                }
+                else {                    
+                    paciente.save(function (err) {
+                        if (err) throw err;
+                    });
+                    callback(paciente);
+                }
             });
         } else {
             paciente.save(function (err) {

@@ -5,12 +5,13 @@ var pacienteDAO = require('../Daos/pacienteDao');
 var peer = require('../config/main.js');
 
 var pacientesVazio = undefined;
+var messageVazio = undefined;
 
 module.exports = function (app, passport) {
     
     ///acessa a camera do paciente/// get
-    app.get('/acessarpaciente/:id',  function (req, res) {
-        res.render('acessarpaciente.ejs');
+    app.get('/acessarpaciente/:id', isLoggedIn, function (req, res) {
+        res.render('acessarpaciente.ejs', {user : req.user});
     });
     
     
@@ -60,39 +61,40 @@ module.exports = function (app, passport) {
         res.render('searching.ejs');
     });
     
-    app.get('/listarmeuspacientes', function (req, res) {
+    app.get('/listarmeuspacientes', isLoggedIn, function (req, res) {
         pacienteDAO.listarPacientes(req.user, function (pacientes) {
-            if (pacientes)
-                res.render('listarmeuspacientes.ejs', { pacientes : pacientes });
+            if (req.session.message) {
+                var message = req.session.message;
+                delete req.session.message;
+            }
+            if (pacientes && message)
+                res.render('listarmeuspacientes.ejs', { pacientes : pacientes, message : message });
+            else if (pacientes)
+                res.render('listarmeuspacientes.ejs', { pacientes : pacientes, message : messageVazio });
+            else if (message)
+                res.render('listarmeuspacientes.ejs', { pacientes : pacientesVazio, message : message });
             else
-                res.render('listarmeuspacientes.ejs', { pacientes : pacientesVazio });
+                res.render('listarmeuspacientes.ejs', { pacientes : pacientesVazio, message : messageVazio });
         });
         
     })
     
-    app.get('/usercadastrarpaciente', function (req, res) {
+    app.get('/usercadastrarpaciente', isLoggedIn, function (req, res) {
         res.render('usercadastrarpaciente.ejs');
-    });
-    
-    app.get('/acessarpaciente', function (req, res) {
-        res.render('acessarpaciente.ejs');
     });
     
     app.get('/camera4', function (req, res) {
         res.render('camera4.ejs');
     });
     
-    app.get('/acessarpaciente/:id', function (req, res) {
-        res.render('acessarpaciente.ejs');
-    });
-    
-    app.post('/getrobos', function (req, res) {
+      
+    app.post('/getrobos', isLoggedIn, function (req, res) {
         roboDAO.listarRobos(function (robos) {
             res.send(JSON.stringify(robos));
         })
     });
     
-    app.post('/getpaciente', function (req, res) {
+    app.post('/getpaciente', isLoggedIn, function (req, res) {
         var param = req.body.url;
         var idPaciente = param[param.length - 1];
         pacienteDAO.findById(idPaciente, function (user) {
@@ -100,7 +102,7 @@ module.exports = function (app, passport) {
         });
     });
     
-    app.post('/getpacientes', isLoggedIn, function (req, res) {
+    app.post('/getpacientes', isLoggedIn, isLoggedIn, function (req, res) {
         pacienteDAO.listarPacientes(req.user, function (pacientes) {
             res.send(JSON.stringify(pacientes));
         });

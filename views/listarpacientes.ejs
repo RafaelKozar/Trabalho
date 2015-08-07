@@ -19,7 +19,7 @@
     
     <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1 "></div>
     <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
-        <div class="panel panel-default">
+        <div class="panel ">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -55,7 +55,7 @@
                         pacientes.forEach(function(paciente) { %>
                    <tr>
                        <td class="nome"><%= paciente.nome %> </td>
-                       <td>teste</td>
+                       <td><%= paciente.atendente %></td>
                        <td><%= paciente.robo %> </td>
                        <td><%= paciente.telefone %> </td>
 

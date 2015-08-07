@@ -26,7 +26,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="panel-group" id="accordion">
-                                        <div class="panel panel-default">
+                                        <div class="panel ">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
                                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -40,7 +40,7 @@
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <% if (!robo == 'undefined') { %>
+                                                            <% if (typeof robo != 'undefined') { %>
                                                     <div class="form-group">
                                                         <input type="text" id="nome" name="nome" value="<%= robo.nome %>" class="form-control" placeholder="Nome do Robo" required />
                                                     </div>

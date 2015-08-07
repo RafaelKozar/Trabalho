@@ -65,8 +65,8 @@
             var url = document.location.href;
             var param = { tipoAtendimento: tipoAtendimento, atendimento: atendimento, data : data, url : url };
             $.post('/cadastraratendimento', param, function (data) {
-                messge = JSON.parse(data);
-                alert(messge);
+                message = JSON.parse(data);
+                alert(message.message);
             });
         }
 
@@ -75,7 +75,11 @@
         }
     </script>
 <body>
+    <% if(user.adm){ %>
+    <% include header.ejs %>
+    <% } else { %>
     <% include header2.ejs %>
+    <% } %>
     <div class="col-sm-0 col-md-1 col-lg-1 col-xs-0 "></div>
     <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
        
@@ -84,7 +88,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
+                        <div class="panel ">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -97,12 +101,12 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-md-12">                                            
-                                            <div class="col-lg-6 col-md-6">
-                                                <video id="local-video" class="video" autoplay></video>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                 <video id="remote-video" class="video" autoplay></video>
-                                            </div>
+                                            
+                                                <video id="local-video" width="20%" class="video" autoplay></video>
+                                            
+                                            
+                                                 <video id="remote-video" width="80%" class="video" autoplay></video>
+                                            
                                          </div>
                                         </div>
                                     <div class="col-lg-12 col-md-12">
@@ -111,11 +115,11 @@
                                              <div class="form-group col-lg-3 col-md-3"></div>
                                             <div class="form-group col-lg-6 col-md-6">
                                                                 <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
-                                                                    <option value="excelente">Excelente</option>
-                                                                    <option value="bom">Bom</option>
-                                                                    <option value="medio">Médico</option>
-                                                                    <option value="ruim">Ruim</option>
-                                                                    <option value="pessimo">Péssimo</option>
+                                                                    <option value="Excelente">Excelente</option>
+                                                                    <option value="Bom">Bom</option>
+                                                                    <option value="Médio">Médio</option>
+                                                                    <option value="Ruim">Ruim</option>
+                                                                    <option value="Pessimo">Péssimo</option>
                                                                 </select>
                                                             </div>
                                              <div class="form-group col-lg-3 col-md-3"></div>

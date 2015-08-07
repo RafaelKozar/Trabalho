@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     // PeerJS server location
-    var SERVER_IP = '169.254.80.80';
+    var SERVER_IP = '192.168.1.108';
     var SERVER_PORT = 9000;
     
     // DOM elements manipulated as user interacts with the app

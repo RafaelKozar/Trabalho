@@ -50,6 +50,33 @@ var findByEmail = function (email, callback) {
     });    
 };
 
+
+var verificaEmail = function (idUser, email, callback) {
+    User.find({ 'email' : email }, function (err, user) {
+        if (!user) {
+            callback("true");
+            return
+        }
+        if (err) throw err;
+        else if (user instanceof Array && user.length > 1) {           
+           callback("false");
+           return;
+       }
+        else if (user) {
+            User.findById(idUser, function (err, user2) {
+                if (user2.email != user[0].email) {
+                    callback("false");
+                    return;
+                }
+                else if (user2.email== user[0].email) {
+                    callback("true");
+                    return;
+                }                
+            });
+        }
+    });
+}
+
 var listarUsers = function (callback) {
     User.find({}, function (err, users) {
         if (!users) {
@@ -130,6 +157,7 @@ var update = function (req, idUser, callback) {
                 if (req.body.senha)
                     user.password = user.generateHash(req.body.password);
                 
+                
                 user.save(function (err) {
                     if (err) throw err;
                 });
@@ -142,9 +170,48 @@ var update = function (req, idUser, callback) {
             return 0;
         }
         
-    });    
-}
+    });
+};
 
+
+var editaPefil = function (req, idUser, callback) {
+    findByEmail(req.body.email, function (quantidadeDeEmails) {
+        if (quantidadeDeEmails <= 1) {
+            User.findById(idUser, function (err, user) {
+                if (!user) {
+                    callback(null);
+                    return;
+                }
+                if (user.email != req.body.email && quantidadeDeEmails == 1) {
+                    ///No caso para um email encontrado que é de outro user
+                    callback(null);
+                    return;
+                }
+                
+                user.nome = req.body.nome;
+                user.email = req.body.email;               
+                user.telefone = req.body.telefone;
+                user.especializacao = req.body.especializacao;
+                
+                if (req.body.senha)
+                    user.password = user.generateHash(req.body.password);
+                
+                
+                user.save(function (err) {
+                    if (err) throw err;
+                    callback();
+                });
+                
+                
+            });
+        }
+        else {
+            callback(null);
+            return 0;
+        }
+        
+    });
+};
 
 
 var cadastrarPaciente = function (user) {
@@ -179,6 +246,7 @@ var remove = function (idUser, callback) {
 
 
 module.exports.cadastrar = cadastrar;
+module.exports.editaPefil = editaPefil;
 module.exports.listarUsers = listarUsers;
 module.exports.listarUsersNoAdm = listarUsersNoAdm;
 module.exports.findByNome = findByNome;
@@ -186,4 +254,5 @@ module.exports.findById = findById;
 module.exports.findByEmail = findByEmail;
 module.exports.update = update;
 module.exports.remove = remove;
+module.exports.verificaEmail = verificaEmail;
 module.exports.cadastrarPaciente = cadastrarPaciente;

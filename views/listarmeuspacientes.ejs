@@ -19,7 +19,7 @@
     
     <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1 "></div>
     <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
-        <div class="panel panel-default">
+        <div class="panel">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -41,7 +41,7 @@
                         <tr>
                             <th class="col-md-2">Nome</th>
                             
-                            <th class="col-md-2">Telefone </th>
+                            <th class="col-md-2">Telefone </th>                            
                             <th class="col-md-1">Editar</th>
                             <th class="col-md-1">Deletar</th>
                             <th class="col-md-1">Atender</th>
@@ -54,9 +54,9 @@
                         pacientes.forEach(function(paciente) { %>
                    <tr>
                        <td class="nome"><%= paciente.nome %> </td>
-                       <td>teste</td>
-                       <td><%= paciente.robo %> </td>
                        <td><%= paciente.telefone %> </td>
+                       
+                       
 
                        <td>
                            <button type="button" class="btn btn-default" onclick="location.href = './cadastrarpaciente/<%= paciente._id%>'" aria-label="Left Align">

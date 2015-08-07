@@ -23,6 +23,12 @@
 }
 
 
+.headercor{
+    background-color: #003;
+    color: #fff;    
+}
+
+
 checkbox{
     display:inline-block;
     float:none;
@@ -32,13 +38,13 @@ checkbox{
     align-content:center;
 }
  
- .video {
-      max-width: 450px;      
+ .videoRoboLocal {
+      /*width: 100px;      */
  }
 
 
- .videoRobo{
-     width:auto;
+.videoRoboRemote{
+     /*width: 650px;           */
  }
 
 button {
@@ -48,8 +54,8 @@ button {
     margin:1% auto 0;
     cursor:pointer;
     font-weight: bold;    
-    color:#989c35;
-    background-color:#d3d3d3;
+    color:#fff;
+    background-color:#89b6dc;
 }
 
 .meuButton {
@@ -59,15 +65,27 @@ button {
     margin:1% auto 0;
     cursor:pointer;
     font-weight: bold;    
-    color:#989c35;
-    background-color:#d3d3d3;
+    color:#fff;
+    background-color:#89b6dc;
 }
 
 body {
     background-color: #e2e2e2;
 }
 
-.navbar-fixed-top{
-    background-color: #d5d5d5;
-    color: #fcfcff;
+
+
+.logo {
+    max-width: 20%;
+    margin-top: -12px;
+    
+}
+
+.panel-title{
+    background-color: #89b6dc;
+    color: #fff;
+}
+
+.panel-heading{
+    background-color: #89b6dc;    
 }
