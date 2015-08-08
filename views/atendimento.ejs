@@ -50,11 +50,12 @@
                                                         <input type="text" id="paciente" name="paciente" value="<%= atendimento.paciente%>" class="campo form-control"  readonly/>
                                                     </div>
 
+                                            <% if(user.adm){ %>
                                             <div class="form-group col-lg-6 col-md-6 ">
                                                 <label>Usuário</label>
                                                 <input type="text" id="user" name="user" value="<%= atendimento.user %>" class="form-control" readonly/>
                                             </div>
-
+                                            <% } %>
                                             <div class="form-group col-lg-6 col-md-6 ">
                                                 <label>Horário do Atendimento</label>
                                                 <input type="text" id="horarioDoAtendimento" name="horarioDoAtendimento" value="<%= atendimento.horarioDoAtendimento %>" class="form-control" readonly />
@@ -65,13 +66,16 @@
                                                 <input type="text" id="data" name="data" value="<%= atendimento.dataFormatada %>" class="form-control" readonly />
                                             </div>
 
+                                            <% if(user.adm){ %>
                                             <div class="col-lg-3 col-md-3"></div>
+                                            <% } %>
                                             <div class="form-group col-lg-6 col-md-6">
                                                 <label>Tipo do Atendimento</label>
                                                 <input type="text" id="tipoAtendimento" name="tipoAtendimento" value="<%= atendimento.tipoAtendimento%>"  class="form-control" readonly />
                                             </div>
+                                            <% if(user.adm){ %>
                                             <div class="col-lg-3 col-md-3"></div>
-
+                                            <% } %>
                                             <div class="form-group col-lg-12 col-md-12">
                                                 <label>Atendimento</label>
                                                 <textarea id="atendimentoTexto" name="atendimentoTexto" class="form-control" readonly ><%= atendimento.atendimentoTexto %></textarea>

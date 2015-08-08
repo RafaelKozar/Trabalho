@@ -49,10 +49,12 @@
                                                         <input type="text" id="paciente" name="paciente" value="<%= historico.paciente%>" class="form-control" readonly/>
                                                     </div>
 
+                                            <% if (user.adm) { %>
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Usuário</label>
                                                 <input type="text" id="user" name="user" value="<%= historico.user %>"  class="form-control" readonly/>
                                             </div>
+                                            <% } %>
 
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Robo</label>
@@ -74,12 +76,16 @@
                                                 <input type="text" id="numeroDoAcesso" name="numeroDoAcesso" value="<%= historico.numeroDoAcesso%>" class="form-control" readonly />
                                             </div>
 
+                                            <% if (user.adm) { %>
                                             <div class="col-lg-3 col-md-3"></div>
+                                            <% } %>
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Nota</label>
                                                 <input type="text" id="nota" name="nota" value="<%= historico.nota%>" class="form-control" readonly />
                                             </div>
+                                            <% if (user.adm) { %>
                                             <div class="col-lg-3 col-md-3"></div>
+                                            <% } %>
                                             
 
                                             <% } %>

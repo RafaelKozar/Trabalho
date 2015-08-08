@@ -38,7 +38,7 @@ module.exports = function (app, passport) {
     
     ////EditarPerfilUser////   GET
     app.get('/editarperfiluser', isLoggedIn, function (req, res) {
-        res.render('editarperfil.ejs', { user : req.user });
+        res.render('editarperfiluser.ejs', { user : req.user });
     });
 
 
@@ -49,6 +49,7 @@ module.exports = function (app, passport) {
             if (user) {
                 req.session.message = "perfil editado com sucesso";
                 res.redirect('/listarpacientes');
+                
                 //res.render('editarperfil.ejs', { message : "perfil editado com sucesso", user : user })
             }
         });
@@ -185,13 +186,13 @@ module.exports = function (app, passport) {
         roboDAO.listarRobosDisponiveis(function (robos) {
             userDAO.listarUsersNoAdm(function (users) {                
                 if (robos && users)
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users });
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users, user : req.user });
                 else if (robos)
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : usersVazio });
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : usersVazio,  user : req.user });
                 else if (users)
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users });
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });
                 else
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : usersVazio });
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : usersVazio, user : req.user });
             });
             });
     });
@@ -200,14 +201,9 @@ module.exports = function (app, passport) {
     ////CadastrarPaciente/// - GET (Atualizar Paciente)
     app.get('/cadastrarpaciente/:id', isLoggedIn, function (req, res) {                
         pacienteDAO.findById(req.params.id, function (paciente) {
-            roboDAO.listarRobos(function (robos) {
-                userDAO.listarUsersNoAdm(function (users) {
-                    if (paciente && robos )
-                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users });
-                    else if (robos)
-                        res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users });
-                    else
-                        res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users });
+            roboDAO.listarRobosDisponiveis(function (robos) {
+                userDAO.listarUsersNoAdm(function (users) {                    
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users, user : req.user  });                    
                 });
             });
         });        
@@ -402,6 +398,13 @@ module.exports = function (app, passport) {
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     })); */
+
+/*    app.get('/testar', function (req, res) {
+        var red = roboDAO.listarRobosDisponiveis(function (robos) {
+            
+            res.redirect('/login');
+        });
+    });*/
 };
 
 // route middleware to ensure user is logged in

@@ -59,7 +59,7 @@ module.exports = function (app, passport) {
                     var mes = historicos[i].data.getMonth() + 1;
                     var ano = historicos[i].data.getFullYear();
                     
-                    historicos.dataFormatada = dia + "/" + mes + "/" + ano;
+                    historicos[i].dataFormatada = dia + "/" + mes + "/" + ano;
                 }
                 res.render('historicos.ejs', { historicos : historicos, user : req.user  });
             }
@@ -107,8 +107,8 @@ module.exports = function (app, passport) {
             else res.render('atendimento.ejs', { atendimento : atendimentoVazio, user : req.user });
         })
     });
-
-
+    
+    
     /////historico/////----GET
     app.get('/historico/:id', isLoggedIn, function (req, res) {
         var idHistorico = req.params.id;

@@ -199,7 +199,7 @@ var editaPefil = function (req, idUser, callback) {
                 
                 user.save(function (err) {
                     if (err) throw err;
-                    callback();
+                    callback("editado com sucesso");
                 });
                 
                 

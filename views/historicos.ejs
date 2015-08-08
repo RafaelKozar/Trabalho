@@ -44,7 +44,9 @@
                     <thead>
                         <tr>
                             <th class="col-md-2">Robo</th>
+                            <% if(user.adm) { %>
                             <th class="col-md-2">Usuário</th>
+                            <% } %>
                             <th class="col-md-2">Paciente</th>
                             <th class="col-md-2">Data</th>
                             <th class="col-md-2">Nota</th>
@@ -59,7 +61,9 @@
                         historicos.forEach(function(historico) { %>
                    <tr>
                        <td><%= historico.robo %> </td>
+                       <% if(user.adm) { %>
                        <td><%= historico.user %> </td>
+                       <% } %>
                        <td><%= historico.paciente %> </td>
                        <td><%= historico.dataFormatada %> </td>                       
                        <td><%= historico.nota %> </td>                       

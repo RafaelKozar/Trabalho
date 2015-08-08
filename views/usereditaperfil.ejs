@@ -11,6 +11,45 @@
     <link rel="stylesheet" href="./stylesheets/estilo.css" />
 
 </head>
+    <script>
+        var email
+        $(document).ready(function () {
+            var url = document.location.href;
+            email = document.getElementById('email');
+            url = url.split('/');
+            var tam = url.length;
+            $("#password").prop('disabled', true);
+           
+
+
+        });
+
+        function functionEditarSenha() {
+            var altsenha = document.querySelector('#senha');
+            if ($(altsenha).is(':checked')) {
+                $("#password").prop('disabled', false);
+            }
+            else {
+                $("#password").prop('disabled', true);
+            }
+        }
+
+        function verificaEmail() {
+            var email = document.getElementById('email').value
+            var idUser = document.getElementById('id').value;
+            var param = { idUser: idUser, email: email };
+            $.post('/verficaremailuser2', param, function (data) {
+                resposta = JSON.parse(data);
+                if (resposta.message == "false") {
+                    $('#email').val('');
+                    alert("Este email já foi cadastrado");
+                }
+            });
+        }
+
+
+
+    </script>
 <body>
     <% include header2.ejs %>
     <div class="col-sm-0 col-md-1 col-lg-1 col-xs-0 "></div>

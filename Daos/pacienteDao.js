@@ -20,30 +20,42 @@ var cadastrar = function (req) {
     else
         newPaciente.idAtendente = req.body.idAtendente;
 
-    if (newPaciente.idRobo) {
+    if (newPaciente.idRobo && newPaciente.idAtendente) {
         RoboDAO.findById(newPaciente.idRobo, function (robo) {
-            UserDAO.findById(newPaciente.idAtendente, function (user) {
-                if (user)
-                    newPaciente.paciente = user.nome;
-                    newPaciente.robo = robo.nome;
-                    newPaciente.save(function (err, pacienteCadastrado) {
-                    if (err) throw err;
-                    req.user.pacientes = pacienteCadastrado._id;
-                    ///cadastramos o id do paciente no atendente, quando o mesmo não é adm///
-                    if (pacienteCadastrado.idAtendente) UserDAO.cadastrarPaciente(req.user);
-                    return 'cadastrado com sucesso';
+            UserDAO.findById(newPaciente.idAtendente, function (user) {                
+                newPaciente.robo = robo.nome;
+                newPaciente.atendente = user.nome;
+                newPaciente.save(function (err, pacienteCadastrado) {
+                if (err) throw err;
+                //req.user.pacientes = pacienteCadastrado._id;
+                ///cadastramos o id do paciente no atendente, quando o mesmo não é adm///
+                //if (pacienteCadastrado.idAtendente) UserDAO.cadastrarPaciente(req.user);
+                return 'cadastrado com sucesso';
                 });
             });
         });
-    } else {
+    } else if(newPaciente.idAtendente) {
         UserDAO.findById(newPaciente.idAtendente, function (user) {
             newPaciente.paciente = user.nome;
             newPaciente.save(function (err, pacienteCadastrado) {
                 if (err) throw err;
-                req.user.pacientes = pacienteCadastrado._id;
-                if (pacienteCadastrado.idAtendente) UserDAO.cadastrarPaciente(req.user);
-                return 'cadastrado com sucesso';
+              //req.user.pacientes = pacienteCadastrado._id;
+              //if (pacienteCadastrado.idAtendente) UserDAO.cadastrarPaciente(req.user);
+              //return 'cadastrado com sucesso';
             });
+        });
+    }
+    else if (newPaciente.idAtendente) {
+        RoboDAO.findById(newPaciente.idRobo, function (robo) {                        
+                newPaciente.robo = robo.nome;
+                newPaciente.save(function (err, pacienteCadastrado) {
+                    if (err) throw err;                    
+                });
+            });
+    } else {
+        newPaciente.save(function (err, pacienteCadastrado) {
+            if (err) throw err;
+            return 'cadastrado com sucesso';
         });
     }
 };
@@ -139,31 +151,38 @@ var update = function (req, idPaciente, callback) {
             paciente.idAtendente = req.body.idAtendente;
 
         ////Pega o nome do robo////
-        if (paciente.idRobo) {
+        if (paciente.idRobo && paciente.idAtendente) {
             RoboDAO.findById(paciente.idRobo, function (robo) {
-                paciente.robo = robo.nome;
-                if (paciente.idAtendente != req.body.idAtendente) {
-                    UserDAO.findById(req.body.idAtendente, function (atendente) {
-                        paciente.idAtente = atendente._id;
-                        paciente.atendente = atendente.nome;
-                        paciente.save(function (err) {
-                            if (err) throw err;
-                        });
+                UserDAO.findById(paciente.idAtendente, function (user) {
+                    paciente.atendente = user.nome;
+                    paciente.robo = robo.nome;
+                    paciente.save(function (err) {
+                        if (err) throw err;                        
                         callback(paciente);
                     });
-                }
-                else {                    
-                    paciente.save(function (err) {
-                        if (err) throw err;
-                    });
+                });
+            });
+        } else if (paciente.idAtendente) {
+            UserDAO.findById(paciente.idAtendente, function (user) {
+                paciente.paciente = user.nome;
+                paciente.save(function (err) {
+                    if (err) throw err;                    
                     callback(paciente);
-                }
+                });
+            });
+        }
+        else if (paciente.idAtendente) {
+            RoboDAO.findById(paciente.idRobo, function (robo) {
+                paciente.robo = robo.nome;
+                paciente.save(function (err) {
+                    if (err) throw err;
+                });
             });
         } else {
             paciente.save(function (err) {
                 if (err) throw err;
+                callback(paciente);
             });
-            callback(paciente);
         }
     });
 }

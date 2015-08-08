@@ -19,15 +19,9 @@
 
     <script>
         var email
-        $(document).ready(function () {
-            var url = document.location.href;
-            email = document.getElementById('email');
-            url = url.split('/');
-            var tam = url.length;
-            if (tam == 5)
-                $("#password").prop('disabled', true);
-            else
-                $("#password").prop('disabled', false);
+        $(document).ready(function () {            
+            email = document.getElementById('email');            
+            $("#password").prop('disabled', true);
 
 
         });
@@ -104,7 +98,7 @@
                                                     Alterar Senha 
                                                     <input type="checkbox" name="senha" onchange="functionEditarSenha()" id="senha" />
                                                 </label>
-                                                <input type="password" id="password" value="<%= user.password%>" name="password" class="form-control" placeholder="Sennha" required />
+                                                <input type="password" id="password"  name="password" class="form-control" placeholder="Sennha" required />
                                             </div>
                                             <div class="col-lg-3 col-md-3"></div>
 

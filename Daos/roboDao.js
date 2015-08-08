@@ -65,32 +65,58 @@ var listarRobosDisponiveis = function (callback) {
         }
         if (err) throw err;
         var robosRetorno = [new Robo()];
-        var cont = 0; var insere = 1;
+        var cont = 0; 
         var user = new User();
         user.adm = true;
-        callback(robos);
-        //pacienteDAO.listarPacientes(user, function (pacientes) {
-            /*for (var i = 0; i < robos.length; i++) {
-                robosRetorno.push(robos[i]); //insere = 1;
-                cont++;
-                for (var j = 0; j < pacientes.legth; j++) {
+        
+        pacienteDAO.listarPacientes(user, function (pacientes) {            
+            var numRobos = robos.length - 1;
+            var numPacientes = pacientes.length - 1;
+            for (var i = 0; i <= numRobos; i++) {                
+
+                for (var j = 0; j <= numPacientes; j++) {                    
+                    
                     if (robos[i]._id == pacientes[j].idRobo) {
-                        insere = 0;
-                        robosRetorno.splice(cont, 1);
-                        cont--;
-                        break;
+                        break;                        
                     }
-                }
-                /*if (insere == 1) {
-                    robosRetorno[cont] = robos[i];
-                    cont++;
-                }*/
-            //}
-            //callback(robosRetorno);
-       // });
+                    else if (j == numPacientes) {
+                        robosRetorno[cont] = robos[i];
+                        cont++;
+                    }
+                }             
+            }
+            if (numPacientes == -1) {
+                callback(robos);
+                return;
+            }
+            else
+                callback(robosRetorno);
+        });
     });
 }
 
+
+/*var carregaRobosDisponiveis = function (robos, pacientes, robosRetorno, crob, cpac, crobRet) {
+    if (crob == robos.length && pacientes.length == capc)
+        return robosRetorno;
+    else if ()
+};*/
+
+var testeRecursivo = function () {
+    for (var j = 0; j < 5; j++) {
+        for (var i = 0; i < 3; i++) {
+            if (recursiva(i)) break;
+        }
+    }
+    return "testou";
+};
+
+var recursiva = function (i){
+    if (i == 3)
+        return true;
+    else
+        return recursiva(++i);
+}
 
 var findById = function (idRobo, callback) {
     
@@ -147,4 +173,5 @@ module.exports.listarRobosDisponiveis = listarRobosDisponiveis;
 module.exports.findByNome = findByNome;
 module.exports.findById = findById;
 module.exports.update = update;
-module.exports.remove = remove;
+module.exports.remove = remove; 
+module.exports.testeRecursivo = testeRecursivo; 

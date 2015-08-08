@@ -44,7 +44,9 @@
                     <thead>
                         <tr>
                             <th class="col-md-2">Paciente</th>
+                            <% if(user.adm) { %>
                             <th class="col-md-2">Usuário</th>
+                            <% }  %>
                             <th class="col-md-2">Data</th>
                             <th class="col-md-2">Tipo do Atendimento</th>                            
                             <th class="col-md-2">Ver ficha</th>
@@ -56,9 +58,11 @@
                         <% 
                       if(typeof atendimentos != 'undefined'){
                         atendimentos.forEach(function(atendimento) { %>
-                   <tr>
+                   <tr>                       
                        <td><%= atendimento.paciente %> </td>
+                       <% if(user.adm) { %>
                        <td><%= atendimento.user %> </td>                       
+                       <% }  %>
                        <td><%= atendimento.dataFormatada %> </td>                       
                        <td><%= atendimento.tipoAtendimento %> </td>                       
                                              
