@@ -6,29 +6,29 @@ var moongose = require('mongoose');
 
 
 var cadastrar = function (req) {
-    var newUser = new User();
+    var newUser = new User();    
     
-    if (findByEmail(req.body.email)) {
-        return false;
-    }
-    else {
-        newUser.nome = req.body.nome;
-        newUser.email = req.body.email;
-        newUser.telefone = req.body.telefone;
-        newUser.especializacao = req.body.especializacao;
-        
-        if (req.body.administrador == true)
-            newUser.adm = true;
-        else
-            newUser.adm = false;
-        newUser.password = newUser.generateHash(req.body.password);
-        
-        
-        newUser.save(function (err) {
-            if (err) throw err;
-            return 'cadastrado efetuado com sucesso';
-        });
-    }
+    findByEmail(req.body.email, function (quantidade) {
+        if (quantidade > 0) return false;
+        else {
+            newUser.nome = req.body.nome;
+            newUser.email = req.body.email;
+            newUser.telefone = req.body.telefone;
+            newUser.especializacao = req.body.especializacao;
+            
+            if (req.body.administrador == true)
+                newUser.adm = true;
+            else
+                newUser.adm = false;
+            newUser.password = newUser.generateHash(req.body.password);
+            
+            
+            newUser.save(function (err) {
+                if (err) throw err;
+                return 'cadastrado efetuado com sucesso';
+            })
+        };
+    });
 };
 
 var findByEmail = function (email, callback) {
@@ -47,7 +47,7 @@ var findByEmail = function (email, callback) {
             return;
         }
         
-    });    
+    });
 };
 
 
@@ -58,20 +58,20 @@ var verificaEmail = function (idUser, email, callback) {
             return
         }
         if (err) throw err;
-        else if (user instanceof Array && user.length > 1) {           
-           callback("false");
-           return;
-       }
+        else if (user instanceof Array && user.length > 1) {
+            callback("false");
+            return;
+        }
         else if (user) {
             User.findById(idUser, function (err, user2) {
                 if (user2.email != user[0].email) {
                     callback("false");
                     return;
                 }
-                else if (user2.email== user[0].email) {
+                else if (user2.email == user[0].email) {
                     callback("true");
                     return;
-                }                
+                }
             });
         }
     });
@@ -189,7 +189,7 @@ var editaPefil = function (req, idUser, callback) {
                 }
                 
                 user.nome = req.body.nome;
-                user.email = req.body.email;               
+                user.email = req.body.email;
                 user.telefone = req.body.telefone;
                 user.especializacao = req.body.especializacao;
                 

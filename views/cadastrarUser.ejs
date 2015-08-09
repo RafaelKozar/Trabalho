@@ -21,16 +21,27 @@
         var email
         $(document).ready(function () {
             var url = document.location.href;
-            email = document.getElementById('email');
+            email = document.getElementById('email');            
             url = url.split('/');
             var tam = url.length;
-            if(tam == 5)
+            if (tam == 5)
                 $("#password").prop('disabled', true);
-            else
+            else {
                 $("#password").prop('disabled', false);
-
+                $("#email").val("");
+            }
             
         });
+
+        function setEmail() {
+            var url = document.location.href;
+            email = document.getElementById('email');            
+            url = url.split('/');
+            var tam = url.length;
+            if (tam != 5) {
+                $("#email").val("Digite o seu email");
+            }
+        }
 
         function functionEditarSenha() {             
             var altsenha = document.querySelector('#senha');
@@ -159,7 +170,7 @@
                                             <% }else{ %>
                                                             <div class="form-group col-lg-6 col-md-6">
                                                                 <label>E-mail</label>
-                                                                <input type="email" id="email" name="email" onblur="verificaEmail()"  class="form-control" placeholder="Email de Login" required />
+                                                                <input type="email" id="email" name="email" onblur="verificaEmail()" autofocus class="form-control" placeholder="Email de Login" required />
                                                             </div>
 
                                             <div class="form-group col-lg-6 col-md-6">

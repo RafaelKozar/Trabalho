@@ -90,14 +90,19 @@ module.exports = function (app, passport) {
     ///CadastrarUser//// - POST    ///não deixar cadastrar emails já existentes
     app.post('/cadastraruser', isAdm, function (req, res) {
         var idUser = req.body.id;
+
         userDAO.update(req, idUser, function (user) {
             if (user) req.session.message = "Usuário editado com sucesso";
             else {
                 var retorno = userDAO.cadastrar(req);
-                req.session.message = "Usuário cadastrado com sucesso";
+                if (retorno)
+                    req.session.message = "Usuário cadastrado com sucesso";
+                else
+                    req.session.message = "Este email já existe";
             }
             res.redirect('/listarusers'); 
         });
+
     });
     
     
@@ -184,17 +189,10 @@ module.exports = function (app, passport) {
     ///CadastrarPacientes//// - GET    
     app.get('/cadastrarpaciente', isLoggedIn, function (req, res) {
         roboDAO.listarRobosDisponiveis(function (robos) {
-            userDAO.listarUsersNoAdm(function (users) {                
-                if (robos && users)
+            userDAO.listarUsersNoAdm(function (users) {       
                     res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users, user : req.user });
-                else if (robos)
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : usersVazio,  user : req.user });
-                else if (users)
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });
-                else
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : usersVazio, user : req.user });
             });
-            });
+        });
     });
     
 
