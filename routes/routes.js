@@ -204,18 +204,18 @@ module.exports = function (app, passport) {
         pacienteDAO.findById(req.params.id, function (paciente) {
             roboDAO.listarRobosDisponiveis(function (robos) {
                 userDAO.listarUsersNoAdm(function (users) {
-                    if (robos && paciente && user)
+                    if (robos && paciente && users)
                         res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users, user : req.user });
-                    else if (robos && user)
+                    else if (robos && users)
                         res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users, user : req.user });
-                    else if (paciente && user)
+                    else if (paciente && users)
                         res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robosVazio, users : users, user : req.user });
                     else if (paciente && robos)
-                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robosVazio, users : users, user : req.user });
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robosVazio, users : usersVazio, user : req.user });
 
                     else if (paciente)
                         res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robosVazio, users : usersVazio, user : req.user });
-                    else if (user)
+                    else if (users)
                         res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });
                     else if (robos)
                         res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : usersVazio, user : req.user });

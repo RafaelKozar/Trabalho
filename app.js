@@ -121,6 +121,7 @@ io.sockets.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("cima");
+socket.emit('comando', "frente");
         });
     });
     
@@ -129,6 +130,7 @@ io.sockets.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("baixo");
+socket.emit('comando', "re");
         });
                                     
     });
@@ -138,6 +140,7 @@ io.sockets.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("direita");
+socket.emit('comando', "direita");
         });
                                             
     });
@@ -147,6 +150,7 @@ io.sockets.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("esquerda");
+socket.emit('comando', "esquerda");
         });                                            
     });
         

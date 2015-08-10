@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     // PeerJS server location
-    var SERVER_IP = '192.168.1.108';
+    var SERVER_IP = '104.131.163.197';
     var SERVER_PORT = 9000;
     
     // DOM elements manipulated as user interacts with the app
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // wire up button events
     connectBtn.addEventListener('click', connect);
-    //dialBtn.addEventListener('click', dial);
+    dialBtn.addEventListener('click', dial);
 });
 
 

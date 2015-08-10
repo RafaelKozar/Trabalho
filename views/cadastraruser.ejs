@@ -1,0 +1,218 @@
+﻿<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="../stylesheets/estilo.css" />
+</head>
+<body>
+
+    <script>
+        var email
+        $(document).ready(function () {
+            var url = document.location.href;
+            email = document.getElementById('email');
+            url = url.split('/');
+            var tam = url.length;
+            if(tam == 5)
+                $("#password").prop('disabled', true);
+            else
+                $("#password").prop('disabled', false);
+
+            
+        });
+
+        function functionEditarSenha() {             
+            var altsenha = document.querySelector('#senha');
+            if ($(altsenha).is(':checked')) {
+                $("#password").prop('disabled', false);
+            }
+            else {
+                $("#password").prop('disabled', true);
+            }
+        }
+        
+        function verificaEmail() {
+            var email = document.getElementById('email').value
+            var url = document.location.href;
+            var param = { url: url, email : email };
+            $.post('/verficaremailuser', param, function (data) {
+                resposta = JSON.parse(data);
+                if (resposta.message == "false") {
+                    $('#email').val('');
+                    alert("Este email já foi cadastrado");
+                }
+            });
+        }
+
+     /*   $('#email').focusout(function () {
+            //var email = $('email').val;
+            var email = document.getElementById('email').value
+            var url = document.location.href;
+            var param = { url: url, email: email };
+            $.post('/verficaremailuser', param, function (data) {
+                resposta = JSON.parse(data);
+                if (respota.message == "true") {
+                    $('#email').val('');
+                    alert("Este email já foi cadastrado");
+                }
+            });
+        });
+        /*email.onblur = function () {
+            var email = document.querySelector('#email');
+            var url = document.location.href;
+            var param = { url: url, email : email };
+            $.post('/verficaremailuser', param, function (data) {
+                resposta = JSON.parse(data);
+                if (respota.message == "true") {
+                    $('#email').val('');
+                    alert("Este email já foi cadastrado");
+                }
+            });
+          } */
+
+    </script>
+    <% include header.ejs %>      
+    
+    <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1 "></div>
+    <div class="col-sm-12 col-md-10 col-lg-10  col-xs-12  conteudo">
+        <form class="form-signin" action="/cadastraruser" method="post">
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                        <span class="glyphicon glyphicon-file page-header"></span>Cadastro do Usuário
+                                    </a>
+                                </h4>
+                            </div>
+                            
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <%  if(typeof user != 'undefined'){
+                                                              %>
+                                                            <div class="form-group col-lg-6 col-md-6">
+                                                                <label>E-mail</label>
+                                                                <input type="email" id="email" value="<%= user.email%>" onblur="verificaEmail()"  name="email"  class="form-control email" placeholder="Email de Login" required />
+                                                                
+                                                            </div>
+
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>
+                                                    Alterar Senha 
+                                                    <input type="checkbox" name="senha" onchange="functionEditarSenha()" id="senha" />
+                                                </label>
+                                                <input type="password" id="password" value="<%= user.password%>" name="password" class="form-control" placeholder="Sennha" required />
+                                            </div>
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Nome</label>
+                                                <input type="text" id="nome" value="<%= user.nome%>" name="nome" class="form-control" placeholder="Nome do Usuário" required />
+                                            </div>
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Telefone</label>
+                                                <input type="tel" id="telefone" name="telefone" value="<%= user.telefone%>" class="form-control" placeholder="Telefone" required />
+                                            </div>
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Especialização</label>
+                                                <select class="form-control" name="especializacao" id="especializacao">
+                                                    <option value="Psicólogo">Psicólogo</option>
+                                                    <option value="Fonodiólogo">Fonodiólogo</option>
+                                                    <option value="Médico">Médico</option>
+                                                    <option value="Assistente Social">Assistente Social</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Foto</label>
+                                                <input type="file" name="foto" />
+                                            </div>
+
+                                            <div class="checkbox col-lg-12 col-md-12">
+                                                <label>
+                                                    <input type="checkbox" name="administrador" value="<%= user.administrador%>" value="true">
+                                                    administrador
+                                                </label>
+                                                <input type="hidden" class="form-group" id="id" name="id" value="<%= user._id %>" />
+                                            </div>
+                                            
+
+                                            <% }else{ %>
+                                                            <div class="form-group col-lg-6 col-md-6">
+                                                                <label>E-mail</label>
+                                                                <input type="email" id="email" name="email" onblur="verificaEmail()"  class="form-control" placeholder="Email de Login" required />
+                                                            </div>
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Passsword</label>
+                                                <input type="password" id="password" name="password"  class="form-control" placeholder="Sennha" required />
+                                            </div>
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Nome</label>
+                                                <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome do Usuário" required />
+                                            </div>
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Telefone</label>
+                                                <input type="tel" id="telefone" name="telefone" class="form-control" placeholder="Telefone" required />
+                                            </div>
+
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label>Especialização</label>
+                                                <select class="form-control" name="especializacao" id="especializacao">
+                                                    <option value="psicologo">Psicólogo</option>
+                                                    <option value="fonodiologo">Fonodiólogo</option>
+                                                    <option value="medico">Médico</option>
+                                                    <option value="assistente social">Assistente Social</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Foto</label>
+                                                <input type="file" name="foto" />
+                                            </div>
+
+                                            <div class="checkbox col-lg-12 col-md-12">
+                                                <label>
+                                                    <input type="checkbox" name="administrador" value="true">
+                                                    administrador
+                                                </label>
+                                            </div>
+                                            <% } %>
+                                                            <div class="form-group col-lg-12 col-md-12">
+                                                                <button class="button" type="submit">Salvar</button>
+                                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
