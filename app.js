@@ -121,7 +121,7 @@ io.sockets.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("cima");
-socket.emit('comando', "frente");
+socket.emit("comando", "frente");
         });
     });
     
@@ -130,7 +130,7 @@ socket.emit('comando', "frente");
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("baixo");
-socket.emit('comando', "re");
+            socket.emit('comando', "re");
         });
                                     
     });
@@ -153,7 +153,11 @@ socket.emit('comando', "direita");
 socket.emit('comando', "esquerda");
         });                                            
     });
-        
+    
+    socket.on("enviar", function(){
+        console.log("irrarra");
+     });
+    
     socket.on('disconnect', function () {
                 
     });
