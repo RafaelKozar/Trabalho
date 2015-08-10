@@ -65,32 +65,37 @@ var listarRobosDisponiveis = function (callback) {
         }
         if (err) throw err;
         var robosRetorno = [new Robo()];
-        var cont = 0; 
+        var cont = 0;
         var user = new User();
         user.adm = true;
         
-        pacienteDAO.listarPacientes(user, function (pacientes) {            
+        pacienteDAO.listarPacientes(user, function (pacientes) {
             var numRobos = robos.length - 1;
             var numPacientes = pacientes.length - 1;
-            for (var i = 0; i <= numRobos; i++) {                
-
-                for (var j = 0; j <= numPacientes; j++) {                    
+            for (var i = 0; i <= numRobos; i++) {
+                
+                for (var j = 0; j <= numPacientes; j++) {
                     
                     if (robos[i]._id == pacientes[j].idRobo) {
-                        break;                        
+                        break;
                     }
                     else if (j == numPacientes) {
                         robosRetorno[cont] = robos[i];
                         cont++;
                     }
-                }             
+                }
             }
             if (numPacientes == -1) {
                 callback(robos);
                 return;
             }
-            else
-                callback(robosRetorno);
+            else {
+                if (robosRetorno[0].nome)
+                    callback(robosRetorno);
+                else {                    
+                    callback(null);
+                }
+            }
         });
     });
 }

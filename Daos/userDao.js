@@ -94,7 +94,7 @@ var listarUsersNoAdm = function (callback) {
     User.find({}, function (err, users) {
         if (!users) {
             callback(null);
-            return;
+            //return;
         }
         if (err) throw err;
         var arrayRetorno = [new User()];

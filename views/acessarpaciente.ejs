@@ -15,65 +15,87 @@
     <link rel="stylesheet" href="../stylesheets/estilo.css" />
     <script src="../javascripts/meumain3.js"></script>
     <script src="../javascripts/peer.js"></script>
-</head>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script>
-        var tempInicial;
-        $(document).ready(function () {
-            tempInicial = new Date().getTime();
-        });
+        //var socket = io('http://104.131.163.197:3000');
+        var socket = io('http://localhost:3000');
+        var url = document.location.href;
 
-        window.onbeforeunload = exitSalvar;
+        function cima() {
+            socket.emit('cima', url);
+        };
 
-        function exitSalvar() {
-            var tempFinal = new Date().getTime();
-            msToTime(tempFinal);
-            var tempDiferenca = tempFinal - tempInicial;
-            var url = document.location.href;
-            var nota = document.getElementById('nota').value;
-            var time = new Date().getTime();
-            var data = new Date(time);
+        function baixo() {
+            socket.emit('baixo', url);
+        };
 
-            tempDiferenca = msToTime(tempDiferenca);
-            tempFinal = msToTime(tempFinal);
-            tempInicial = msToTime(tempInicial);            
+        function direita() {
+            socket.emit('direita', url);
+        };
 
-            var param = { nota: nota, url: url, tempDiferenca: tempDiferenca, tempInicial: tempInicial, tempFinal: tempFinal, data : data };
-            $.post('/cadastrarhistoricodeacesso', param, function (data) {
-                message = JSON.parse(data);
-            });
-        }
-
-        function msToTime(duration) {
-            var milliseconds = parseInt((duration % 1000) / 100)
-                , seconds = parseInt((duration / 1000) % 60)
-                , minutes = parseInt((duration / (1000 * 60)) % 60)
-                , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
-
-            hours = (hours < 10) ? "0" + hours : hours;
-            minutes = (minutes < 10) ? "0" + minutes : minutes;
-            seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-            return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-        }
-
-
-        function salvarAtendimento() {
-            var tipoAtendimento = document.getElementById('tipoatendimento').value;
-            var atendimento = document.getElementById('atendimento').value;
-            var time = new Date().getTime();
-            var data = new Date(time);
-            var url = document.location.href;
-            var param = { tipoAtendimento: tipoAtendimento, atendimento: atendimento, data : data, url : url };
-            $.post('/cadastraratendimento', param, function (data) {
-                message = JSON.parse(data);
-                alert(message.message);
-            });
-        }
-
-        function atualizaNota() {
-            alert("Nota atualizada do acesso");
-        }
+        function esquerda() {
+            socket.emit('esquerda', url);
+        };
     </script>
+</head>
+<script>
+    var tempInicial;
+    $(document).ready(function () {
+        tempInicial = new Date().getTime();
+    });
+
+    window.onbeforeunload = exitSalvar;
+
+    function exitSalvar() {
+        var tempFinal = new Date().getTime();
+        msToTime(tempFinal);
+        var tempDiferenca = tempFinal - tempInicial;
+        var url = document.location.href;
+        var nota = document.getElementById('nota').value;
+        var time = new Date().getTime();
+        var data = new Date(time);
+
+        tempDiferenca = msToTime(tempDiferenca);
+        tempFinal = msToTime(tempFinal);
+        tempInicial = msToTime(tempInicial);
+
+        var param = { nota: nota, url: url, tempDiferenca: tempDiferenca, tempInicial: tempInicial, tempFinal: tempFinal, data: data };
+        $.post('/cadastrarhistoricodeacesso', param, function (data) {
+            message = JSON.parse(data);
+        });
+    }
+
+    function msToTime(duration) {
+        var milliseconds = parseInt((duration % 1000) / 100)
+            , seconds = parseInt((duration / 1000) % 60)
+            , minutes = parseInt((duration / (1000 * 60)) % 60)
+            , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+        return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+    }
+
+
+    function salvarAtendimento() {
+        var tipoAtendimento = document.getElementById('tipoatendimento').value;
+        var atendimento = document.getElementById('atendimento').value;
+        var time = new Date().getTime();
+        var data = new Date(time);
+        var url = document.location.href;
+        var param = { tipoAtendimento: tipoAtendimento, atendimento: atendimento, data: data, url: url };
+        $.post('/cadastraratendimento', param, function (data) {
+            message = JSON.parse(data);
+            alert(message.message);
+        });
+    }
+
+    function atualizaNota() {
+        alert("Nota atualizada do acesso");
+    }
+</script>
 <body>
     <% if(user.adm){ %>
     <% include header.ejs %>
@@ -82,78 +104,125 @@
     <% } %>
     <div class="col-sm-0 col-md-1 col-lg-1 col-xs-0 "></div>
     <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
-       
 
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel-group" id="accordion">
-                        <div class="panel ">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                        <span class="glyphicon glyphicon-file page-header"></span>Paciente
-                                    </a>
-                                </h4>
-                            </div>
-                            
-                            <div id="collapseOne" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-12">                                            
-                                            
-                                                <video id="local-video" width="20%" class="video" autoplay></video>
-                                            
-                                            
-                                                 <video id="remote-video" width="80%" class="video" autoplay></video>
-                                            
-                                         </div>
-                                        </div>
-                                    <div class="col-lg-12 col-md-12">
-                                            <div><button class="button" id="connect">Ligar</button></div>
-                                        </div>
-                                             <div class="form-group col-lg-3 col-md-3"></div>
-                                            <div class="form-group col-lg-6 col-md-6">
-                                                                <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
-                                                                    <option value="Excelente">Excelente</option>
-                                                                    <option value="Bom">Bom</option>
-                                                                    <option value="Médio">Médio</option>
-                                                                    <option value="Ruim">Ruim</option>
-                                                                    <option value="Pessimo">Péssimo</option>
-                                                                </select>
-                                                            </div>
-                                             <div class="form-group col-lg-3 col-md-3"></div>
 
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12">
-                                    <h3 class="panel-title">Cadastrar Atendimento</h3>
-                                        <div class="form-group col-lg-3 col-md-3"></div>
-                                            <div class="form-group col-lg-6 col-md-6">
-                                                                <select class="form-control" name="tipoatendimento" id="tipoatendimento">
-                                                                    <option value="parecer">Parecer</option>
-                                                                    <option value="relatório">Relatório</option>
-                                                                    <option value="descrição">Descrição</option>                                                                    
-                                                                </select>
-                                                            </div>
-                                             <div class="form-group col-lg-3 col-md-3"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group" id="accordion">
+                    <div class="panel ">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    <span class="glyphicon glyphicon-file page-header"></span>Paciente
+                                </a>
+                            </h4>
+                        </div>
 
-                                            <div class="form-group col-lg-12 col-md-12">
-                                                <textarea class="form-control" id="atendimento" name="atendimento" rows="5" placeholder="Registrar atendimento" ></textarea>
-                                            </div>
-                                            <div id="messages"></div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
 
-                                            <button class="button form-group" onclick="salvarAtendimento()" type="button">Salvar</button>
-                                            
-                                        </div>
-                                        </div>
-                                    </div>
+                                        <video id="local-video" width="20%" class="video" autoplay></video>
+
+
+                                        <video id="remote-video" width="80%" class="video" autoplay></video>
+
                                     </div>
                                 </div>
-                            
+                                <div class="col-lg-12 col-md-12">
+                                    <div>
+                                        <button class="button" id="connect">Ligar</button></div>
+                                </div>
+                                <div class="col-lg-3 col-md-3"></div>
+                                <div class="col-lg-9 col-md-9">
+                                    <table>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <button type="button" class="btn btn-default" onclick="cima()"  aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                                                </button>
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <button type="button" class="btn btn-default" onclick="esquerda()"  aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                                                </button>
+                                            </td>
+                                            <td>STOP</td>
+                                            <td>
+                                                <button type="button" class="btn btn-default" onclick="direita()"  aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                                                </button>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <button type="button" class="btn btn-default" onclick="baixo()"  aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                                                </button>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                    </table>
+                                </div>                                
+                               <div class="col-lg-3 col-md-3"></div>
+                            </div>
+                            <div class="form-group col-lg-3 col-md-3"></div>
+                            <div class="form-group col-lg-6 col-md-6">
+                                <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
+                                    <option value="Excelente">Excelente</option>
+                                    <option value="Bom">Bom</option>
+                                    <option value="Médio">Médio</option>
+                                    <option value="Ruim">Ruim</option>
+                                    <option value="Pessimo">Péssimo</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-3 col-md-3"></div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <h3 class="panel-title">Cadastrar Atendimento</h3>
+                                    <div class="form-group col-lg-3 col-md-3"></div>
+                                    <div class="form-group col-lg-6 col-md-6">
+                                        <select class="form-control" name="tipoatendimento" id="tipoatendimento">
+                                            <option value="parecer">Parecer</option>
+                                            <option value="relatório">Relatório</option>
+                                            <option value="descrição">Descrição</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-3"></div>
+
+                                    <div class="form-group col-lg-12 col-md-12">
+                                        <textarea class="form-control" id="atendimento" name="atendimento" rows="5" placeholder="Registrar atendimento"></textarea>
+                                    </div>
+                                    <div id="messages"></div>
+
+                                    <button class="button form-group" onclick="salvarAtendimento()" type="button">Salvar</button>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+        </div>
+    </div>
+    </div>
         
     </div>
 </body>

@@ -13,12 +13,16 @@ var cadastrar = function (req) {
     //newPaciente.foto = req.body.foto;   transformar imagem em string
     newPaciente.telefone = req.body.telefone;
     newPaciente.quadro = req.body.quadro;
-    newPaciente.idRobo = req.body.idRobo;
     
-    if(!req.user.adm)
+    if (req.body.idRobo)
+        newPaciente.idRobo = req.body.idRobo;       
+    
+    if (!req.user.adm)
         newPaciente.idAtendente = req.user._id;
-    else
-        newPaciente.idAtendente = req.body.idAtendente;
+    else {
+        if (req.body.idAtendente)
+            newPaciente.idAtendente = req.body.idAtendente;
+    }
 
     if (newPaciente.idRobo && newPaciente.idAtendente) {
         RoboDAO.findById(newPaciente.idRobo, function (robo) {
@@ -36,7 +40,7 @@ var cadastrar = function (req) {
         });
     } else if(newPaciente.idAtendente) {
         UserDAO.findById(newPaciente.idAtendente, function (user) {
-            newPaciente.paciente = user.nome;
+            newPaciente.atendente = user.nome;
             newPaciente.save(function (err, pacienteCadastrado) {
                 if (err) throw err;
               //req.user.pacientes = pacienteCadastrado._id;
@@ -143,12 +147,16 @@ var update = function (req, idPaciente, callback) {
             paciente.foto = req.body.foto;
         paciente.telefone = req.body.telefone;
         paciente.quadro = req.body.quadro;
-        paciente.idRobo = req.body.idRobo;
+        if (req.body.idRobo)
+            paciente.idRobo = req.body.idRobo;       
+
         
         if (!req.user.adm)
             paciente.idAtendente = req.user._id;
-        else
-            paciente.idAtendente = req.body.idAtendente;
+        else {
+            if (req.body.idAtendente)
+                paciente.idAtendente = req.body.idAtendente;
+        }
 
         ////Pega o nome do robo////
         if (paciente.idRobo && paciente.idAtendente) {
@@ -164,7 +172,7 @@ var update = function (req, idPaciente, callback) {
             });
         } else if (paciente.idAtendente) {
             UserDAO.findById(paciente.idAtendente, function (user) {
-                paciente.paciente = user.nome;
+                paciente.atendente = user.nome;
                 paciente.save(function (err) {
                     if (err) throw err;                    
                     callback(paciente);

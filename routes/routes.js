@@ -190,7 +190,10 @@ module.exports = function (app, passport) {
     app.get('/cadastrarpaciente', isLoggedIn, function (req, res) {
         roboDAO.listarRobosDisponiveis(function (robos) {
             userDAO.listarUsersNoAdm(function (users) {       
+                if (robos)
                     res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users, user : req.user });
+                else
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });                    
             });
         });
     });
@@ -200,8 +203,25 @@ module.exports = function (app, passport) {
     app.get('/cadastrarpaciente/:id', isLoggedIn, function (req, res) {                
         pacienteDAO.findById(req.params.id, function (paciente) {
             roboDAO.listarRobosDisponiveis(function (robos) {
-                userDAO.listarUsersNoAdm(function (users) {                    
-                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users, user : req.user  });                    
+                userDAO.listarUsersNoAdm(function (users) {
+                    if (robos && paciente && user)
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users, user : req.user });
+                    else if (robos && user)
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robos, users : users, user : req.user });
+                    else if (paciente && user)
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robosVazio, users : users, user : req.user });
+                    else if (paciente && robos)
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robosVazio, users : users, user : req.user });
+
+                    else if (paciente)
+                        res.render('cadastrarpaciente.ejs', { paciente : paciente, robos : robosVazio, users : usersVazio, user : req.user });
+                    else if (user)
+                        res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });
+                    else if (robos)
+                        res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : usersVazio, user : req.user });
+
+                    else
+                        res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : usersVazio, user : req.user });                    
                 });
             });
         });        

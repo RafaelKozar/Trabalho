@@ -14,7 +14,7 @@ var configDB = require('./config/database.js');
 
 mongoose.connect(configDB.url);
 require('./config/passport')(passport); // pass passport for configuration
-
+var pacienteDAO = require('./Daos/pacienteDao');
 
 var fs = require('fs');
 //var cv = require('cloudcv-backend');
@@ -114,34 +114,43 @@ var global;
 
 var visitas = 0;
 
-io.sockets.on('connection', function (socket) {
-    visitas++;
-    // Envia o total de visitas para o novo usuário.
-    socket.emit('visits', visitas);
-    // Envia o total de visitas para os demais usuários.
-    socket.broadcast.emit('visits', visitas);
+io.sockets.on('connection', function (socket) {    
     
-    socket.on('enviar', function (img) {
-        data = img.replace(/^data:image\/png;base64,/, '');
-        
-        var filePath = '../public/images/test.png';
-        
-        fs.writeFile(filePath, data, 'base64', function (err) {
-            if (err) {
-                console.log('! Error saving PNG: ' + err);
-            } else {
-                console.log('> PNG file saved to: ' + filePath);
-            }
+    socket.on('cima', function (url) {
+        var val = url.split('/');
+        var idPaciente = val[val.length - 1];
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            console.log("cima");
         });
-        
-        
-        handleApiRequest("dominantColors", "http://localhost:3000/images/test.png");
-            
+    });
+    
+    socket.on('baixo', function (url) {
+        var val = url.split('/');
+        var idPaciente = val[val.length - 1];
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            console.log("baixo");
+        });
+                                    
+    });
+    
+    socket.on('direita', function (url) {
+        var val = url.split('/');
+        var idPaciente = val[val.length - 1];
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            console.log("direita");
+        });
+                                            
+    });
+    
+    socket.on('esquerda', function (url) {
+        var val = url.split('/');
+        var idPaciente = val[val.length - 1];
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            console.log("esquerda");
+        });                                            
     });
         
     socket.on('disconnect', function () {
-        visitas--;
-        // Atualiza o total de visitas para os demais usuários.
-        socket.broadcast.emit('message', visitas);
+                
     });
 });

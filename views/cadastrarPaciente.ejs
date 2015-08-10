@@ -57,32 +57,43 @@
                                             </div>
 
                                             <% if(user.adm) { %>
-
+                                            <%  if(typeof robos != 'undefined'){ %>
                                             <div class="form-group  col-lg-6 col-md-6">
                                                 <label>Robo do Paciente</label>
-                                                <select class="form-control" name="idRobo" id="idRobo">
-                                                    <%  if(typeof robos != 'undefined'){
-                                                            robos.forEach(function(robo) { 
+                                                <select class="form-control" name="idRobo" id="idRobo">                                                    
+                                                           <% robos.forEach(function(robo) { 
                                                                  if(robo._id == paciente.idRobo){  %>
                                                             <option value="<%= robo._id %>" selected><%= robo.nome %></option>
                                                     <% } else { %>
                                                            <option value="<%= robo._id %>"><%= robo.nome %></option>
-                                                    <% } }); }%>
+                                                    <% } });   %>
                                                 </select>
                                             </div>
+                                            <%  } else { %>
+                                            <div class="form-group  col-lg-6 col-md-6">
+                                                <label>Não existem mais robos disponíveis</label>
+                                                <input type="text" id="naocontemrobos" name="naocontemrobos"  value="<%= paciente.robo  %>" class="form-control" readonly/>
+                                                </div>
+                                              <%  } %>
 
+                                            <%  if(typeof users != 'undefined'){ %>
                                             <div class="form-group  col-lg-6 col-md-6">
                                                 <label>Atendente do Paciente</label>
                                                 <select class="form-control" name="idAtendente" id="idAtendente">
-                                                    <%  if(typeof users != 'undefined'){
+                                                    <%
                                                             users.forEach(function(user) { 
                                                                  if(user._id == paciente.idAtendente){  %>
                                                             <option value="<%= user._id %>" selected><%= user.nome %></option>
                                                     <% } else { %>
                                                            <option value="<%= user._id %>"><%= user.nome %></option>
-                                                    <% } }); }%>
+                                                    <% } }); %>
                                                 </select>
                                             </div>
+                                            <% } else { %>
+                                            <div class="form-group  col-lg-6 col-md-6">
+                                                <label>Não existem atendentes disponíveis</label>
+                                            </div>
+                                            <% } %>
 
                                             <% } %>
 
@@ -112,25 +123,37 @@
                                             </div>
                                            
                                             <% if (user.adm) { %>
+                                            <% if(typeof robos != 'undefined'){ %>
                                              <div class="form-group  col-lg-6 col-md-6">
                                                 <label>Robo do Paciente</label>
                                                 <select class="form-control" name="idRobo" id="idRobo">
-                                                    <%  if(typeof robos != 'undefined'){
+                                                   <%
                                                             robos.forEach(function(robo) { %>
                                                            <option value="<%= robo._id %>"><%= robo.nome %></option>
-                                                    <% }); }%>
+                                                    <% }); %>
                                                 </select>
                                             </div>
+                                            <% } else { %>
+                                            <div class="form-group  col-lg-6 col-md-6">
+                                                <label>Não existem robos disponíveis</label>
+                                                </div>
+                                            <% } %>
 
+                                            <%  if(typeof users != 'undefined'){ %>
                                             <div class="form-group  col-lg-6 col-md-6">
                                                 <label>Atendente do Paciente</label>
                                                 <select class="form-control" name="idAtendente" id="idAtendente">
-                                                    <%  if(typeof users != 'undefined'){
+                                                    <%
                                                             users.forEach(function(user) {   %>                                                                                                                        
                                                            <option value="<%= user._id %>"><%= user.nome %></option>
-                                                    <%  }); }%>
+                                                    <%  }); %>
                                                 </select>
                                             </div>
+                                            <% } else { %>
+                                            <div class="form-group  col-lg-6 col-md-6">
+                                                <label>Não existem atendentes disponíveis</label>
+                                            </div>
+                                            <% } %>
                                              
                                             <% } %>
 
