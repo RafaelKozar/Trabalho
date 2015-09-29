@@ -15,11 +15,23 @@ var messageVazio = undefined;
 module.exports = function (app, passport) {
     
     app.get('/', isLoggedIn, function (req, res) {
-        res.render('index');
+        res.redirect('/login')
     });
     
     app.get('/adm', function (req, res) {
         res.render('adm');
+    });
+    
+    app.get('/user', function (req, res) {
+        res.render('adm');
+    });
+    
+    app.get('/adm', function (req, res) {
+        res.render('adm');
+    });
+    
+    app.get('/index2', function (req, res) {
+        res.render('index2');
     });
     
     
@@ -243,7 +255,13 @@ module.exports = function (app, passport) {
         });
     });
     
-    
+    //* Teste com Android **/
+
+    app.get('/testeandroid', function (req, res) {
+        pacienteDAO.testeAndroid(function (pacientes) {
+            res.json({ user: 'Tobi' });
+        });
+    });
     
     ///ListarPacientes//// - GET
     /*Para cada paciente eu tenho um user e um robo atrelado*/
@@ -403,19 +421,25 @@ module.exports = function (app, passport) {
         else
             res.redirect('/listarmeuspacientes');
     });
+    
+    app.get('/adm', isAdm, function (req, res) {
+        res.render('adm.ejs');
+    });
 
     
-    /*
+    app.get('/')
+    
     app.get('/signup', function (req, res) {
         res.render('signup.ejs', { message: req.flash('loginMessage') });
     });
+    
     
     // process the signup form
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
-    })); */
+    })); 
 
 /*    app.get('/testar', function (req, res) {
         var red = roboDAO.listarRobosDisponiveis(function (robos) {
