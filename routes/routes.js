@@ -262,6 +262,12 @@ module.exports = function (app, passport) {
             res.json({ user: 'Tobi' });
         });
     });
+
+    app.get('/testeandroid', function (req, res) {
+        pacienteDAO.testeAndroid(function (pacientes) {
+            res.json({ user: 'Tobi' });
+        });
+    });
     
     ///ListarPacientes//// - GET
     /*Para cada paciente eu tenho um user e um robo atrelado*/
