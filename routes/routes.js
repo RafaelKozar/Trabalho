@@ -258,6 +258,7 @@ module.exports = function (app, passport) {
     //* Teste com Android **/
 
     app.post('/testeandroid', function (req, res) {
+        console.log("cheguei");
         pacienteDAO.testeAndroid(function (pacientes) {
             res.json({ user: 'Tobi' });
         });
