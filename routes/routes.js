@@ -23,7 +23,7 @@ module.exports = function (app, passport) {
     });
     
     app.get('/user', function (req, res) {
-        res.render('adm');
+        res.render('user');
     });
     
     app.get('/adm', function (req, res) {
@@ -424,9 +424,10 @@ module.exports = function (app, passport) {
 
     app.get('/redireciona', isLoggedIn, function (req, res) {
         if (req.user.adm)
-            res.redirect('/listarpacientes');
+            res.redirect('/adm');
         else
-            res.redirect('/listarmeuspacientes');
+            res.redirect('/user');
+            /// Aqui o user faz referência ao usuário comum///
     });
     
     app.get('/adm', isAdm, function (req, res) {
