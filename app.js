@@ -89,9 +89,35 @@ var global;
 
 var visitas = 0;
 
+
+var usernames = {};
+var numUsers = 0;
+
 io.on('connection', function (socket) {
     
-    console.log("conectou");   
+    console.log("conectou");
+    
+    ///////*Teste*///////
+    // when the client emits 'add user', this listens and executes
+    socket.on('add user', function (username) {
+        // we store the username in the socket session for this client
+        socket.username = username;
+        // add the client's username to the global list
+        usernames[username] = username;
+        ++numUsers;
+        console.log("hahaha1");
+        addedUser = true;
+        socket.emit('login', {
+            numUsers: numUsers
+        });
+        // echo globally (all clients) that a person has connected
+        socket.broadcast.emit('user joined', {
+            username: socket.username,
+            numUsers: numUsers
+        });
+    });
+    
+
     
     socket.on('enviar', function (commando) {
         console.log("huahauah");
