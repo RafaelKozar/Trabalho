@@ -97,49 +97,28 @@ io.on('connection', function (socket) {
     
     console.log("conectou");
     
-    ///////*Teste*///////
-    // when the client emits 'add user', this listens and executes
-    socket.on('add user', function (username) {
-        // we store the username in the socket session for this client
-        socket.username = username;
-        // add the client's username to the global list
-        usernames[username] = username;
-        ++numUsers;
-        console.log("hahaha1");
-        addedUser = true;
-        socket.emit('login', {
-            numUsers: numUsers
-        });
-        // echo globally (all clients) that a person has connected
-        socket.broadcast.emit('user joined', {
-            username: socket.username,
-            numUsers: numUsers
-        });
-    });
-    
-
+	//0 parar, 1 frente, 2 direita, 3 esquerda, 4 para atraz
     
     socket.on('enviar', function (commando) {
-        console.log("huahauah");
-        
+        console.log("huahauah");        
     });
     
-    socket.emit('comando', { comando : "cima" });
 
     socket.on('cima', function (url) {
         var val = url.split('/');
         var idPaciente = val[val.length - 1];
+		socket.emit('comando', {comando : 1});
         pacienteDAO.findById(idPaciente, function (paciente) {
-            console.log('cima');
-            socket.emit('comando');
+            /*console.log('cima');
+            socket.emit('comando', {comando : 1}); */
         });
     });
     
     socket.on('baixo', function (url) {
         var val = url.split('/');
         var idPaciente = val[val.length - 1];
+		socket.emit('comando', {comando : 4});
         pacienteDAO.findById(idPaciente, function (paciente) {            
-            socket.emit('comando', { comando : "baixo" });
         });
                                     
     });
@@ -147,8 +126,9 @@ io.on('connection', function (socket) {
     socket.on('direita', function (url) {
         var val = url.split('/');
         var idPaciente = val[val.length - 1];
+		socket.emit('comando', {comando : 2});
         pacienteDAO.findById(idPaciente, function (paciente) {            
-            socket.emit('comando', { comando : "direita" });
+            //socket.emit('comando', { comando : "direita" });
         });
                                             
     });
@@ -156,10 +136,15 @@ io.on('connection', function (socket) {
     socket.on('esquerda', function (url) {
         var val = url.split('/');
         var idPaciente = val[val.length - 1];
+		socket.emit('comando', {comando : 3});
         pacienteDAO.findById(idPaciente, function (paciente) {            
-            socket.emit('comando', { comando : "esquerda" });
+            //socket.emit('comando', { comando : "esquerda" });
         });
     });
+	
+	socket.on('parar', function(url){
+		
+	});
     
     socket.on('disconnect', function () {
                 
