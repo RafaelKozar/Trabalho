@@ -106,45 +106,50 @@ io.on('connection', function (socket) {
 
     socket.on('cima', function (url) {
         var val = url.split('/');
-        var idPaciente = val[val.length - 1];
-		socket.emit('comando', {comando : 1});
+        var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
-            /*console.log('cima');
-            socket.emit('comando', {comando : 1}); */
+            console.log('cima');
+            socket.emit('comando', {comando : 1, idRobo : paciente.idRobo}); 
         });
     });
     
     socket.on('baixo', function (url) {
         var val = url.split('/');
-        var idPaciente = val[val.length - 1];
-		socket.emit('comando', {comando : 4});
-        pacienteDAO.findById(idPaciente, function (paciente) {            
+        var idPaciente = val[val.length - 1];		
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            console.log('baixo');
+            socket.emit('comando', { comando : 3, idRobo : paciente.idRobo }); 
         });
                                     
     });
     
     socket.on('direita', function (url) {
         var val = url.split('/');
-        var idPaciente = val[val.length - 1];
-		socket.emit('comando', {comando : 2});
-        pacienteDAO.findById(idPaciente, function (paciente) {            
-            //socket.emit('comando', { comando : "direita" });
+        var idPaciente = val[val.length - 1];		
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            console.log("direita");
+            socket.emit('comando', { comando : 2, idRobo : paciente.idRobo });
         });
                                             
     });
     
     socket.on('esquerda', function (url) {
         var val = url.split('/');
-        var idPaciente = val[val.length - 1];
-		socket.emit('comando', {comando : 3});
+        var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {            
-            //socket.emit('comando', { comando : "esquerda" });
+            console.log("esquerda");
+            socket.emit('comando', { comando : 3, idRobo : paciente.idRobo });
         });
     });
 	
 	socket.on('parar', function(url){
-		
-	});
+        var val = url.split('/');
+        var idPaciente = val[val.length - 1];
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            console.log("parar");
+            socket.emit('comando', { comando : 0, idRobo : paciente.idRobo });
+        });
+    });
     
     socket.on('disconnect', function () {
                 

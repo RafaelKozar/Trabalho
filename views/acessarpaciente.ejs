@@ -17,8 +17,8 @@
     <script src="../javascripts/peer.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script>
-        var socket = io('http://104.131.163.197:3000');
-        //var socket = io('http://localhost:3000');
+        //var socket = io('http://104.131.163.197:3000');
+        var socket = io.connect('http://localhost:3000');
         var url = document.location.href;
 
         function cima() {
@@ -36,6 +36,10 @@
         function esquerda() {
             socket.emit('esquerda', url);
         };
+
+        function parar() {
+            socket.emit('parar', url);
+        }
     </script>
 </head>
 <script>
@@ -157,7 +161,9 @@
                                                     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                                                 </button>
                                             </td>
-                                            <td>STOP</td>
+                                            <td><button type="button" class="btn btn-default" onclick="parar()"  aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                                                </button></td>
                                             <td>
                                                 <button type="button" class="btn btn-default" onclick="direita()"  aria-label="Left Align">
                                                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
