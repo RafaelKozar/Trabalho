@@ -35,7 +35,7 @@ var findByEmail = function (email, callback) {
     User.find({ 'email' : email }, function (err, user) {
         if (!user) {
             callback(0);
-            return
+            return;
         }
         if (err) throw err;
         else if (user instanceof Array) {
@@ -53,16 +53,19 @@ var findByEmail = function (email, callback) {
 
 var verificaEmail = function (idUser, email, callback) {
     User.find({ 'email' : email }, function (err, user) {
-        if (!user) {
+        if (!user || user.length == 0) {
             callback("true");
-            return
+            return;
         }
+        
         if (err) throw err;
         else if (user instanceof Array && user.length > 1) {
             callback("false");
             return;
         }
-        else if (user) {
+
+        ///Entra aqui caso exista 1 email igual para outro usuário 
+        else if (user.length > 0) {
             User.findById(idUser, function (err, user2) {
                 if (user2.email != user[0].email) {
                     callback("false");

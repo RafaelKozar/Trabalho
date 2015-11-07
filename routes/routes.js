@@ -127,7 +127,7 @@ module.exports = function (app, passport) {
         if (tamanho == 5) {
             var idUser = url[4];
             userDAO.verificaEmail(idUser, email, function (message) {
-                res.end(JSON.stringify({ message : "true" }));
+                res.end(JSON.stringify({ message : message }));
             });
         } else {            
             userDAO.findByEmail(email, function (num) {
