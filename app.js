@@ -100,7 +100,7 @@ io.on('connection', function (socket) {
 	//0 parar, 1 frente, 2 direita, 3 esquerda, 4 para atraz
     
     socket.on('enviar', function (commando) {
-        console.log("huahauah");        
+        console.log("huahauah");
     });
     
 
@@ -108,17 +108,21 @@ io.on('connection', function (socket) {
         var val = url.split('/');
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
-            console.log('cima');
-            socket.emit('comando', {comando : 1, idRobo : paciente.idRobo}); 
+            console.log('cima');            
+            enviar('comando', { comando : 1, idRobo : paciente.idRobo });
         });
     });
+    
+    function enviar(data){
+        socket.broadcast.emit('comando', data); 
+    }
     
     socket.on('baixo', function (url) {
         var val = url.split('/');
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log('baixo');
-            socket.emit('comando', { comando : 3, idRobo : paciente.idRobo }); 
+            enviar('comando', { comando : 3, idRobo : paciente.idRobo }); 
         });
                                     
     });
@@ -128,7 +132,7 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("direita");
-            socket.emit('comando', { comando : 2, idRobo : paciente.idRobo });
+            enviar('comando', { comando : 2, idRobo : paciente.idRobo });
         });
                                             
     });
@@ -138,7 +142,7 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {            
             console.log("esquerda");
-            socket.emit('comando', { comando : 3, idRobo : paciente.idRobo });
+            enviar('comando', { comando : 3, idRobo : paciente.idRobo });
         });
     });
 	
@@ -147,7 +151,7 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("parar");
-            socket.emit('comando', { comando : 0, idRobo : paciente.idRobo });
+            enviar('comando', { comando : 0, idRobo : paciente.idRobo });
         });
     });
     
