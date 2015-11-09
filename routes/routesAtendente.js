@@ -23,6 +23,7 @@ module.exports = function (app, passport) {
             var returnJsonObj;
             returnJsonObj = {
                 idRobo: paciente.idRobo,
+                robo: paciente.robo,
                 idUser: req.user.id
             };
             res.writeHead(200, {
@@ -40,6 +41,7 @@ module.exports = function (app, passport) {
             var returnJsonObj;
             returnJsonObj = {
                 idRobo: paciente.idRobo,
+                robo: paciente.robo,
                 idUser: req.user.id
             };
             res.writeHead(200, {

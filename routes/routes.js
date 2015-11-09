@@ -140,6 +140,28 @@ module.exports = function (app, passport) {
     });
     
     
+    ///VerificarNome///
+    app.post('/verificarnome', function (req, res) {
+        var url = req.body.url;
+        url = url.split('/');
+        var nome = req.body.nome;
+        var tamanho = url.length;
+        if (tamanho == 5) {
+            var idRobo = url[4];
+            roboDAO.verificarNome(idRobo, nome, function (message) {
+                res.end(JSON.stringify({ message : message }));
+            });
+        } else {
+            roboDAO.findByNome(nome, function (num) {
+                if (num == 0)
+                    res.end(JSON.stringify({ message : "true" }));
+                else
+                    res.end(JSON.stringify({ message : "false" }));
+            });
+        }
+    });
+    
+    
     ///VerificarEmail///
     app.post('/verficaremailuser2', function (req, res) {
         var idUser = req.body.idUser;

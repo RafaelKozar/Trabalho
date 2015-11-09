@@ -47,12 +47,19 @@ var listarRobosSemPaciente = function (callback) {
 var findByNome = function (nomepesquisa) {
     var nomeRobo = new Robo();
     nomeRobo.find({ nome : nomepesquisa }, function (err, robos) {
-        if (!robos) {
-            callback(null);
+        if (!robos || robos.length == 0) {
+            callback(0);
             return;
         }
         if (err) throw err;
-        return robos;
+        else if (robos instanceof Array){
+            callback(robos.length);
+            return;
+        }
+        else if (robos) {
+            callback(1)
+            return
+        }            
     });
 };
 
@@ -172,11 +179,42 @@ var remove = function (idRobo, callback) {
 }
 
 
+var verificarNome = function (idRobo, nome, callback) {
+    Robo.find({ 'nome' : nome }, function (err, robo) {
+        if (!robo || robo.length == 0) {
+            callback("true");
+            return;
+        }
+        
+        if (err) throw err;
+        else if (robo instanceof Array && robo.length > 1) {
+            callback("false");
+            return;
+        }
+
+        ///Entra aqui caso exista 1 email igual e verifica se é o nome de outro robo
+        else if (robo.length > 0) {
+            Robo.findById(idRobo, function (err, robo2) {
+                if (robo2.nome != robo[0].nome) {
+                    callback("false");
+                    return;
+                }
+                else if (robo2.nome == robo[0].nome) {
+                    callback("true");
+                    return;
+                }
+            });
+        }
+    });
+}
+
+
 module.exports.cadastrar = cadastrar;
 module.exports.listarRobos = listarRobos;
 module.exports.listarRobosDisponiveis = listarRobosDisponiveis;
 module.exports.findByNome = findByNome;
 module.exports.findById = findById;
 module.exports.update = update;
-module.exports.remove = remove; 
+module.exports.remove = remove;
+module.exports.verificarNome = verificarNome;
 module.exports.testeRecursivo = testeRecursivo; 

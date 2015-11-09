@@ -22,7 +22,9 @@
 
 
     <div class="row">
-        <div class="col-lg-3 col-md-2 col-xs-0 col-sm-0"></div>
+        <div class="col-lg-3 col-md-2 col-xs-0 col-sm-0">
+            <button onclick="telaInteiraLocal()">Tela Inteira Local</button>
+        </div>
         <div class="col-lg-6 col-md-8  col-xs-12  col-sm-12">
             <div class="input-group">
                 <span class="input-group-btn">
@@ -31,16 +33,39 @@
                 <input type="text" class="form-control"  id="caller-id"  placeholder="Digite o Id do Robo">
             </div>
         </div>
-        <div class="col-lg-3 col-md-2 col-xs-0  col-sm-0"></div>
+        <div class="col-lg-3 col-md-2 col-xs-0  col-sm-0">
+            <button onclick="telaInteira()">Tela Inteira Remota</button>
+                                        <script>
+                                            function telaInteira() {
+                                                var elem = document.getElementById("remote-video");
+                                                if (elem.requestFullscreen) {
+                                                    elem.requestFullscreen();
+                                                } else if (elem.mozRequestFullScreen) {
+                                                    elem.mozRequestFullScreen();
+                                                } else if (elem.webkitRequestFullscreen) {
+                                                    elem.webkitRequestFullscreen();
+                                                }
+                                            }
+
+                                            function telaInteiraLocal() {
+                                                var elem = document.getElementById("local-video");
+                                                if (elem.requestFullscreen) {
+                                                    elem.requestFullscreen();
+                                                } else if (elem.mozRequestFullScreen) {
+                                                    elem.mozRequestFullScreen();
+                                                } else if (elem.webkitRequestFullscreen) {
+                                                    elem.webkitRequestFullscreen();
+                                                }
+                                            }
+                                        </script>
+        </div>
     </div>
 
 
     <div class="row">
         <div class="col-lg-12 col-md-12  col-xs-12  col-sm-12">
             
-            <video id="remote-video" class="videoRoboRemote" width="75%" autoplay>Remote</video>       
-       
-        
+            <video id="remote-video" class="videoRoboRemote" width="75%" autoplay>Remote</video>               
             
             <video id="local-video" class="videoRoboLocal" width="10%" autoplay>Local</video>
         </div>       
@@ -48,9 +73,6 @@
         <div  id="messages">
         </div>
 
-         <h2>BLE Heart Rate Demo</h2>
-            <h1 id="beatsPerMinute">...</h1>
-            <div id="statusDiv"></div>
     </div>
     <script src="./javascripts/peer.js"></script>
     <script src="./javascripts/main.js"></script>
