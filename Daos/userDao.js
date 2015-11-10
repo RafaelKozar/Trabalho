@@ -1,4 +1,5 @@
 ﻿var User = require('../routes/models/user');
+var historicoDao = require('./historicoDeAcessoDao.js');
 var pacienteDAO = require('./pacienteDao.js');
 var moongose = require('mongoose');
 
@@ -160,9 +161,14 @@ var update = function (req, idUser, callback) {
                 if (req.body.senha)
                     user.password = user.generateHash(req.body.password);
                 
-                
+                ///atualizar paciente
                 user.save(function (err) {
                     if (err) throw err;
+                    pacienteDAO.encontrarPacientesUser(user._id.toString(), function (paciente) {                        
+                        for (var x = 0; x < paciente.length; x++) 
+                            pacienteDAO.atualizarNomeAtendente(user, paciente[x]._id.toString(), function () { });                                                                        
+                    });
+                    historicoDao
                 });
                 
                 callback(user);
