@@ -423,6 +423,13 @@ module.exports = function (app, passport) {
         });
     });
     
+
+    app.post('/listarrobos', isAdm, function (req, res) {
+        var robos = roboDAO.listarRobos(function (robos) {
+            res.json({"robos" : robos});
+        });
+    });
+    
     
     //// LOGOUT /////
     app.get('/logout', function (req, res) {
