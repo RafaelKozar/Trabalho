@@ -424,7 +424,7 @@ module.exports = function (app, passport) {
     });
     
 
-    app.post('/listarrobos', isAdm, function (req, res) {
+    app.post('/listarrobosandroid', function (req, res) {
         var robos = roboDAO.listarRobos(function (robos) {
             res.json({"robos" : robos});
         });
