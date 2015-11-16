@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     localStream = stream;
                     
                     localVideo.src = window.URL.createObjectURL(stream);
-                    dial();
+                    //dial();
                     
                     if (successCb) {
                         successCb(stream);
