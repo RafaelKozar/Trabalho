@@ -4,8 +4,7 @@
 var roboScheme = mongoose.Schema({    
         nome : String,
         descricao : String,
-        ip : String,        
-        ipAndroid : String
+        atendente : Boolean
     });
 
 var robo = mongoose.model('Robo', roboScheme);

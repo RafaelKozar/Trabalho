@@ -162,6 +162,16 @@ var update = function (req, idRobo, callback) {
     });
 }
 
+var atualizarPaciente = function(idRobo, callback) {
+    Robo.findById(idRobo, function (err, robo) {
+        robo.paciente = true;
+        robo.save(function (err) {
+            if (err) throw err;
+            callback();
+        });
+    });
+}
+
 var remove = function (idRobo, callback) {
     Robo.findById(idRobo, function (err, robo) {
         if (!robo) {
@@ -217,4 +227,5 @@ module.exports.findById = findById;
 module.exports.update = update;
 module.exports.remove = remove;
 module.exports.verificarNome = verificarNome;
-module.exports.testeRecursivo = testeRecursivo; 
+module.exports.testeRecursivo = testeRecursivo;
+module.exports.atualizarPaciente = atualizarPaciente;

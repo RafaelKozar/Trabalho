@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
     // PeerJS server location
-    var SERVER_IP = '104.131.163.197';
+    var idPaciente;
+    var SERVER_IP = 'localhost';
     var SERVER_PORT = 9000;
+    $(document).ready(function () {
+        var url = window.location.href;
+        url = url.split('/');
+        var tam = url.length;
+        idPaciente = url[tam - 1];
+        connect()
+    });
     
     // DOM elements manipulated as user interacts with the app
     var messageBox = document.querySelector('#messages');
@@ -93,8 +101,8 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     // set caller ID and connect to the PeerJS server
-    var connect = function () {
-        callerId = callerIdEntry.value;
+    function connect() {
+        callerId = idPaciente;
         
         if (!callerId) {
             logError('please set caller ID first');
@@ -126,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 getLocalStream();
             };
             
-
+            
             console.log("1.3");
             // handle events representing incoming calls
             peer.on('call', answer);
@@ -136,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
             peer = null;
             logError('error while connecting to server');
         }
-    };
+    }    ;
     
     // make an outgoing call
     var dial = function () {

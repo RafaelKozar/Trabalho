@@ -1,11 +1,12 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-    var idRobo; var idUser;
+    var idRobo; var idUser; var nomeRobo;
     var recipientIdEntry = document.querySelector('#recipient-id');
     var parameter = { parametro : document.location.href };
     $.post('/conectacam', parameter, function (data) {
         idRobo = data.idRobo;
-        idUser = data.idUser;        
+        idUser = data.idUser;
+        nomeRobo = data.robo;
         //  getLocalStream();        
         //dial(idRobo);
         
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     // PeerJS server location
-    var SERVER_IP = '104.131.163.197';
+    var SERVER_IP = 'localhost';
     var SERVER_PORT = 9000;
     
     // DOM elements manipulated as user interacts with the app

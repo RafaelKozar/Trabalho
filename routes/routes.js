@@ -35,8 +35,26 @@ module.exports = function (app, passport) {
     });
     
     
-    app.get('/camera', function (req, res) {
+    app.get('/camera/:id', function (req, res) {        
         res.render('camera.ejs');
+    });
+    
+    
+    app.post('verificarrobo/:id', function (req, res) { 
+        var idRobo = req.params.id;
+        roboDAO.findById(idRobo, function (robo) {
+            if (robo.atendente) {
+                res.send(0);
+            }
+            else if (robo == null) {
+                res.send(-1)
+            }
+            else {
+                roboDAO.atualizarPaciente(idRobo, function () {
+                    res.send(1);
+                });
+            }
+        });
     });
     
     //// Usuário /////
@@ -424,10 +442,14 @@ module.exports = function (app, passport) {
     });
     
 
-    app.post('/listarrobosandroid', function (req, res) {
-        var robos = roboDAO.listarRobos(function (robos) {
-            res.json({"robos" : robos});
+    app.post('/listarrobosandroid', function (req, res) {        
+        var robos = roboDAO.listarRobos(function (robos) {            
+            res.json(robos);
         });
+    });
+    
+    app.post('/verificarrobo', function (req, res) {
+
     });
     
     

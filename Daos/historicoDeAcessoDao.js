@@ -3,6 +3,10 @@ var HistoricoAcesso = require('../routes/models/historicoDeAcesso');
 
 var pacienteDAO = require('./pacienteDao.js');
 
+var Paciente = require('../routes/models/paciente');
+var User = require('../routes/models/user');
+var Robo = require('../routes/models/robo');
+
 
 var cadastrar = function (acesso, callback) {
     var newHistorico = new HistoricoAcesso();
@@ -53,6 +57,10 @@ var buscarCont = function (callback) {
         }
     });
 };
+
+var encontrarUser = function (idHistorico, callback){
+    
+}
 
 var listarHistoricoDeAcessos = function (user, callback) {
     if (user.adm) {

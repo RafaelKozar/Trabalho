@@ -134,6 +134,24 @@ var findRoboRelacionado = function (idRobo){
     });
 }
 
+var encontrarPacientesUser = function (idAtendente, callback){
+    Paciente.find({ 'idAtendente' : idAtendente}, function (err, paciente) {
+        if (paciente) {
+            callback(paciente);
+            
+        }
+    });
+}
+
+var atualizarNomeAtendente = function (user, idPaciente, callback){
+    Paciente.findById(idPaciente, function (err, paciente) {
+        paciente.atendente = user.nome;
+        paciente.save(function (err) {
+            if (err) throw err;
+            callback();
+        });
+    });
+}
 
 var update = function (req, idPaciente, callback) {
     Paciente.findById(idPaciente, function (err, paciente) {
@@ -298,4 +316,6 @@ module.exports.updateRoboRelacionado = updateRoboRelacionado;
 module.exports.deleteRoboRelacionado = deleteRoboRelacionado;
 module.exports.updateAtendenteRelacionado  = updateAtendenteRelacionado ;
 module.exports.deleteAtendenteRelacionado = deleteAtendenteRelacionado;
+module.exports.encontrarPacientesUser = encontrarPacientesUser;
+module.exports.atualizarNomeAtendente = atualizarNomeAtendente;
 module.exports.remove = remove;  
