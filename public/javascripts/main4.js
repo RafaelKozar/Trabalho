@@ -1,15 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     // PeerJS server location
     var idPaciente;
-    var SERVER_IP = '104.131.163.197';
+    //var SERVER_IP = '104.131.163.197';
+    var SERVER_IP = 'localhost';
     var SERVER_PORT = 9000;
-    $(document).ready(function () {
-        var url = window.location.href;
-        url = url.split('/');
-        var tam = url.length;
-        idPaciente = url[tam - 1];
-        connect()
-    });
+    
     
     // DOM elements manipulated as user interacts with the app
     var messageBox = document.querySelector('#messages');
@@ -100,51 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         remoteVideo.src = window.URL.createObjectURL(stream);
     };
     
-    // set caller ID and connect to the PeerJS server
-    function connect() {
-        callerId = idPaciente;
-        
-        if (!callerId) {
-            logError('please set caller ID first');
-            return;
-        }
-        
-        console.log("irra");
-        console.log("irra2");
-        
-        try {
-            // create connection to the ID server
-            peer = new Peer(callerId, { host: SERVER_IP, port: SERVER_PORT });
-            console.log("1");
-            // hack to get around the fact that if a server connection cannot
-            // be established, the peer and its socket property both still have
-            // open === true; instead, listen to the wrapped WebSocket
-            // and show an error if its readyState becomes CLOSED
-            peer.socket._socket.onclose = function () {
-                console.log("erro");
-                logError('no connection to server');
-                //peer = null;
-            };
-            
-            // get local stream ready for incoming calls once the wrapped
-            // WebSocket is open
-            console.log("1.2");
-            peer.socket._socket.onopen = function () {
-                console.log("2");
-                getLocalStream();
-            };
-            
-            
-            console.log("1.3");
-            // handle events representing incoming calls
-            peer.on('call', answer);
-           //getLocalStream();
-        }
-    catch (e) {
-            peer = null;
-            logError('error while connecting to server');
-        }
-    }    ;
+    
     
     // make an outgoing call
     var dial = function () {
@@ -199,8 +150,66 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     // wire up button events
-    connectBtn.addEventListener('click', connect);
-    dialBtn.addEventListener('click', dial);
+    //connectBtn.addEventListener('click', connect);
+    // dialBtn.addEventListener('click', dial);
+
+
+
+    // set caller ID and connect to the PeerJS server
+    var connect = function () {
+        callerId = idPaciente;
+        
+        if (!callerId) {
+            logError('please set caller ID first');
+            return;
+        }
+        
+        console.log("irra");
+        console.log("irra2");
+        
+        try {
+            // create connection to the ID server
+            peer = new Peer(callerId, { host: SERVER_IP, port: SERVER_PORT });
+            console.log("1");
+            // hack to get around the fact that if a server connection cannot
+            // be established, the peer and its socket property both still have
+            // open === true; instead, listen to the wrapped WebSocket
+            // and show an error if its readyState becomes CLOSED
+            peer.socket._socket.onclose = function () {
+                console.log("erro");
+                logError('no connection to server');
+                //peer = null;
+            };
+            
+            // get local stream ready for incoming calls once the wrapped
+            // WebSocket is open
+            console.log("1.2");
+            peer.socket._socket.onopen = function () {
+                console.log("2");
+                getLocalStream();
+            };
+            
+            
+            console.log("1.3");
+            // handle events representing incoming calls
+            peer.on('call', answer);
+           //getLocalStream();
+        }
+    catch (e) {
+            peer = null;
+            logError('error while connecting to server');
+        }
+    };
+
+    $(document).ready(function () {
+        var url = window.location.href;
+        url = url.split('/');
+        var tam = url.length;
+        idPaciente = url[tam - 1];
+        connect();
+    });
 });
+
+
 
 
