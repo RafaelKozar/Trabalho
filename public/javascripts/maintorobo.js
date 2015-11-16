@@ -153,9 +153,9 @@ document.addEventListener('DOMContentLoaded', function () {
             return
         }
         
-        //var recipientId = recipientIdEntry.value;
+        var recipientId = recipientIdEntry.value;
         //var recipientId = callTo;
-        var recipientId = idRobo;
+        //var recipientId = idRobo;
         
         if (!recipientId) {
             logError('could not start call as no recipient ID is set');
