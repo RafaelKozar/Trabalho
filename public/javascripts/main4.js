@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // PeerJS server location
     var idPaciente;
-    var SERVER_IP = 'localhost';
+    var SERVER_IP = '104.131.163.197';
     var SERVER_PORT = 9000;
     $(document).ready(function () {
         var url = window.location.href;

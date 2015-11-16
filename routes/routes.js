@@ -43,15 +43,15 @@ module.exports = function (app, passport) {
     app.post('verificarrobo/:id', function (req, res) { 
         var idRobo = req.params.id;
         roboDAO.findById(idRobo, function (robo) {
-            if (robo.atendente) {
-                res.send(0);
+            if (robo.atendente) {                
+                res.json(0);
             }
             else if (robo == null) {
-                res.send(-1)
+                res.json(-1);
             }
             else {
                 roboDAO.atualizarPaciente(idRobo, function () {
-                    res.send(1);
+                    res.json(1);
                 });
             }
         });
