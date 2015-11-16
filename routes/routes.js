@@ -40,7 +40,7 @@ module.exports = function (app, passport) {
     });
     
     app.get('/camera2/:id', function (req, res) {
-        res.render('camera.ejs');
+        res.render('camera2.ejs');
     });
     
     
