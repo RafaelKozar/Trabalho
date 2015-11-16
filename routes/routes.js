@@ -39,6 +39,10 @@ module.exports = function (app, passport) {
         res.render('camera.ejs');
     });
     
+    app.get('/camera2/:id', function (req, res) {
+        res.render('camera.ejs');
+    });
+    
     
     app.post('verificarrobo/:id', function (req, res) { 
         var idRobo = req.params.id;
