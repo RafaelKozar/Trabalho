@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     // PeerJS server location
-    var idPaciente;
+    
     //var SERVER_IP = '104.131.163.197';
     var SERVER_IP = 'localhost';
     var SERVER_PORT = 9000;
     
+    var idRobot;
+    var idPaciente;
     
     // DOM elements manipulated as user interacts with the app
     var messageBox = document.querySelector('#messages');
@@ -75,6 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.log("irrarara");
                     });
                     
+                    dial();
+                    
                     if (successCb) {
                         successCb(stream);
                         console.log("olocobixo3");
@@ -109,7 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return
         }
         
-        var recipientId = recipientIdEntry.value;
+        //var recipientId = recipientIdEntry.value;
+        var recipientId = idPaciente;
         
         if (!recipientId) {
             logError('could not start call as no recipient ID is set');
@@ -157,8 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // set caller ID and connect to the PeerJS server
     var connect = function () {
-        callerId = idPaciente;
-        
+        callerId = idRobo;
         if (!callerId) {
             logError('please set caller ID first');
             return;
@@ -200,14 +204,33 @@ document.addEventListener('DOMContentLoaded', function () {
             logError('error while connecting to server');
         }
     };
+    
+    
+    //callerIdEntry.addEventListener('change', connect);
+    //global.addEventListener('change', connect);
+    
+    
+    var socket = io.connect('http://localhost:3000');
+    var url = document.location.href;
+    var valor = url.split('/');
+    idRobo = valor[valor.length - 1];
 
-    $(document).ready(function () {
+    socket.on(idRobo, function (dado) {
+        idPaciente = dado.idPaciente;        
+        $("recipient-id").val(idPaciente);        
+        $("caller-id").val(idRobo);
+        connect()
+    });
+
+    
+
+    /*$(document).ready(function () {
         var url = window.location.href;
         url = url.split('/');
         var tam = url.length;
         idPaciente = url[tam - 1];
         connect();
-    });
+    });*/
 });
 
 

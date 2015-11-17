@@ -10,7 +10,39 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
     <link rel="stylesheet" href="../stylesheets/estilo.css" />
-   
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script>
+       /* var socket = io.connect('http://localhost:3000');
+        var url = document.location.href;
+        var valor = url.split('/');
+        var idRobo = valor[valor.length - 1];
+        var mIdPaciente;
+        var global = function () {
+            var id = mIdPaciente;
+        }
+
+        socket.on('vai', function () {
+            console.log("ehehe");
+        });
+
+        var callerIdEntry = document.querySelector('#caller-id');
+
+        socket.on(idRobo, function (dado) {            
+            mIdPaciente = dado.idPaciente;
+            /*var elementpac = document.getElementById("recipient-id");
+            var elementrob = document.getElementById("caller-id");
+
+            elementpac.innerHTML = mIdPaciente;
+            elementrob.innerHTML = idRobo;*/
+            /*$("recipient-id").val() = mIdPaciente;
+
+       //     $("#d").change();
+
+
+            $("caller-id").val() = idRobo;
+            dial()
+        }); */
+    </script>   
 
 </head>
 <script>
@@ -19,8 +51,9 @@
     </script>
 
 <body>
-
-
+    <input type="text"  id="recipient-id" />
+    <input type="text"  id="caller-id">
+    
     <div class="row">
         <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
             <button onclick="telaInteiraLocal()">Tela Inteira Local</button>

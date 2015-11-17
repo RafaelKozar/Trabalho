@@ -21,6 +21,10 @@
         var socket = io.connect('http://localhost:3000');
         var url = document.location.href;
 
+        function ligar() {
+            socket.emit('conectar', url);
+        }
+
         function cima() {
             socket.emit('cima', url);
         };
@@ -162,7 +166,7 @@
                                 </div>
                                 <div class="col-lg-12 col-md-12">
                                     <div>
-                                        <button class="button" id="connect">Ligar</button></div>
+                                        <button class="button" id="connect" onclick="ligar()">Ligar</button></div>
                                 </div>
                                 <div class="col-lg-3 col-md-3"></div>
                                 <div class="col-lg-9 col-md-9">

@@ -103,8 +103,18 @@ io.on('connection', function (socket) {
         console.log("huahauah");
     });
     
+    
+    socket.on('conectar', function (url) {
+        var valor = url.split('/');
+        var idPaciente = valor[valor.length - 1];
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            socket.broadcast.emit(paciente.idRobo, {idPaciente : idPaciente});
+        });
+    });
+    
 
     socket.on('cima', function (url) {
+        socket.broadcast.emit('vai');
         var val = url.split('/');
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
