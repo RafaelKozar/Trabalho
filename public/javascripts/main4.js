@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
         connect()
     });
 
-    
+    connectBtn.addEventListener('click', connect);
 
     /*$(document).ready(function () {
         var url = window.location.href;
