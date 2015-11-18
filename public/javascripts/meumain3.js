@@ -3,8 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var idRobo; var idPaciente; var nomeRobo;
     var recipientIdEntry = document.querySelector('#recipient-id');
     url = document.location.href;
-    url = url.split('/');
-    idPaciente = url[url.length - 1];
+    var result = url.split('/');
+          
+    idPaciente = result[result.length - 1];
     var parameter = { parametro : document.location.href };
     $.post('/conectacam', parameter, function (data) {
         idRobo = data.idRobo;
