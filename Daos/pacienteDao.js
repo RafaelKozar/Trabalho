@@ -1,6 +1,8 @@
 ﻿var Paciente = require('../routes/models/paciente');
 var RoboDAO = require('./roboDao.js');
 var UserDAO = require('./userDao.js');
+var AtendimentoDAO = require('./atendimentoDao.js');
+var HistoricoDAO = require('./historicoDeAcessoDao.js');
 var moongose = require('mongoose');
 
 
@@ -153,6 +155,26 @@ var atualizarNomeAtendente = function (user, idPaciente, callback){
     });
 }
 
+var encontrarRobosPaciente = function (idRobo, callback) {
+    Paciente.find({ 'idRobo' : idRobo }, function (err, paciente) {
+        if (paciente) {
+            callback(paciente);
+            
+        }
+    });
+}
+
+var atualizarNomeRobo = function (robo, idPaciente, callback) {
+    Paciente.findById(idPaciente, function (err, paciente) {
+        paciente.robo = robo.nome;
+        paciente.save(function (err) {
+            if (err) throw err;
+            callback();
+        });
+    });
+}
+
+
 var update = function (req, idPaciente, callback) {
     Paciente.findById(idPaciente, function (err, paciente) {
         if (!paciente) {
@@ -183,7 +205,8 @@ var update = function (req, idPaciente, callback) {
                     paciente.atendente = user.nome;
                     paciente.robo = robo.nome;
                     paciente.save(function (err) {
-                        if (err) throw err;                        
+                        if (err) throw err;
+                        registrarPaciente(paciente);                 
                         callback(paciente);
                     });
                 });
@@ -192,7 +215,8 @@ var update = function (req, idPaciente, callback) {
             UserDAO.findById(paciente.idAtendente, function (user) {
                 paciente.atendente = user.nome;
                 paciente.save(function (err) {
-                    if (err) throw err;                    
+                    if (err) throw err;
+                    registrarPaciente(paciente);             
                     callback(paciente);
                 });
             });
@@ -202,14 +226,28 @@ var update = function (req, idPaciente, callback) {
                 paciente.robo = robo.nome;
                 paciente.save(function (err) {
                     if (err) throw err;
+                    registrarPaciente(paciente);
                 });
             });
         } else {
             paciente.save(function (err) {
                 if (err) throw err;
+                registrarPaciente(paciente);
                 callback(paciente);
             });
         }
+    });
+}
+
+function registrarPaciente(paciente){
+    AtendimentoDAO.encontrarAtendimentoPaciente(paciente._id.toString(), function (atendimentos) { 
+        for (var x = 0; x < atendimentos.length; x++)
+            AtendimentoDAO.atualizarNomePaciente(paciente, atendimentos[x]._id.toString(), function () { });
+    });
+
+    HistoricoDAO.encontrarHistoricoPaciente(paciente._id.toString(), function (historicos) {
+        for (var k = 0; k < historicos.length; k++)
+            HistoricoDAO.atualizarHistoricoPaciente(paciente, historicos[k]._id.toString(), function () { });
     });
 }
 
@@ -306,6 +344,7 @@ var deleteAtendenteRelacionado = function (idAtendente, callback) {
 }
 
 
+
 module.exports.cadastrar = cadastrar;
 module.exports.listarPacientes = listarPacientes;
 module.exports.findByNome = findByNome;
@@ -318,4 +357,8 @@ module.exports.updateAtendenteRelacionado  = updateAtendenteRelacionado ;
 module.exports.deleteAtendenteRelacionado = deleteAtendenteRelacionado;
 module.exports.encontrarPacientesUser = encontrarPacientesUser;
 module.exports.atualizarNomeAtendente = atualizarNomeAtendente;
-module.exports.remove = remove;  
+
+module.exports.encontrarRobosPaciente = encontrarRobosPaciente;
+module.exports.atualizarNomeRobo = atualizarNomeRobo;
+module.exports.remove = remove;
+

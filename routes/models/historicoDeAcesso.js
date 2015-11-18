@@ -5,7 +5,7 @@ var historicoDeAcessoSchema = moongose.Schema({
     robo : String,
     idUser : String,
     user : String,
-    idPacinte : String,
+    idPaciente : String,
     paciente : String,
     numeroDoAcesso : Number,
     tempInicial : String,

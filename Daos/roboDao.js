@@ -1,6 +1,7 @@
 ﻿var Robo = require('../routes/models/robo');
 var User = require('../routes/models/user');
-var pacienteDAO = require('./pacienteDao.js')
+var pacienteDAO = require('./pacienteDao.js');
+var historicoDAO = require('./historicoDeAcessoDao.js');
 var moongose = require('mongoose');
 var promise = require('q');
 
@@ -154,7 +155,16 @@ var update = function (req, idRobo, callback) {
         robo.descricao = req.body.descricao
         
         console.log(robo._id);
+        
         robo.save(function (err) {
+            pacienteDAO.encontrarRobosPaciente(robo._id.toString(), function (pacientes) {
+                for (var i = 0; i < pacientes.length; i++)
+                    pacienteDAO.atualizarNomeRobo(robo, pacientes[i]._id.toString(), function () { });
+            });
+            historicoDAO.encontrarHistoricoRobo(robo._id.toString(), function (historicos) {
+                for (var k = 0; k < historicos.length; k++)
+                    historicoDAO.atualizarHistoricoRobo(robo, historicos[k]._id.toString(), function () { });
+            });
             if (err) throw err;
         });
         
@@ -217,6 +227,7 @@ var verificarNome = function (idRobo, nome, callback) {
         }
     });
 }
+
 
 
 module.exports.cadastrar = cadastrar;

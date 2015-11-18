@@ -124,7 +124,7 @@ io.on('connection', function (socket) {
     });
     
     function enviar(data){
-        socket.broadcast.emit('comando', data); 
+        socket.broadcast.emit(idRobo, data); 
     }
     
     socket.on('baixo', function (url) {

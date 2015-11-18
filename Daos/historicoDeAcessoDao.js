@@ -3,6 +3,7 @@ var HistoricoAcesso = require('../routes/models/historicoDeAcesso');
 
 var pacienteDAO = require('./pacienteDao.js');
 
+
 var Paciente = require('../routes/models/paciente');
 var User = require('../routes/models/user');
 var Robo = require('../routes/models/robo');
@@ -31,8 +32,8 @@ var cadastrar = function (acesso, callback) {
         */
         //newHistorico.horarioDoAtendimento = newHistorico.data.getHours() + " : " + newHistorico.data.getMinutes();
 
-        pacienteDAO.findById(newHistorico.idPaciente, function (paciente) {
-            newHistorico.paciente = paciente.nome;
+        pacienteDAO.findById(acesso.idPaciente, function (paciente) {
+            newHistorico.paciente = paciente.nome;            
             newHistorico.idRobo = paciente.idRobo;
             newHistorico.robo = paciente.robo;
             newHistorico.save(function (err) {
@@ -102,8 +103,73 @@ var findById = function (idHistorico, callback) {
         }
         callback(historico);
     });
-}   
+}
+
+
+var encontrarHistoricoUser = function (idUser, callback) {
+    HistoricoAcesso.find({ 'idUser' : idUser }, function (err, historico) {
+        if (historico) {
+            callback(historico);
+        }
+    });
+}
+
+var atualizarNomeUserHistorico = function (user, idUser, callback) {
+    HistoricoAcesso.findById(idUser, function (err, historico) {
+        historico.user = user.nome;
+        historico.save(function (err) {
+            if (err) throw err;
+            callback();
+        });
+    });
+}
+
+var encontrarHistoricoRobo = function (idRobo, callback) {
+    HistoricoAcesso.find({ 'idRobo' : idRobo }, function (err, historico) {
+        if (historico) {
+            callback(historico);
+        }
+    });
+}
+
+var atualizarHistoricoRobo = function (robo, idHistorico, callback) {
+    HistoricoAcesso.findById(idHistorico, function (err, historico) {
+        historico.robo = robo.nome;
+        historico.save(function (err) {
+            if (err) throw err;
+            callback();
+        });
+    });
+}
+
+
+var encontrarHistoricoPaciente = function (idPaciente, callback) {    
+    HistoricoAcesso.find({ 'idPaciente' : idPaciente }, function (err, historico) {
+        if (historico) {
+            callback(historico);
+        }
+    });
+}
+
+var atualizarHistoricoPaciente = function (paciente, idHistorico, callback) {
+    HistoricoAcesso.findById(idHistorico, function (err, historico) {
+        historico.paciente = paciente.nome;
+        historico.save(function (err) {
+            if (err) throw err;
+            callback();
+        });
+    });
+}
 
 module.exports.cadastrar = cadastrar;
 module.exports.listarHistoricoDeAcessos = listarHistoricoDeAcessos;
 module.exports.findById = findById;
+
+module.exports.encontrarHistoricoUser = encontrarHistoricoUser;
+module.exports.atualizarNomeUserHistorico = atualizarNomeUserHistorico;
+
+module.exports.encontrarHistoricoRobo = encontrarHistoricoRobo;
+module.exports.atualizarHistoricoRobo = atualizarHistoricoRobo;
+
+module.exports.encontrarHistoricoPaciente = encontrarHistoricoPaciente;
+module.exports.atualizarHistoricoPaciente = atualizarHistoricoPaciente;

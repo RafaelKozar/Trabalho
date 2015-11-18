@@ -17,19 +17,21 @@
 
 </head>
 <script>
-      
-
-    </script>
+    function recarregar() {
+        location.reload();
+    }
+</script>
 
 <body>
-    <input type="text"  id="recipient-id" />
-    <input type="text"  id="caller-id">
+    <input type="hidden"  id="recipient-id" />
+    <input type="hidden"  id="caller-id">
     
     <div class="row">
         <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
             <button onclick="telaInteiraLocal()">Tela Inteira Local</button>
-            <button class="button" id="connect" onclick="ligar()">Ligar</button></div>
+            <!-- <button class="button" id="connect" onclick="ligar()">Ligar</button></div> -->
             <button onclick="telaInteira()">Tela Inteira Remota</button>
+            <button onclick="recarregar()">Recarregar</button>       
         </div>        
         </div>
       
