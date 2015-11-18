@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //callerIdEntry.addEventListener('change', connect);
     //global.addEventListener('change', connect);
     
-    
+    //
     //var socket = io.connect('http://localhost:3000');
     var socket = io.connect('http://104.131.163.197:3000');
     var url = document.location.href;

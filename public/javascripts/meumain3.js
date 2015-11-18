@@ -1,11 +1,12 @@
 
-document.addEventListener('DOMContentLoaded', function () {
+ document.addEventListener('DOMContentLoaded', function () { 
     var idRobo; var idPaciente; var nomeRobo;
     var recipientIdEntry = document.querySelector('#recipient-id');
     url = document.location.href;
-    var result = url.split('/');
-          
-    idPaciente = result[result.length - 1];
+    var result = url.split('/', 5);
+    idPaciente = result[4];    
+    //idPaciente = result[result.length - 1];
+    
     var parameter = { parametro : document.location.href };
     $.post('/conectacam', parameter, function (data) {
         idRobo = data.idRobo;
@@ -113,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         
         
-        callerId = idUser;
+        callerId = idPaciente;
         //console.log(idUser);
         //callerId = "id";
         if (!callerId) {
