@@ -2,10 +2,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     var idRobo; var idPaciente; var nomeRobo;
     var recipientIdEntry = document.querySelector('#recipient-id');
+    url = document.location.href;
+    url = url.split('/');
+    idPaciente = url[url.length - 1];
     var parameter = { parametro : document.location.href };
     $.post('/conectacam', parameter, function (data) {
         idRobo = data.idRobo;
-        idPaciente = data.idPaciente;
+        idUser = data.idUser;
         nomeRobo = data.robo;
         //  getLocalStream();        
         //dial(idRobo);
@@ -109,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         
         
-        callerId = idPaciente;
+        callerId = idUser;
         //console.log(idUser);
         //callerId = "id";
         if (!callerId) {
