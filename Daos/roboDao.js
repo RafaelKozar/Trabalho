@@ -228,8 +228,31 @@ var verificarNome = function (idRobo, nome, callback) {
     });
 }
 
+var getStatus = function (idRobo, callback){
+    Robo.findById(idRobo, function (err, robo) {
+        if (!robo.status || robo.status == null) {
+            robo.status = true;
+            robo.save(function (err) {
+                if (err) throw err;
+                callback(1);
+            });            
+        }            
+        else
+            callback(-1);
+    });
+}
 
+var setStatus = function (idRobo){
+    Robo.findById(idRobo, function (err, robo) {
+        robo.status = false;
+        robo.save(function (err) {
+            if (err) throw err;            
+        });            
+    });
+}
 
+module.exports.getStatus = getStatus;
+module.exports.setStatus = setStatus;
 module.exports.cadastrar = cadastrar;
 module.exports.listarRobos = listarRobos;
 module.exports.listarRobosDisponiveis = listarRobosDisponiveis;

@@ -4,6 +4,7 @@
 var roboScheme = mongoose.Schema({    
         nome : String,
         descricao : String,
+        statusUso  : Boolean,
         atendente : Boolean
     });
 

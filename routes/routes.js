@@ -456,8 +456,19 @@ module.exports = function (app, passport) {
     });
     
     app.post('/verificarrobo', function (req, res) {
-
+        var idRobo = req.params.idRobo;
+        roboDAO.getStatus(idRobo, function (status) {
+            if (status == 1)
+                res.send("SIM");
+            else
+                res.send("NAO");
+        });
     });
+    
+    app.post('/desconectarobo', function (req, res){
+        var idRobo = req.params.idRobo;
+        roboDAO.setStatus(idRobo);
+    })
     
     
     //// LOGOUT /////

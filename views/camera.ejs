@@ -20,6 +20,16 @@
     function recarregar() {
         location.reload();
     }
+
+    window.onbeforeunload = exitSetStatus();
+    var url = document.location.href;
+    var result = url.split('/', 5);
+    var idRobo = result[4];
+
+    function exitSetStatus() {
+        var param = { idRobo: idRobo }
+        $.post('/desconectarobo', param, function () { });
+    }
 </script>
 
 <body>

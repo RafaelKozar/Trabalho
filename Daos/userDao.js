@@ -216,6 +216,18 @@ var editaPefil = function (req, idUser, callback) {
                 
                 user.save(function (err) {
                     if (err) throw err;
+                    pacienteDAO.encontrarPacientesUser(user._id.toString(), function (paciente) {
+                        for (var x = 0; x < paciente.length; x++)
+                            pacienteDAO.atualizarNomeAtendente(user, paciente[x]._id.toString(), function () { });
+                    });
+                    atendimentoDao.encontrarAtendimentoUser(user._id.toString(), function (atendimento) {
+                        for (var i = 0; i < atendimento.length; i++)
+                            atendimentoDao.atualizarNomeUser(user, atendimento[i]._id.toString(), function () { });
+                    });
+                    historicoDao.encontrarHistoricoUser(user._id.toString(), function (historico) {
+                        for (var k = 0; k < historico.length; k++)
+                            historicoDao.atualizarNomeUserHistorico(user, historico[i]._id.toString(), function () { });
+                    });
                     callback("editado com sucesso");
                 });
                 
