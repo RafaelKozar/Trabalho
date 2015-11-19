@@ -175,7 +175,7 @@ var update = function (req, idUser, callback) {
                     });
                     historicoDao.encontrarHistoricoUser(user._id.toString(), function (historico) {
                         for (var k = 0; k < historico.length; k++)
-                            historicoDao.atualizarNomeUserHistorico(user, historico[i]._id.toString(), function () { });    
+                            historicoDao.atualizarNomeUserHistorico(user, historico[k]._id.toString(), function () { });    
                     });
                 });
                 
@@ -226,7 +226,7 @@ var editaPefil = function (req, idUser, callback) {
                     });
                     historicoDao.encontrarHistoricoUser(user._id.toString(), function (historico) {
                         for (var k = 0; k < historico.length; k++)
-                            historicoDao.atualizarNomeUserHistorico(user, historico[i]._id.toString(), function () { });
+                            historicoDao.atualizarNomeUserHistorico(user, historico[k]._id.toString(), function () { });
                     });
                     callback("editado com sucesso");
                 });
