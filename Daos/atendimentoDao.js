@@ -55,6 +55,7 @@ var listarAtendimentos = function (user, callback){
 
 var findById = function (idAtendimento, callback) 
 {   
+    
     Atendimento.findById(idAtendimento, function (err, atendimento) {
         // if (err) callback('err');
         if (!atendimento) {
@@ -83,6 +84,28 @@ var atualizarNomePaciente = function (paciente, idAtendimento, callback) {
     });
 }
 
+
+var encontrarAtendimentoUser = function (idUser, callback) {
+    Atendimento.find({ 'idUser' : idUser }, function (err, atendimento) {
+        if (atendimento) {
+            callback(atendimento);
+        }
+    });
+}
+
+var atualizarNomeUser = function (user, idAtendimento, callback) {
+    Atendimento.findById(idAtendimento, function (err, atendimento) {
+        atendimento.user = user.nome;
+        atendimento.save(function (err) {
+            if (err) throw err;
+            callback();
+        });
+    });
+}
+
+
+module.exports.encontrarAtendimentoUser = encontrarAtendimentoUser;
+module.exports.atualizarNomeUser = atualizarNomeUser;
 module.exports.encontrarAtendimentoPaciente = encontrarAtendimentoPaciente;
 module.exports.atualizarNomePaciente = atualizarNomePaciente;
 module.exports.cadastar = cadastrar;
