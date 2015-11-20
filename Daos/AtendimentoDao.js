@@ -2,7 +2,7 @@
 var pacienteDAO = require('./pacienteDao.js');
 var moongose = require('mongoose');
 
-var cadastrar = function (atendimento, callback){
+var cadastrar = function (atendimento, callback) {
     var newAtendimento = new Atendimento();
     newAtendimento.idPaciente = atendimento.idPaciente;
     newAtendimento.data = atendimento.data;
