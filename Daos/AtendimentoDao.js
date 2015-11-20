@@ -10,7 +10,7 @@ var cadastrar = function (atendimento, callback){
     newAtendimento.tipoAtendimento = atendimento.tipoAtendimento;
     newAtendimento.idUser = atendimento.idUser;
     newAtendimento.user = atendimento.user;
-    /*  //////
+    /*  ////////
     newAtendimento.dataFormatada = newAtendimento.data.getDate() + "/" + newAtendimento.data.getMonth() + 1 + "/" + newAtendimento.data.getFullYear();
     newAtendimento.horarioDoAtendimento = newAtendimento.data.getHours() + " : " + newAtendimento.data.getMinutes();
     */
