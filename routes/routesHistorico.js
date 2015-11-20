@@ -5,7 +5,7 @@ var Atendimento = require('../routes/models/atendimento.js');
 
 
 
-module.exports = function (app, passport) {
+function rotashistorico(app, passport) {
     var historicoDeAcessoVazio = undefined;
     var atendimentoVazio = undefined;
     
@@ -131,6 +131,8 @@ function isLoggedIn(req, res, next) {
         return next();    
     res.redirect('/login');
 }
+
+module.exports = rotashistorico;
 
 function isAdm(req, res, next) {
     if (req.isAuthenticated())

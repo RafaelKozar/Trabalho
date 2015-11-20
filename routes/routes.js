@@ -12,7 +12,9 @@ var messageVazio = undefined;
 
 
 
-module.exports = function (app, passport) {
+
+
+ function carregarotas (app, passport) {
     
     app.get('/', isLoggedIn, function (req, res) {
         res.redirect('/login')
@@ -63,6 +65,9 @@ module.exports = function (app, passport) {
             }
         });
     });
+    
+    
+
     
     //// Usuário /////
     
@@ -525,6 +530,8 @@ module.exports = function (app, passport) {
         });
     });*/
 };
+
+module.exports = carregarotas;
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {

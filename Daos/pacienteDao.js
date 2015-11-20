@@ -175,6 +175,7 @@ var atualizarNomeRobo = function (robo, idPaciente, callback) {
 }
 
 
+
 var update = function (req, idPaciente, callback) {
     Paciente.findById(idPaciente, function (err, paciente) {
         if (!paciente) {
@@ -202,8 +203,10 @@ var update = function (req, idPaciente, callback) {
         if (paciente.idRobo && paciente.idAtendente) {
             RoboDAO.findById(paciente.idRobo, function (robo) {
                 UserDAO.findById(paciente.idAtendente, function (user) {
-                    paciente.atendente = user.nome;
-                    paciente.robo = robo.nome;
+                    
+                    verificaUserExistente(paciente, user);
+                    verificaRoboExistente(paciente, robo);                    
+
                     paciente.save(function (err) {
                         if (err) throw err;
                         registrarPaciente(paciente);                 
@@ -213,7 +216,10 @@ var update = function (req, idPaciente, callback) {
             });
         } else if (paciente.idAtendente) {
             UserDAO.findById(paciente.idAtendente, function (user) {
-                paciente.atendente = user.nome;
+                //paciente.atendente = user.nome;
+
+                verificaUserExistente(paciente, user);                
+
                 paciente.save(function (err) {
                     if (err) throw err;
                     registrarPaciente(paciente);             
@@ -223,7 +229,10 @@ var update = function (req, idPaciente, callback) {
         }
         else if (paciente.idAtendente) {
             RoboDAO.findById(paciente.idRobo, function (robo) {
-                paciente.robo = robo.nome;
+                //paciente.robo = robo.nome;
+                
+                verificaRoboExistente(paciente, robo);
+
                 paciente.save(function (err) {
                     if (err) throw err;
                     registrarPaciente(paciente);
@@ -237,6 +246,22 @@ var update = function (req, idPaciente, callback) {
             });
         }
     });
+}
+
+function verificaRoboExistente(paciente, robo){
+    if (robo) paciente.robo = robo.nome;
+    else {
+        paciente.robo = "";
+        paciente.idRobo = "";
+    }
+}
+
+function verificaUserExistente(paciente, user){
+    if (user) paciente.atendente = user.nome;
+    else {
+        paciente.atendente = "";
+        paciente.idAtendente = "";
+    }
 }
 
 function registrarPaciente(paciente){

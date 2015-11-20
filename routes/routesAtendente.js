@@ -7,7 +7,7 @@ var peer = require('../config/main.js');
 var pacientesVazio = undefined;
 var messageVazio = undefined;
 
-module.exports = function (app, passport) {
+function carregarotasatendente (app, passport) {
     
     ///acessa a camera do paciente/// get
     app.get('/acessarpaciente/:id', isLoggedIn, function (req, res) {
@@ -125,6 +125,8 @@ module.exports = function (app, passport) {
     });
     
 };
+
+module.exports = carregarotasatendente;
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
