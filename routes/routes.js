@@ -20,34 +20,17 @@ var messageVazio = undefined;
         res.redirect('/login')
     });
     
-    app.get('/adm', function (req, res) {
+    app.get('/adm', isAdm, function (req, res) {
         res.render('adm');
     });
     
-    app.get('/user', function (req, res) {
+    app.get('/user', isLoggedIn, function (req, res) {
         res.render('user');
     });
     
-    app.get('/adm', function (req, res) {
-        res.render('adm');
-    });
-    
-    app.get('/index2', function (req, res) {
-        res.render('index2');
-    });
-    
-    
     app.get('/camera/:id', function (req, res) {        
         res.render('camera.ejs');
-    });
-    
-    app.get('/camera2/:id', function (req, res) {
-        res.render('camera2.ejs');
-    });
-    
-    app.get('/camera5', function (req, res) {
-        res.render('camera5.ejs');
-    });
+    });   
     
     app.post('verificarrobo/:id', function (req, res) { 
         var idRobo = req.params.id;
@@ -67,49 +50,8 @@ var messageVazio = undefined;
     });
     
     
-
-    
     //// Usuário /////
     
-    
-    ////EditarPerfil////   GET
-    app.get('/editarperfil', isAdm, function (req, res) {
-        res.render('editarperfil.ejs', {user : req.user});
-    });
-    
-    
-    ////EditarPerfilUser////   GET
-    app.get('/editarperfiluser', isLoggedIn, function (req, res) {
-        res.render('editarperfiluser.ejs', { user : req.user });
-    });
-
-
-    ////EditarPerfil//// POST
-    app.post('/editarperfil', isAdm, function (req, res) {
-        req.user;
-        userDAO.editaPefil(req, req.user._id, function (user) {
-            if (user) {
-                req.session.message = "perfil editado com sucesso";
-                res.redirect('/listarpacientes');
-                
-                //res.render('editarperfil.ejs', { message : "perfil editado com sucesso", user : user })
-            }
-        });
-    });
-    
-    
-    ////EditarPerfilUser//// POST
-    app.post('/editarperfiluser', isLoggedIn, function (req, res) {
-        req.user;
-        userDAO.editaPefil(req, req.user._id, function (user) {
-            if (user) {
-                req.session.message = "perfil editado com sucesso";
-                res.redirect('/listarmeuspacientes');
-                //res.render('editarperfil.ejs', { message : "perfil editado com sucesso", user : user })
-            }
-        });
-    });
-        
 
     ///CadastrarUser////  - GET
     app.get('/cadastraruser', isAdm, function (req, res) {
@@ -122,8 +64,13 @@ var messageVazio = undefined;
         var idUser = req.params.id;
         if (idUser) {
             var user = userDAO.findById(idUser, function (user) {
-                user.password = "";
-                res.render('cadastraruser.ejs', { user : user });
+                if (user) {
+                    user.password = "";
+                    res.render('cadastraruser.ejs', { user : user });
+                }
+                else {
+
+                }
             });
         }
     });
@@ -221,18 +168,6 @@ var messageVazio = undefined;
         });
     });
     
-    
-    ///AtualizarUsers//// - GET    SERÁ  DEPRECIADO
-    app.get('/atualizaruser/:id', isAdm, function (req, res) {
-        var idUser = req.params.id;
-        if (idUser) {
-            var user = userDAO.findById(idUser, function (user) {
-                res.render('atualizaruser.ejs', { user : user });
-            });
-        }
-    });
-    
-    
     ///DeletarUsers//// - GET
     app.get('/deletaruser/:id', isAdm, function (req, res) {
         var idUser = req.params.id;
@@ -244,27 +179,25 @@ var messageVazio = undefined;
         }
     });
     
-    
-    
-    
+
     /////////Paciente/////////
     
     
     ///CadastrarPacientes//// - GET    
-    app.get('/cadastrarpaciente', isLoggedIn, function (req, res) {
+    app.get('/cadastrarpaciente', isAdm, function (req, res) {
         roboDAO.listarRobosDisponiveis(function (robos) {
             userDAO.listarUsersNoAdm(function (users) {       
                 if (robos)
                     res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users, user : req.user });
                 else
-                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });                    
+                    res.render('listarpacientes.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });                    
             });
         });
     });
     
 
     ////CadastrarPaciente/// - GET (Atualizar Paciente)
-    app.get('/cadastrarpaciente/:id', isLoggedIn, function (req, res) {                
+    app.get('/cadastrarpaciente/:id', isAdm, function (req, res) {                
         pacienteDAO.findById(req.params.id, function (paciente) {
             roboDAO.listarRobosDisponiveis(function (robos) {
                 userDAO.listarUsersNoAdm(function (users) {
@@ -296,35 +229,25 @@ var messageVazio = undefined;
     ///*tentar atualizar, caso não seja possível ele cadastra///
     app.post('/cadastrarpaciente', isLoggedIn, function (req, res) {
         var idPaciente = req.body.id;
-        pacienteDAO.update(req, idPaciente, function (pacienteRetorno) {
-            if (pacienteRetorno) {
-                req.session.message = "Paciente editado com sucesso";
-            } else {
-                pacienteDAO.cadastrar(req);
-                req.session.message = "Paciente cadastrado com sucesso";
-            }
-            res.redirect('/listarpacientes');
-        });
+        
+        if (idPaciente && idPaciente != "0") {
+            pacienteDAO.update(req, idPaciente, function (pacienteRetorno) {
+                if (pacienteRetorno) req.session.message = "Paciente editado com sucesso";
+            });        
+        }else {
+            pacienteDAO.cadastrar(req);
+            req.session.message = "Paciente cadastrado com sucesso";
+        }
+            if (req.user.adm)
+                res.redirect('/listarpacientes');
+            else
+                res.redirect('listarmeuspacientes');        
     });
     
-    //* Teste com Android **/
-
-    app.post('/testeandroid', function (req, res) {
-        console.log("cheguei");
-        pacienteDAO.testeAndroid(function (pacientes) {
-            res.json({ user: 'Tobi' });
-        });
-    });
-
-    app.get('/testeandroid', function (req, res) {
-        pacienteDAO.testeAndroid(function (pacientes) {
-            res.json({ user: 'Tobi' });
-        });
-    });
     
     ///ListarPacientes//// - GET
     /*Para cada paciente eu tenho um user e um robo atrelado*/
-    app.get('/listarpacientes', isLoggedIn, function (req, res) {
+    app.get('/listarpacientes', isAdm, function (req, res) {
         var pacientes = pacienteDAO.listarPacientes(req.user, function (pacientes) {
             var users = userDAO.listarUsers(function (users) { //deve listar users não adm
                 if (req.session.message) {
@@ -345,21 +268,6 @@ var messageVazio = undefined;
                     res.render('listarpacientes.ejs', { pacientes: pacientesVazio, users : users});
             });
         });
-    });
-    
-    
-    ////////SERÁ DEPRECIADO//////
-    app.get('/atualizarpaciente/:id', isAdm, function (req, res) {
-        
-        var idPaciente = req.params.id;
-        if (idPaciente) {
-            var paciente = pacienteDAO.findById(idPaciente, function (paciente) {
-                var robo = roboDAO.listarRobos(function (robo) {
-                    if (paciente && robo) res.render('atualizarpaciente.ejs', { paciente : paciente, robo : robo });
-                    else res.render('atualizarpaciente.ejs', { paciente : pacientesVazio, robo : robosVazio });
-                });
-            });
-        }
     });
     
     
@@ -412,7 +320,7 @@ var messageVazio = undefined;
                 if (robo)
                     res.render('cadastrarrobo.ejs', { robo : robo, message : "" });
                 else
-                    res.render('cadastrarrobo.ejs', { robo : robosVazio, message : "" });
+                    res.render('listarrobos.ejs', { robo : robosVazio, message : "" });
             });
         } else res.render('cadastrarrobo.ejs', { message : "", robo : robosVazio });
     });
@@ -549,3 +457,98 @@ function isAdm(req, res, next) {
             res.redirect('/login');
     res.redirect('/login');
 }
+
+
+
+
+
+
+/*app.get('/index2', function (req, res) {
+        res.render('index2');
+    });*/
+
+    /*  app.get('/camera2/:id', function (req, res) {
+        res.render('camera2.ejs');
+    });*/
+
+    /*app.get('/camera5', function (req, res) {
+        res.render('camera5.ejs');
+    });*/ 
+
+    ////EditarPerfil////   GET
+    /*app.get('/editarperfil', isAdm, function (req, res) {
+        res.render('editarperfil.ejs', {user : req.user});
+    });
+    
+    
+    ////EditarPerfilUser////   GET
+    app.get('/editarperfiluser', isLoggedIn, function (req, res) {
+        res.render('editarperfiluser.ejs', { user : req.user });
+    });
+
+
+    ////EditarPerfil//// POST
+    app.post('/editarperfil', isAdm, function (req, res) {
+        req.user;
+        userDAO.editaPefil(req, req.user._id, function (user) {
+            if (user) {
+                req.session.message = "perfil editado com sucesso";
+                res.redirect('/listarpacientes');
+                
+                //res.render('editarperfil.ejs', { message : "perfil editado com sucesso", user : user })
+            }
+        });
+    });
+    
+    
+    ////EditarPerfilUser//// POST
+    app.post('/editarperfiluser', isLoggedIn, function (req, res) {
+        req.user;
+        userDAO.editaPefil(req, req.user._id, function (user) {
+            if (user) {
+                req.session.message = "perfil editado com sucesso";
+                res.redirect('/listarmeuspacientes');
+                //res.render('editarperfil.ejs', { message : "perfil editado com sucesso", user : user })
+            }
+        });
+    }); */
+
+    ///AtualizarUsers//// - GET    SERÁ  DEPRECIADO
+   /* app.get('/atualizaruser/:id', isAdm, function (req, res) {
+        var idUser = req.params.id;
+        if (idUser) {
+            var user = userDAO.findById(idUser, function (user) {
+                res.render('atualizaruser.ejs', { user : user });
+            });
+        }
+    }); */
+
+   
+    //* Teste com Android **/
+
+    /*app.post('/testeandroid', function (req, res) {
+        console.log("cheguei");
+        pacienteDAO.testeAndroid(function (pacientes) {
+            res.json({ user: 'Tobi' });
+        });
+    });
+
+    app.get('/testeandroid', function (req, res) {
+        pacienteDAO.testeAndroid(function (pacientes) {
+            res.json({ user: 'Tobi' });
+        });
+    }); */
+
+    ////////SERÁ DEPRECIADO//////
+   /* app.get('/atualizarpaciente/:id', isAdm, function (req, res) {
+        
+        var idPaciente = req.params.id;
+        if (idPaciente) {
+            var paciente = pacienteDAO.findById(idPaciente, function (paciente) {
+                var robo = roboDAO.listarRobos(function (robo) {
+                    if (paciente && robo) res.render('atualizarpaciente.ejs', { paciente : paciente, robo : robo });
+                    else res.render('atualizarpaciente.ejs', { paciente : pacientesVazio, robo : robosVazio });
+                });
+            });
+        }
+    }); */
