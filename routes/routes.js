@@ -52,6 +52,16 @@ var messageVazio = undefined;
     
     //// Usuário /////
     
+    ////EditarPerfilUser////   GET
+    app.get('/editarperfiluser', isLoggedIn, function (req, res) {
+        res.render('editarperfiluser.ejs', { user : req.user });
+    });
+    
+    ////EditarPerfil////   GET
+    app.get('/editarperfil', isAdm, function (req, res) {
+        res.render('editarperfil.ejs', {user : req.user});
+    });
+    
 
     ///CadastrarUser////  - GET
     app.get('/cadastraruser', isAdm, function (req, res) {
@@ -186,11 +196,11 @@ var messageVazio = undefined;
     ///CadastrarPacientes//// - GET    
     app.get('/cadastrarpaciente', isAdm, function (req, res) {
         roboDAO.listarRobosDisponiveis(function (robos) {
-            userDAO.listarUsersNoAdm(function (users) {       
+            userDAO.listarUsersNoAdm(function (users) {                
                 if (robos)
                     res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robos, users : users, user : req.user });
                 else
-                    res.render('listarpacientes.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });                    
+                    res.render('cadastrarpaciente.ejs', { paciente : pacientesVazio, robos : robosVazio, users : users, user : req.user });   
             });
         });
     });
