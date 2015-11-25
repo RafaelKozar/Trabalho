@@ -244,7 +244,7 @@ var getStatus = function (idRobo, callback){
 
 var setStatus = function (idRobo){
     Robo.findById(idRobo, function (err, robo) {
-        robo.status = false;
+        robo.statusUso = false;
         robo.save(function (err) {
             if (err) throw err;            
         });            
