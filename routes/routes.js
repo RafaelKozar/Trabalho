@@ -246,12 +246,12 @@ var messageVazio = undefined;
     
     
     
-    
+
     /////////Paciente/////////
     
     
     ///CadastrarPacientes//// - GET    
-    app.get('/cadastrarpaciente', isLoggedIn, function (req, res) {
+    app.get('/cadastrarpaciente', isAdm, function (req, res) {
         roboDAO.listarRobosDisponiveis(function (robos) {
             userDAO.listarUsersNoAdm(function (users) {       
                 if (robos)
@@ -264,7 +264,7 @@ var messageVazio = undefined;
     
 
     ////CadastrarPaciente/// - GET (Atualizar Paciente)
-    app.get('/cadastrarpaciente/:id', isLoggedIn, function (req, res) {                
+    app.get('/cadastrarpaciente/:id', isAdm, function (req, res) {                
         pacienteDAO.findById(req.params.id, function (paciente) {
             roboDAO.listarRobosDisponiveis(function (robos) {
                 userDAO.listarUsersNoAdm(function (users) {

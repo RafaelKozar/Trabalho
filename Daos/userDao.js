@@ -152,9 +152,12 @@ var update = function (req, idUser, callback) {
                 
                 user.nome = req.body.nome;
                 user.email = req.body.email;
-                user.password = req.body.password;
+                
+                
+                if (req.body.senha)
+                    user.senha = req.body.password
                 user.telefone = req.body.telefone;
-                if (req.body.adm)
+                if (req.body.administrador)
                     user.adm = true;
                 else
                     user.adm = false;
