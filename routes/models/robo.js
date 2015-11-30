@@ -3,9 +3,7 @@
 
 var roboScheme = mongoose.Schema({    
         nome : String,
-        descricao : String,
-        statusUso  : Boolean,
-        atendente : Boolean
+        descricao : String,        
     });
 
 var robo = mongoose.model('Robo', roboScheme);

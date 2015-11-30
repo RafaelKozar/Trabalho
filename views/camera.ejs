@@ -13,7 +13,7 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script>
        
-    </script>   
+    </script>
 
 </head>
 <script>
@@ -21,7 +21,7 @@
         location.reload();
     }
 
-    window.onbeforeunload = exitSetStatus();
+  // window.onbeforeunload = exitSetStatus();
     var url = document.location.href;
     var result = url.split('/', 5);
     var idRobo = result[4];
@@ -33,57 +33,34 @@
 </script>
 
 <body>
-    <input type="hidden"  id="recipient-id" />
-    <input type="hidden"  id="caller-id">
-    
-    <div class="row">
+    <input type="hidden" id="recipient-id" />
+    <input type="hidden" id="caller-id">
+
+    <!--<div class="row">
         <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
             <!--<button onclick="telaInteiraLocal()">Tela Inteira Local</button> -->
             <!-- <button class="button" id="connect" onclick="ligar()">Ligar</button></div> -->
-           <!-- <button onclick="telaInteira()">Tela Inteira Remota</button> -->
-            <button onclick="recarregar()">Recarregar</button>       
-        </div>        
+            <!-- <button onclick="telaInteira()">Tela Inteira Remota</button> 
+            <button onclick="recarregar()">Recarregar</button>
         </div>
-      
-                                        <script>
-                                            function telaInteira() {
-                                                var elem = document.getElementById("remote-video");
-                                                if (elem.requestFullscreen) {
-                                                    elem.requestFullscreen();
-                                                } else if (elem.mozRequestFullScreen) {
-                                                    elem.mozRequestFullScreen();
-                                                } else if (elem.webkitRequestFullscreen) {
-                                                    elem.webkitRequestFullscreen();
-                                                }
-                                            }
+    </div>-->
 
-                                            function telaInteiraLocal() {
-                                                var elem = document.getElementById("local-video");
-                                                if (elem.requestFullscreen) {
-                                                    elem.requestFullscreen();
-                                                } else if (elem.mozRequestFullScreen) {
-                                                    elem.mozRequestFullScreen();
-                                                } else if (elem.webkitRequestFullscreen) {
-                                                    elem.webkitRequestFullscreen();
-                                                }
-                                            } 
-                                        </script>
- 
     <div class="row">
         <div class="col-lg-12 col-md-12  col-xs-12  col-sm-12">
             
-            <video id="remote-video" class="videoRoboRemote" width="75%" autoplay>Remote</video>               
-            
-            <video id="local-video" class="videoRoboLocal" width="25%" autoplay>Local</video>
-        </div>       
+            <video id="remote-video" class="videoRoboRemote thumbnail>" width="100%" autoplay>Remote</video>
+
+        </div>
+        <div class="col-lg-12 col-md-12  col-xs-12  col-sm-12">
+            <video id="local-video" class="videoRoboLocal thumbnail" width="100%" autoplay>Local</video>
+        </div>
 
         <div id="messages">
-
         </div>
 
     </div>
     <script src="../javascripts/peer.js"></script>
     <script src="../javascripts/main4.js"></script>
-    
+
 </body>
 </html>

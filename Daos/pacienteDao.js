@@ -368,7 +368,14 @@ var deleteAtendenteRelacionado = function (idAtendente, callback) {
     })
 }
 
-
+var setSatus = function (id){
+    Paciente.findById(id, function (err, paciente) {
+        paciente.isTablet = "true";
+        paciente.save(function (err) {
+            if (err) throw err;
+        });
+    });
+}
 
 module.exports.cadastrar = cadastrar;
 module.exports.listarPacientes = listarPacientes;
@@ -386,4 +393,5 @@ module.exports.atualizarNomeAtendente = atualizarNomeAtendente;
 module.exports.encontrarRobosPaciente = encontrarRobosPaciente;
 module.exports.atualizarNomeRobo = atualizarNomeRobo;
 module.exports.remove = remove;
+module.exports.setStatus = setStatus;
 
