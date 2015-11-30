@@ -368,7 +368,7 @@ var deleteAtendenteRelacionado = function (idAtendente, callback) {
     })
 }
 
-var setSatus = function (id){
+var setStatus = function (id){
     Paciente.findById(id, function (err, paciente) {
         paciente.isTablet = "true";
         paciente.save(function (err) {
