@@ -56,7 +56,13 @@
                    <tr>
                        <td class="nome"><%= paciente.nome %> </td>
                        <td><%= paciente.atendente %></td>
+                       
                        <td><%= paciente.robo %> </td>
+                       
+                       
+                       
+                       
+
                        <td><%= paciente.telefone %> </td>
 
                        <td>
@@ -72,10 +78,11 @@
                        </td>
 
                        <td>
-                           <% if(typeof paciente.robo != 'undefined' && paciente.robo != null) { %>
-                           <button type="button" class="btn btn-default" onclick="location.href = './acessarpaciente/<%= paciente._id %>'" aria-label="Left Align">
-                           <% } else { %>
+                           <% if(typeof paciente.robo == 'undefined' ) { %>
                            <button type="button" class="btn btn-default button" onclick="false" aria-label="Left Align">
+                           
+                           <% } else { %>
+                               <button type="button" class="btn btn-default" onclick="location.href = './acessarpaciente/<%= paciente._id %>'" aria-label="Left Align">                           
                            <% } %>
                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                            </button>

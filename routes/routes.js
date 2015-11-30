@@ -461,7 +461,9 @@ var messageVazio = undefined;
     });
     
     app.post('/listarpacientesandroid', function (req, res) {
-        pacienteDAO.listarPacientes(function (pacientes) {
+        var user = new User;
+        user.adm = true;
+        pacienteDAO.listarPacientes(user, function (pacientes) {
             res.json(pacientes);
         });
     });
