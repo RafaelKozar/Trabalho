@@ -231,7 +231,7 @@ var verificarNome = function (idRobo, nome, callback) {
 
 
 
-module.exports.setStatus = setStatus;
+
 module.exports.cadastrar = cadastrar;
 module.exports.listarRobos = listarRobos;
 module.exports.listarRobosDisponiveis = listarRobosDisponiveis;
