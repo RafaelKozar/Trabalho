@@ -230,7 +230,7 @@ var verificarNome = function (idRobo, nome, callback) {
 
 
 
-module.exports.getStatus = getStatus;
+
 module.exports.setStatus = setStatus;
 module.exports.cadastrar = cadastrar;
 module.exports.listarRobos = listarRobos;

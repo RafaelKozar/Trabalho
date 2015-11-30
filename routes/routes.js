@@ -460,20 +460,27 @@ var messageVazio = undefined;
         });
     });
     
-    app.post('/verificarrobo', function (req, res) {
-        var idRobo = req.params.idRobo;
-        roboDAO.getStatus(idRobo, function (status) {
-            if (status == 1)
-                res.send("SIM");
-            else
-                res.send("NAO");
+    app.post('/listarpacientesandroid', function (req, res) {
+        pacienteDAO.listarPacientes(function (pacientes) {
+            res.json(pacientes);
         });
     });
     
-    app.post('/desconectarobo', function (req, res){
-        var idRobo = req.params.idRobo;
-        roboDAO.setStatus(idRobo);
-    })
+    app.post('/verificarrobo', function (req, res) {
+        var idPaciente = req.params.idPaciente;
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            res.json(paciente)
+        });
+    });
+    
+    app.post('/setStatus', function (req, res) {
+        var idPaciente = req.params.idPaciente;
+        pacienteDAO.setStatus(idPaciente);
+    });
+    
+    /*app.post('/desconectarobo', function (req, res){
+        var idRobo = req.params.idRobo;        
+    })*/
     
     
     //// LOGOUT /////
