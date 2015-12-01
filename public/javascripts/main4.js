@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     var logError = function (text) {
         var p = makePara('ERROR: ' + text);
-        p.style.color = 'red';
+        p.style.color = 'black';
         //p = "";
         addMessage(p);
     };
