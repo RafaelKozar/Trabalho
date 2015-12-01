@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <!-- Bootstrap core CSS -->
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -43,22 +43,24 @@
     <!--<div class="row">
         <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
             <!--<button onclick="telaInteiraLocal()">Tela Inteira Local</button> -->
-    <button class="button" id="connect" onclick="ligar()">Ligar</button></div> 
+    <!--<button class="button" id="connect" onclick="ligar()">Ligar</button></div> 
             <!-- <button onclick="telaInteira()">Tela Inteira Remota</button> -->
-    <button onclick="recarregar()">Recarregar</button>
+    <!--<button onclick="recarregar()">Recarregar</button> -->
     <!--'</div>
     </div>-->
 
 
-    <div class="row">
+    <video id="remote-video" class="videoRoboRemote " width="100%"  autoplay>Remote</video> 
+    <video id="local-video" class="localvideo" width="500" height="300" autoplay>Local</video> 
+  <!--  <div class="row">
         <div class="col-lg-12 col-md-12  col-xs-12  col-sm-12">
-            <video id="remote-video" class="videoRoboRemote " width="600"  autoplay>Remote</video> 
+            <video id="remote-video" class="videoRoboRemote " width="500"  autoplay>Remote</video> 
           </div>
         </div>
 
     <div class="row">
         <div class="col-lg-12 col-md-12  col-xs-12  col-sm-12">
-            <video id="local-video" class="localvideo" width="600" height="200" autoplay>Local</video> 
+            <video id="local-video" class="localvideo" width="500" height="300" autoplay>Local</video> 
           </div>
         </div>
     <!--
