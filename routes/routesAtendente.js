@@ -11,7 +11,14 @@ function carregarotasatendente (app, passport) {
     
     ///acessa a camera do paciente/// get
     app.get('/acessarpaciente/:id', isLoggedIn, function (req, res) {
-        res.render('acessarpaciente.ejs', {user : req.user});
+        var idPaciente = req.params.id;
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            if (paciente.idRobo != null && paciente.idRobo != "")
+                res.render('acessarpaciente.ejs', { user : req.user });
+            else
+                res.render('cadastraratendimento.ejs', { user : req.user });
+        })
+        
     });
     
     

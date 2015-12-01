@@ -24,6 +24,10 @@ var messageVazio = undefined;
         res.render('adm');
     });
     
+    app.get('/chat', function (req, res){
+        res.render('chat');
+    })
+    
     app.get('/user', function (req, res) {
         res.render('user');
     });

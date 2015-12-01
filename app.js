@@ -119,11 +119,11 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log('cima');            
-            enviar('comando', { comando : 1, idRobo : paciente.idRobo });
+            enviar(paciente.idRobo, { comando : 1, idRobo : paciente.idRobo });
         });
     });
     
-    function enviar(data){
+    function enviar(idRobo, data){
         socket.broadcast.emit(idRobo, data); 
     }
     
@@ -132,7 +132,7 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log('baixo');
-            enviar('comando', { comando : 3, idRobo : paciente.idRobo }); 
+            enviar(paciente.idRobo, { comando : 3, idRobo : paciente.idRobo }); 
         });
                                     
     });
@@ -142,7 +142,7 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("direita");
-            enviar('comando', { comando : 2, idRobo : paciente.idRobo });
+            enviar(paciente.idRobo, { comando : 2, idRobo : paciente.idRobo });
         });
                                             
     });
@@ -152,7 +152,7 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];		
         pacienteDAO.findById(idPaciente, function (paciente) {            
             console.log("esquerda");
-            enviar('comando', { comando : 3, idRobo : paciente.idRobo });
+            enviar(paciente.idRobo, { comando : 3, idRobo : paciente.idRobo });
         });
     });
 	
@@ -161,7 +161,7 @@ io.on('connection', function (socket) {
         var idPaciente = val[val.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
             console.log("parar");
-            enviar('comando', { comando : 0, idRobo : paciente.idRobo });
+            enviar(paciente.idRobo, { comando : 0, idRobo : paciente.idRobo });
         });
     });
     

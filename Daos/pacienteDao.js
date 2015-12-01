@@ -127,7 +127,7 @@ var findRoboRelacionado = function (idRobo){
             //callback(true);
             return true;
         }
-        if (paciente.nome == "undefined") {
+        if (paciente.nome == "") {
             //callback(false);
             return false;
         }
@@ -340,8 +340,8 @@ var deleteRoboRelacionado = function (idRobo, callback) {
             return;
         }
         for (var i = 0; i < pacientes.length; i++) {
-            pacientes[i].idRobo = "undefined";
-            pacientes[i].robo =  "undefined";
+            pacientes[i].idRobo = "";
+            pacientes[i].robo =  "";
             pacientes[i].save(function (err) {
                 if (err) throw err;
             });
@@ -358,8 +358,8 @@ var deleteAtendenteRelacionado = function (idAtendente, callback) {
             return;
         }        
         for (var i = 0; i < atendentes.length; i++) {
-            atendentes[i].idAtendente = "undefined";
-            atendentes[i].atendente = "undefined";
+            atendentes[i].idAtendente = "";
+            atendentes[i].atendente = "";
             atendentes[i].save(function (err) {
                 if (err) throw err;
             });

@@ -1,0 +1,111 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../css/style.css" media="screen" type="text/css" />
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="../stylesheets/estilo.css" />
+
+    <script src="../javascripts/meumain3.js"></script>
+    <script src="../javascripts/peer.js"></script>
+    <script src="../javascripts/index.js"></script>
+
+
+</head>
+<script>
+
+
+
+    /*  function salvarAtendimento() {
+          var tipoAtendimento = document.getElementById('tipoatendimento').value;
+          var atendimento = document.getElementById('atendimento').value;
+          var time = new Date().getTime();
+          var data = new Date(time);
+          var url = document.location.href;
+          var param = { tipoAtendimento: tipoAtendimento, atendimento: atendimento, data: data, url: url };
+          $.post('/cadastraratendimento', param, function (data) {
+              message = JSON.parse(data);
+              alert(message.message);
+          });
+      }
+  
+      function atualizaNota() {
+          alert("Nota atualizada do acesso");
+      } */
+</script>
+<body>
+    <% if(user.adm){ %>
+    <% include header.ejs %>
+    <% } else { %>
+    <% include header2.ejs %>
+    <% } %>
+
+    <!-- CHAT --->
+
+
+
+    <div class="col-sm-0 col-md-1 col-lg-1 col-xs-0 "></div>
+    <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group" id="accordion">
+                    <div class="panel ">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    <span class="glyphicon glyphicon-file page-header"></span>Cadastrar Atendimento
+                                </a>
+                            </h4>
+                        </div>
+
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <form class="form-signin" action="/cadastraratendimento2" method="post">
+                                    <div class="row">
+                                        
+                                        
+                                    <div class="col-lg-12 col-md-12">
+                                    <h5 >Escolher tipo do Atendimento</h5>
+                                    <div class="form-group col-lg-3 col-md-3"></div>
+                                    <div class="form-group col-lg-6 col-md-6">
+                                        <select class="form-control" name="tipoatendimento" id="tipoatendimento">
+                                            <option value="parecer">Parecer</option>
+                                            <option value="relatório">Relatório</option>
+                                            <option value="descrição">Descrição</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-3"></div>
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <textarea class="form-control" id="atendimento" name="atendimento" rows="5" placeholder="Registrar atendimento"></textarea>
+                                        </div>
+                                        <div id="messages"></div>
+
+                                        <button class="button form-group" type="submit">Salvar</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

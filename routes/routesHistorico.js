@@ -48,7 +48,29 @@ function rotashistorico(app, passport) {
             });
         }
     });
-
+    
+    
+    /////cadastraratendimento/////----POST
+    app.post('/cadastraratendimento', isLoggedIn, function (req, res) {
+        Atendimento.tipoAtendimento = req.body.tipoAtendimento;
+        Atendimento.atendimentoTexto = req.body.atendimento;
+        Atendimento.data = req.body.data;
+        req.url;
+        var url = req.body.url;
+        url = url.split('/');
+        Atendimento.idUser = req.user._id;
+        Atendimento.user = req.user.nome;
+        
+        Atendimento.idPaciente = url[4];
+        if (Atendimento.idPaciente) {
+            atendiemntoDAO.cadastar(Atendimento, function (message) {
+                if (req.body.adm)
+                    res.redirect('listarpacientes');
+                else
+                    res.redirect('/listarmeuspacientes');
+            });
+        }
+    });
     
     /////listarhistorico/////----GET
     app.get('/historicos', isLoggedIn, function (req, res) {        
