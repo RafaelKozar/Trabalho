@@ -34,6 +34,17 @@
     function recarregar() {
         location.reload();
     }
+
+    function telaInteira() {
+        var elem = document.getElementById("remote-video");
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        }
+    }
 </script>
 
 <body>
@@ -44,7 +55,7 @@
         <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
             <!--<button onclick="telaInteiraLocal()">Tela Inteira Local</button> -->
     <button class="button" id="connect" onclick="ligar()">Ligar</button>
-            <!-- <button onclick="telaInteira()">Tela Inteira Remota</button> -->
+            <button onclick="telaInteira()">Tela Inteira Remota</button> 
     <button onclick="recarregar()">Recarregar</button> 
     <!--'</div>
     </div>-->
