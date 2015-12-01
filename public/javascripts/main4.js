@@ -23,16 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // PeerJS object, instantiated when this client connects with its
     // caller ID
     var peer = null;
-    
-    // the local video stream captured with getUserMedia()
+       // the local video stream captured with getUserMedia()
     var localStream = null;
     
     // DOM utilities
     var makePara = function (text) {
         var p = document.createElement('p');
         p.innerText = text;
-        //return p;
-        return "";
+        return p;
+        //return "";
     };
     
     var addMessage = function (para) {
