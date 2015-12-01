@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var makePara = function (text) {
         var p = document.createElement('p');
         p.innerText = text;
-        return p;
-        //return "";
+        //return p;
+        return "";
     };
     
     var addMessage = function (para) {
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     var logError = function (text) {
         var p = makePara('ERROR: ' + text);
-        p.style.color = 'black';
+        p.style.color = 'white';
         //p = "";
         addMessage(p);
     };
