@@ -19,8 +19,8 @@
     });
     
     // PeerJS server location
-    //var SERVER_IP = '104.131.163.197';
-    var SERVER_IP = 'localhost';
+    var SERVER_IP = '104.131.163.197';
+    //var SERVER_IP = 'localhost';
     var SERVER_PORT = 9000;
     
     // DOM elements manipulated as user interacts with the app

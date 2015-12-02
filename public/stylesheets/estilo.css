@@ -23,8 +23,23 @@
 }
 
 
-.videobackground{
+.columnremote{
     background-color: #DDD;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #EEE;    
+}
+
+.columnlocal{
+    background-color: #EEE;
+    padding-top: 42px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #EEE;    
+}
+
+.backgroundvideo{
+    background-color: #111;
 }
 
 .headercor{
@@ -50,6 +65,14 @@ checkbox{
 .videoRoboRemote{
      /*width: 650px;           */
  }
+
+.chat{
+    background-color: #FFF;    
+}
+
+.marginBttAcessarPaciente{
+    margin-top:15px;
+}
 
 button {
     border:none;
@@ -92,4 +115,70 @@ body {
 
 .panel-heading{
     background-color: #89b6dc;    
+}
+
+
+
+/*Buttons Acessar Paciente*/
+.list-group-horizontal .list-group-item {
+    display: inline-block;
+}
+.list-group-horizontal .list-group-item {
+	margin-bottom: 0;
+	margin-left:-4px;
+	margin-right: 0;
+}
+.list-group-horizontal .list-group-item:first-child {
+	border-top-right-radius:0;
+	border-bottom-left-radius:4px;
+}
+.list-group-horizontal .list-group-item:last-child {
+	border-top-right-radius:4px;
+	border-bottom-left-radius:0;
+}
+
+/* CHAT */
+.chatContainer{
+    width: 100%;
+    height: 208px;
+    border: 2px solid #DDD;
+    margin-top: 10px;
+}
+
+.chatContainer > .chatHeader{
+    width: 100%;
+    background-color: #FFF;
+    padding: 5px;
+    border-bottom: 1px solid #DDD
+}
+
+.chatContainer > .chatHeader h3{
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    color: #333;
+}
+
+.chatContainer > .chatMessages{
+    height: 70%;
+    border-bottom: 1px solid #ddd;
+    overflow-y: scroll
+}
+
+/*.chatContainer > .chatMessages > .message{
+
+}
+    */
+
+.chatContainer > .chatBottom form input[type='button']{
+    padding: 6px;
+    background: #fff;
+    border: 1px solid #ddd;     
+}
+
+
+
+.chatContainer > .chatBottom form input[type='text']{
+    width:75%;
+    padding: 3px;
 }

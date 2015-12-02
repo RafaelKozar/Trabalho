@@ -22,12 +22,27 @@
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script>
-        //var socket = io('http://104.131.163.197:3000');
-        var socket = io.connect('http://localhost:3000');
+        var socket = io('http://104.131.163.197:3000');
+        //var socket = io.connect('http://localhost:3000');
         var url = document.location.href;
+        var valor = url.split('/');
+        var idPaciente = valor[valor.length - 1];
 
         function ligar() {
             socket.emit('conectar', url);
+        }
+
+
+        function enviarMsg() {
+            var mensagem = document.getElementById("textmesssagem").value;
+            $(".chatMessages").append("<li class='msgvc'><b>Você: </b>" + mensagem + "</li>");
+            socket.emit('msgAtendente', url, mensagem)
+        }
+
+        function receberMsg() {
+            socket.on('msgToAtendente' + idPaciente, function (msg) {
+                $(".chatMessages").append("<li class='msgpaciente'><b>Paciente: </b>" + msg + "</li>");
+            });
         }
 
         function cima() {
@@ -131,6 +146,7 @@
             elem.webkitRequestFullscreen();
         }
     }
+
 </script>
 <body>
     <% if(user.adm){ %>
@@ -164,8 +180,30 @@
                             <div class="panel-body">
                                 <div class="row">
 
-                                    <div class="col-md-8 videobackground">
-                                        <video id="remote-video" width="100%" height="50%" class="video" autoplay></video>
+                                    <div class="col-md-8 columnremote">
+                                        <div class="col-md-12">
+                                            
+                                            <div class="form-group col-lg-8 col-md-8 marginBttAcessarPaciente" >
+                                                <div class="btn-group" role="group" >
+                                                    <button type="button" class="btn btn-default" id="connect" onclick="ligar()">Ligar</button>
+                                                    <button type="button" class="btn btn-default" onclick="telaInteira()">Tela Inteira Remota</button>
+                                                    <button type="button" class="btn btn-default" onclick="telaInteiraLocal()">Tela Inteira Local</button>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-4">
+                                                Qualidade do Vídeo
+                                 <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
+                                     <option value="Sem nota">Escolha uma nota</option>
+                                     <option value="Excelente">Excelente</option>
+                                     <option value="Bom">Bom</option>
+                                     <option value="Médio">Médio</option>
+                                     <option value="Ruim">Ruim</option>
+                                     <option value="Pessimo">Péssimo</option>
+                                 </select>
+                                            </div>
+                                        </div>
+                                        <video id="remote-video" width="100%" height="50%" class="video backgroundvideo" autoplay></video>
 
                                         <h5 class="panel-title">Cadastrar Atendimento</h5>
                                         <div class="form-group col-lg-3 col-md-3"></div>
@@ -187,8 +225,8 @@
                                     </div>
 
 
-                                    <div class="col-md-4">
-                                        <video id="local-video" width="50%" class="video" autoplay></video>
+                                    <div class="col-md-4 columnlocal">
+                                        <video id="local-video" width="100%" height="40%" class="video backgroundvideo" autoplay></video>
                                         <div class="col-md-12">
                                             <div align="center">
                                                 <button type="button" class="btn btn-default" onclick="cima()" aria-label="Left Align">
@@ -215,40 +253,30 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-md-12">
+                                            <div class="chatContainer">
+                                                <div class="chatHeadter">
+                                                    <h5 class="panel-title">Mensagens</h5>
+                                                </div>
+                                                <div class="chatMessages"></div>
+                                                <div class="chatBottom">
+                                                    <form action="" onsubmit="" id="">
+                                                        <input type="text" name="textmesssagem" id="textmesssagem" placeholder="digite sua mensagem" />
+                                                        <input type="Button" onclick="enviarMsg()" value="Enviar" />
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-md-12">
-                                    <div>
-                                        <div class="col-lg-4">
-                                            <button class="button" id="connect" onclick="ligar()">Ligar</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <button onclick="telaInteira()">Tela Inteira Remota</button>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <button onclick="telaInteiraLocal()">Tela Inteira Local</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3"></div>
-                                <div class="col-lg-9 col-md-9">
-                                </div>
-                                <div class="col-lg-3 col-md-3"></div>
+
+
+
+
                             </div>
-                            <div class="form-group col-lg-3 col-md-3"></div>
-                            <div class="form-group col-lg-6 col-md-6">
-                                Qualidade do Vídeo
-                                <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
-                                    <option value="Sem nota">Escolha uma nota</option>
-                                    <option value="Excelente">Excelente</option>
-                                    <option value="Bom">Bom</option>
-                                    <option value="Médio">Médio</option>
-                                    <option value="Ruim">Ruim</option>
-                                    <option value="Pessimo">Péssimo</option>
-                                </select>
-                            </div>
-                         
+
+
                         </div>
                     </div>
                 </div>
@@ -256,7 +284,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

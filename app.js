@@ -112,6 +112,22 @@ io.on('connection', function (socket) {
         });
     });
     
+    
+    socket.on('msgPaciente', function (param){
+        var idPaciente = param("idPaciente");
+        var msg = param("mensagem");
+        socket.broadcast.emit('msgToAtendente' + idPaciente, msg);
+    })
+    
+    socket.on('msgAtendente', function (url, msg) {
+        var valor = url.split('/');
+        var idPaciente = valor[valor.length - 1];
+        console.log(msg);
+        pacienteDAO.findById(idPaciente, function (paciente) {
+            var varmsg = paciente.idRobo + "mensagem";
+            socket.broadcast.emit(varmsg, msg);
+        });
+    });
 
     socket.on('cima', function (url) {
         socket.broadcast.emit('vai');
