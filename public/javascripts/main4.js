@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     // PeerJS server location
     
-    var SERVER_IP = '104.131.163.197';
-    //var SERVER_IP = 'localhost';
+    //var SERVER_IP = '104.131.163.197';
+    var SERVER_IP = 'localhost';
     var SERVER_PORT = 9000;
     
     var idRobot;
@@ -211,8 +211,8 @@ document.addEventListener('DOMContentLoaded', function () {
     //global.addEventListener('change', connect);
     
     //
-    //var socket = io.connect('http://localhost:3000');
-    var socket = io.connect('http://104.131.163.197:3000');
+    var socket = io.connect('http://localhost:3000');
+    //var socket = io.connect('http://104.131.163.197:3000');
     var url = document.location.href;
     var valor = url.split('/');
     idRobo = valor[valor.length - 1];
