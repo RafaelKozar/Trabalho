@@ -130,71 +130,74 @@
                         <div id="collapseOne" class="panel-collapse collapse in">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-offset-1 col-md-10" style="height: 500px;">
 
-                                        <video id="remote-video" width="40%" class="video" autoplay></video>
-                                        <video id="local-video" width="20%" class="video" autoplay></video>
+                                        <div class="col-md-6">
+                                            <video id="remote-video" style="height: 100%" class="video" autoplay=""></video>
+                                        </div>
 
-                                        <button onclick="telaInteira()">Tela Inteira Remota</button>
-                                        <button onclick="telaInteiraLocal()">Tela Inteira Local</button>
-                                        
+                                        <div class="col-md-6">
+                                            <video id="local-video" class="video" style="height: 100%" autoplay="" ></video>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12">
+                                            <div>
+                                                <button class="button" id="connect" onclick="ligar()">Ligar</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3"></div>
+                                        <div class="col-lg-9 col-md-9">
+                                            <table>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-default" onclick="cima()" aria-label="Left Align">
+                                                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                                                        </button>
+
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-default" onclick="esquerda()" aria-label="Left Align">
+                                                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-default" onclick="parar()" aria-label="Left Align">
+                                                            <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-default" onclick="direita()" aria-label="Left Align">
+                                                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-default" onclick="baixo()" aria-label="Left Align">
+                                                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3"></div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12 col-md-12">
-                                    <div>
-                                        <button class="button" id="connect" onclick="ligar()">Ligar</button></div>
-                                </div>
-                                <div class="col-lg-3 col-md-3"></div>
-                                <div class="col-lg-9 col-md-9">
-                                    <table>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <button type="button" class="btn btn-default" onclick="cima()"  aria-label="Left Align">
-                                                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                                                </button>
-
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <button type="button" class="btn btn-default" onclick="esquerda()"  aria-label="Left Align">
-                                                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                                                </button>
-                                            </td>
-                                            <td><button type="button" class="btn btn-default" onclick="parar()"  aria-label="Left Align">
-                                                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
-                                                </button></td>
-                                            <td>
-                                                <button type="button" class="btn btn-default" onclick="direita()"  aria-label="Left Align">
-                                                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                                                </button>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <button type="button" class="btn btn-default" onclick="baixo()"  aria-label="Left Align">
-                                                    <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                                                </button>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-
-                                    </table>
-                                </div>                                
-                               <div class="col-lg-3 col-md-3"></div>
-                            </div>
-                            <div class="form-group col-lg-3 col-md-3"></div>
-                            <div class="form-group col-lg-6 col-md-6">
-                                Qualidade do Vídeo
+                                    <div class="form-group col-lg-3 col-md-3"></div>
+                                    <div class="form-group col-lg-6 col-md-6">
+                                        Qualidade do Vídeo
                                 <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
                                     <option value="Sem nota">Escolha uma nota</option>
                                     <option value="Excelente">Excelente</option>
@@ -203,40 +206,40 @@
                                     <option value="Ruim">Ruim</option>
                                     <option value="Pessimo">Péssimo</option>
                                 </select>
-                            </div>
-                            <div class="form-group col-lg-3 col-md-3"></div>
-
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12">
-                                    <h3 class="panel-title">Cadastrar Atendimento</h3>
-                                    <div class="form-group col-lg-3 col-md-3"></div>
-                                    <div class="form-group col-lg-6 col-md-6">
-                                        <select class="form-control" name="tipoatendimento" id="tipoatendimento">
-                                            <option value="parecer">Parecer</option>
-                                            <option value="relatório">Relatório</option>
-                                            <option value="descrição">Descrição</option>
-                                        </select>
                                     </div>
                                     <div class="form-group col-lg-3 col-md-3"></div>
 
-                                    <div class="form-group col-lg-12 col-md-12">
-                                        <textarea class="form-control" id="atendimento" name="atendimento" rows="5" placeholder="Registrar atendimento"></textarea>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <h3 class="panel-title">Cadastrar Atendimento</h3>
+                                            <div class="form-group col-lg-3 col-md-3"></div>
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <select class="form-control" name="tipoatendimento" id="tipoatendimento">
+                                                    <option value="parecer">Parecer</option>
+                                                    <option value="relatório">Relatório</option>
+                                                    <option value="descrição">Descrição</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3 col-md-3"></div>
+
+                                            <div class="form-group col-lg-12 col-md-12">
+                                                <textarea class="form-control" id="atendimento" name="atendimento" rows="5" placeholder="Registrar atendimento"></textarea>
+                                            </div>
+                                            <div id="messages"></div>
+
+                                            <button class="button form-group" onclick="salvarAtendimento()" type="button">Salvar</button>
+
+                                        </div>
                                     </div>
-                                    <div id="messages"></div>
-
-                                    <button class="button form-group" onclick="salvarAtendimento()" type="button">Salvar</button>
-
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
-    </div>
-        
+
     </div>
 </body>
 
