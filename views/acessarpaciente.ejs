@@ -37,28 +37,28 @@
 
 
 
-        $('<div></div>').appendTo('body')
-            .html("Ligar?")
-            .dialog({
-                modal: true,
-                title: 'Realizar chamada',
-                zIndex: 10000,
-                autoOpen: true,
-                width: 'auto',
-                resizable: false,
-                buttons: {
-                    Sim: function () {
-                        socket.emit('conectar', url);
-                        $(this).dialog("close");
-                    },
-                    Não: function () {
-                        $(this).dialog("close");
-                    }
-                },
-                close: function (event, ui) {
-                    $(this).remove();
-                }
-            });
+        //$('<div></div>').appendTo('body')
+        //    .html("Ligar?")
+        //    .dialog({
+        //        modal: true,
+        //        title: 'Realizar chamada',
+        //        zIndex: 10000,
+        //        autoOpen: true,
+        //        width: 'auto',
+        //        resizable: false,
+        //        buttons: {
+        //            Sim: function () {
+        //                socket.emit('conectar', url);
+        //                $(this).dialog("close");
+        //            },
+        //            Não: function () {
+        //                $(this).dialog("close");
+        //            }
+        //        },
+        //        close: function (event, ui) {
+        //            $(this).remove();
+        //        }
+        //    });
 
         function ligar() {
             socket.emit('conectar', url);
