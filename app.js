@@ -113,9 +113,8 @@ io.on('connection', function (socket) {
     });
     
     
-    socket.on('msgPaciente', function (param){
-        var data = JSON.parse(param);
-        socket.broadcast.emit('msgToAtendente' + data.idPaciente, data.mensagem);
+    socket.on('msgPaciente', function (param){            
+        socket.broadcast.emit('msgToAtendente' + param.idPaciente, param.mensagem);
     })
     
     socket.on('msgAtendente', function (url, msg) {

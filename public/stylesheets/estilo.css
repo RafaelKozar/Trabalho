@@ -22,6 +22,22 @@
     align-content:center;
 }
 
+/*.emcimatitulo{
+    background-color:#e2e2e2;
+    margin-top: 30px;
+    height:30px;
+    
+    border: solid 10px #e2e2e2;
+} */
+
+.titulo{
+    background-color: #89b6dc;
+    color: #fff;
+    margin-top: 50px;
+    padding: 5px;
+    margin-bottom: -15;
+}
+
 
 .columnremote{
     background-color: #DDD;
@@ -31,8 +47,7 @@
 }
 
 .columnlocal{
-    background-color: #EEE;
-    padding-top: 42px;
+    background-color: #EEE;    
     border-style: solid;
     border-width: 3px;
     border-color: #EEE;    

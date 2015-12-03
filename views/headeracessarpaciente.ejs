@@ -1,0 +1,55 @@
+﻿
+
+<nav class="navbar navbar-inverse headercor navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header ">
+
+        <!--<a class="navbar-brand m " href="#">Plataforma </a>-->
+            <!--<img src="../images/logo.png" width="20%" /> -->
+          <a class="navbar-brand" target="_blank" href="/adm">
+            <img src="../images/LOGO2.png"  class="logo"/> 
+        </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right m">                
+                <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuários<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a target="_blank" href="/cadastraruser" >Cadastrar</a></li>
+                            <li><a target="_blank" href="/listarusers">Listar</a></li>                            
+                        </ul>
+                  </li>               
+                 <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Paciente<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a target="_blank" href="/cadastrarpaciente">Cadastrar</a></li>
+                            <li><a target="_blank" href="/listarpacientes">Listar</a></li>                            
+                        </ul>
+                  </li>                         
+                <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Robo<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a target="_blank" href="/cadastrarrobo">Cadastrar</a></li>
+                            <li><a target="_blank" href="/listarrobos">Listar</a></li>                            
+                        </ul>
+                  </li>
+                <li><a target="_blank" href="/atendimentos">Atendimentos</a></li>
+                <li><a target="_blank" href="/historicos">Históricos</a></li>                 
+                <li><a target="_blank" href="/editarperfil">
+                       <span class="glyphicon glyphicon-user" aria-hidden="true"/></span> <span class="sr-only">Editar</span></a></li> 
+                <li><a href="/logout"> <span class="glyphicon glyphicon-new-window" aria-hidden="true"/></span> <span class="sr-only"> Sair</span></a></li>   
+                <li></li>              
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--
+                A diferença entre o ADM e o Usuário é que o user não consegue adicionar robos
+                e tbm não consegue cadastrar e listar users.
+
+                ADD paracer /-> listarPacientes -> botao parecer
+                Para enviar paracer o user deve listar os paciente e entrar no paciente específico e clicar no botão adicionar Paracer
+                ADD nota -> listarPaciente -> dar nota
+                Comando via ajax;
+-->
