@@ -114,9 +114,8 @@ io.on('connection', function (socket) {
     
     
     socket.on('msgPaciente', function (param){
-        var idPaciente = param("idPaciente");
-        var msg = param("mensagem");
-        socket.broadcast.emit('msgToAtendente' + idPaciente, msg);
+        var data = JSON.parse(param);
+        socket.broadcast.emit('msgToAtendente' + data.idPaciente, data.mensagem);
     })
     
     socket.on('msgAtendente', function (url, msg) {
