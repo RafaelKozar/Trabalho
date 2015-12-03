@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var valor = url.split('/');
     idRobo = valor[valor.length - 1];
 
-    socket.on(idRobo, function (dado) {
+    socket.on(idRobo+"camera", function (dado) {
         idPaciente = dado.idPaciente;        
         $("recipient-id").val(idPaciente);        
         $("caller-id").val(idRobo);

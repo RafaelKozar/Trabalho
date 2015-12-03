@@ -108,7 +108,7 @@ io.on('connection', function (socket) {
         var valor = url.split('/');
         var idPaciente = valor[valor.length - 1];
         pacienteDAO.findById(idPaciente, function (paciente) {
-            socket.broadcast.emit(paciente.idRobo, {idPaciente : idPaciente});
+            socket.broadcast.emit(paciente.idRobo + "camera", {idPaciente : idPaciente});
         });
     });
     
