@@ -31,7 +31,7 @@
     var connectBtn = document.querySelector('#connect');
     
     var dialBtn = document.querySelector('#dial');
-    var remoteVideo = document.querySelector('#remote-video');
+    var remoteVideo = document.querySelector('#local-video');
     var localVideo = document.querySelector('#local-video');
     
     // the ID set for this client
