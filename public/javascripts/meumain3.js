@@ -32,7 +32,7 @@
     
     var dialBtn = document.querySelector('#dial');
     var remoteVideo = document.querySelector('#local-video');
-    var localVideo = document.querySelector('#local-video');
+    var localVideo = document.querySelector('#remote-video');
     
     // the ID set for this client
     var callerId = null;
