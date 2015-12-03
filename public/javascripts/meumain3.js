@@ -187,9 +187,10 @@
         getLocalStream(function (stream) {
             logMessage('outgoing call initiated');
             
-            var call = peer.call(recipientId, stream);
-            
             sleep(1000);
+
+            var call = peer.call(recipientId, stream);
+          
             call.on('stream', showRemoteStream);
             
             call.on('error', function (e) {
