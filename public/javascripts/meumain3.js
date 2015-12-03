@@ -7,6 +7,17 @@
     idPaciente = result[4];    
     //idPaciente = result[result.length - 1];
     
+    
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds) {
+                break;
+            }
+        }
+    }
+
+
     var parameter = { parametro : document.location.href };
     $.post('/conectacam', parameter, function (data) {
         idRobo = data.idRobo;
@@ -105,6 +116,7 @@
     
     // set the "REMOTE" video element source
     var showRemoteStream = function (stream) {
+        sleep(1000);
         remoteVideo.src = window.URL.createObjectURL(stream);
     };
     
