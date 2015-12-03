@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     var logError = function (text) {
-        //var p = makePara('ERROR: ' + text);
-        var p = makePara('');
-        p.style.color = 'white';
+        var p = makePara('ERROR: ' + text);
+        //var p = makePara('');
+        p.style.color = 'red';
         //p = "";
         addMessage(p);
     };
