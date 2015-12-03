@@ -17,8 +17,8 @@
     <script src="../javascripts/peer.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script>
-        //var socket = io('http://104.131.163.197:3000');
-        var socket = io.connect('http://localhost:3000');
+        var socket = io('http://104.131.163.197:3000');
+        //var socket = io.connect('http://localhost:3000');
         var url = document.location.href;
 
         var valor = url.split('/');
@@ -146,9 +146,9 @@
 </script>
 <body>
     <% if(user.adm){ %>
-    <% include header.ejs %>
+    <% include headeracessarpaciente.ejs %>
     <% } else { %>
-    <% include header2.ejs %>
+    <% include header2acessarpaciente.ejs %>
     <% } %>
     <div class="col-sm-0 col-md-1 col-lg-1 col-xs-0 "></div>
     <div class="col-sm-12 col-md-10 col-lg-10 col-xs-12 conteudo">
@@ -159,10 +159,10 @@
             <div class="col-md-12">
                 <div class="panel-group" id="accordion">
                     <div class="panel ">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
+                        <div class="emcimatitulo">
+                            <h4 class="titulo"> Atendimento
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                    <span class="glyphicon glyphicon-file page-header"></span>Paciente
+                                    <span class="glyphicon glyphicon-file" style="color:white">
                                 </a>
                             </h4>
                         </div>
@@ -171,10 +171,10 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="col-md-8">
+                                        <div class="col-md-8 columnremote">
                                             <!--<video id="remote-video" width="40%" class="video" autoplay></video> -->
-                                            <video id="remote-video" width="100%" height="50%" class="video backgroundvideo" autoplay></video>
-                                            <div class="col-lg-12 col-md-12">
+                                            <video id="remote-video" width="100%" height="50%" controls class="video backgroundvideo" autoplay></video>
+                                            <div class="col-lg-12 col-md-12 ">
                                                 <h3 class="panel-title">Cadastrar Atendimento</h3>
                                                 <div class="form-group col-lg-3 col-md-3"></div>
                                                 <div class="form-group col-lg-6 col-md-6">
@@ -190,13 +190,40 @@
                                             <div class="form-group col-lg-12 col-md-12">
                                                 <textarea class="form-control" id="atendimento" name="atendimento" rows="5" placeholder="Registrar atendimento"></textarea>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <video id="local-video" width="100%" height="50%" class="video backgroundvideo" autoplay></video>
 
-                                            <div class="col-md-12">
-                                                <div align="center">
-                                                    <button type="button" class="btn btn-default" onclick="cima()" aria-label="Left Align">
+
+                                            <div class="col-lg-12 col-md-12">
+
+                                                <button class="button" id="connect" onclick="ligar()">Ligar</button>
+
+                                            </div>
+
+                                        
+                                        <div class="form-group col-lg-3 col-md-3"></div>
+                                        <div class="form-group col-lg-6 col-md-6">
+                                            Qualidade do Vídeo
+                                <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
+                                    <option value="Sem nota">Escolha uma nota</option>
+                                    <option value="Excelente">Excelente</option>
+                                    <option value="Bom">Bom</option>
+                                    <option value="Médio">Médio</option>
+                                    <option value="Ruim">Ruim</option>
+                                    <option value="Pessimo">Péssimo</option>
+                                </select>
+                                        </div>
+                                        <div class="form-group col-lg-3 col-md-3"></div>
+
+
+
+
+
+                                    </div>
+                                    <div class="col-md-4 columnlocal">
+                                        <video id="local-video" width="100%" height="50%" controls class="video backgroundvideo" autoplay></video>
+
+                                        <div class="col-md-12">
+                                            <div align="center">
+                                                <button type="button" class="btn btn-default" onclick="cima()" aria-label="Left Align">
                                                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                                                     </button>
                                                 </div>
@@ -220,21 +247,20 @@
                                                 </div>
                                             </div>
 
-
                                             <div class="col-md-12">
-                                                <div class="chatContainer">
-                                                    <div class="chatHeadter">
-                                                        <h5 class="panel-title">Mensagens</h5>
-                                                    </div>
-                                                    <div class="chatMessages"></div>
-                                                    <div class="chatBottom">
-                                                        <form action="" onsubmit="" id="">
-                                                            <input type="text" name="textmesssagem" id="textmesssagem" placeholder="digite sua mensagem" />
-                                                            <input type="Button" onclick="enviarMsg()" value="Enviar" />
-                                                        </form>
-                                                    </div>
+                                            <div class="chatContainer">
+                                                <div class="chatHeadter">
+                                                    <h5 class="panel-title">Mensagens</h5>
+                                                </div>
+                                                <div class="chatMessages"></div>
+                                                <div class="chatBottom">
+                                                    <form action="" onsubmit="" id="">
+                                                        <input type="text" name="textmesssagem" id="textmesssagem" placeholder="digite sua mensagem" />
+                                                        <input type="Button" onclick="enviarMsg()" value="Enviar" />
+                                                    </form>
                                                 </div>
                                             </div>
+                                        </div>
 
                                         </div>
 
@@ -242,29 +268,17 @@
 
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-md-12">
-                                    <div>
-                                        <button class="button" id="connect" onclick="ligar()">Ligar</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3"></div>
-                                <div class="col-lg-9 col-md-9"></div>
-                                <div class="col-lg-3 col-md-3"></div>
-                            </div>
-                            <div class="form-group col-lg-3 col-md-3"></div>
-                            <div class="form-group col-lg-6 col-md-6">
-                                Qualidade do Vídeo
-                                <select class="form-control" name="nota" onchange="atualizaNota()" id="nota">
-                                    <option value="Sem nota">Escolha uma nota</option>
-                                    <option value="Excelente">Excelente</option>
-                                    <option value="Bom">Bom</option>
-                                    <option value="Médio">Médio</option>
-                                    <option value="Ruim">Ruim</option>
-                                    <option value="Pessimo">Péssimo</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-3 col-md-3"></div>
+                            
 
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    
+                                    <div id="messages" style="color:white"></div>
+
+                                    
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
