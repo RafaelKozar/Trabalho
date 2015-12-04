@@ -32,6 +32,17 @@
             
         });
 
+        function setEmail() {
+            var url = document.location.href;
+            email = document.getElementById('email');
+            url = url.split('/');
+            var tam = url.length;
+            if (tam != 5) {
+                $("#email").val("Digite o seu email");
+            }
+        }
+
+
         function functionEditarSenha() {             
             var altsenha = document.querySelector('#senha');
             if ($(altsenha).is(':checked')) {
@@ -142,10 +153,10 @@
                                                 </select>
                                             </div>
 
-                                            <div class="form-group">
+                                           <!-- <div class="form-group">
                                                 <label>Foto</label>
                                                 <input type="file" name="foto" />
-                                            </div>
+                                            </div> -->
 
                                             <div class="checkbox col-lg-12 col-md-12">
                                                 <label>
@@ -187,10 +198,10 @@
                                                 </select>
                                             </div>
 
-                                            <div class="form-group">
+                                           <!-- <div class="form-group">
                                                 <label>Foto</label>
                                                 <input type="file" name="foto" />
-                                            </div>
+                                            </div> -->
 
                                             <div class="checkbox col-lg-12 col-md-12">
                                                 <label>
